@@ -6,7 +6,9 @@ metadata:
 spec:
   selector:
     app: homebridge
-  hostNetwork: true
+  ports:
+    - port: 8581
+      targetPort: 8581
   type: LoadBalancer
   loadBalancerIP: 192.168.1.205
 ---
