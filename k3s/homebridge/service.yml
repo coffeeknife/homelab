@@ -15,7 +15,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: homebridge-svc
+  name: homebridge-int-svc
   namespace: homebridge
 spec:
   type: ClusterIP
