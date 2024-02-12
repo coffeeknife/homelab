@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: homebridge
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homebridge
+  namespace: homebridge
+  labels:
+    app: homebridge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homebridge
+  template:
+    metadata:
+      labels:
+        app: homebridge
+    spec:
+      containers:
+        - name: homebridge
+          image: homebridge/homebridge:latest
+          hostNetwork: true
+          volumeMounts:
+            - name: hb-volume
+              mountPath: /homebridge
+      volumes:
+        - name: hb-volume
+          persistentVolumeClaim:
+            claimName: homebridge-pvc
