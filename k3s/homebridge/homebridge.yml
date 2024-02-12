@@ -23,7 +23,6 @@ spec:
       containers:
         - name: homebridge
           image: homebridge/homebridge:latest
-          hostNetwork: true
           volumeMounts:
             - name: hb-volume
               mountPath: /homebridge
