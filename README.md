@@ -26,3 +26,15 @@ Including here for personal reference - these are the public IPs of services dep
 | `192.168.1.203` | Portainer | `9000` |
 | `192.168.1.204` | Uptime Kuma | `3001` |
 | `192.168.1.205` | Homebridge | `8581` |
+
+## Todo
+
+- [ ] Local HTTPS (i have no idea what i'm doing)
+    - i'm still very traefik illiterate, but once i figure out how to restrict ingresses to LAN i can just use my owned domain
+- [ ] service mesh for intercommunication
+- [ ] SSO provider
+- [ ] Figure out networked `ffmpeg` so Jellyfin can run on k3s
+- [ ] calibre web for ebooks, kavita for comics/manga/graphic novels
+- [ ] Nextcloud
+- [ ] paperless-ngx
+- [ ] network backup service
