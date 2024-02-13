@@ -20,13 +20,13 @@ Yes, all of my nodes are named after planets even though my local domain is `bir
 
 Including here for personal reference - these are the public IPs of services deployed on K3S with MetalLB. My router's DHCP does not assign anything higher than `.199` to anything joining the network, and MetalLB uses `.200-.250`.
 
-| IP | Service | Port |
-| --- | --- | --- |
-| `192.168.1.202` | Local Docker registry | `5000` |
-| `192.168.1.203` | Portainer | `9000` |
-| `192.168.1.204` | Uptime Kuma | `3001` |
-| `192.168.1.205` | Homebridge | `8581` |
-| `192.168.1.206` | LinkerD UI | `80` |
+| IP | Service | Port | Purpose |
+| --- | --- | --- | --- |
+| `192.168.1.202` | Local Docker registry | `5000` | Will hold self-built images |
+| `192.168.1.203` | Portainer | `9000` | Management dashboard, automatic updates from Git |
+| `192.168.1.204` | Uptime Kuma | `3001` | Uptime monitor w/ Discord notifications |
+| `192.168.1.205` | Homebridge | `8581` | Home automation |
+| `192.168.1.206` | LinkerD UI | `80` | Secure inter-pod communication |
 
 ## Todo
 
