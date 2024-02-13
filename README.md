@@ -26,6 +26,7 @@ Including here for personal reference - these are the public IPs of services dep
 | `192.168.1.203` | Portainer | `9000` |
 | `192.168.1.204` | Uptime Kuma | `3001` |
 | `192.168.1.205` | Homebridge | `8581` |
+| `192.168.1.206` | LinkerD UI | `80` |
 
 ## Todo
 
