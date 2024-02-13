@@ -39,3 +39,4 @@ Including here for personal reference - these are the public IPs of services dep
 - [ ] Nextcloud
 - [ ] paperless-ngx
 - [ ] network backup service
+- [ ] mqtt broker
