@@ -16,6 +16,11 @@ Why is `etheirys` on CentOS? Entirely so I can put it on my resume.
 
 Yes, all of my nodes are named after planets even though my local domain is `bird.nest`.
 
+## General config notes
+
+- cluster is running k3s bare metal
+- MetalLB load balancer
+
 ## Service IPs
 
 Including here for personal reference - these are the public IPs of services deployed on K3S with MetalLB. My router's DHCP does not assign anything higher than `.199` to anything joining the network, and MetalLB uses `.200-.250`.
