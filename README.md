@@ -46,3 +46,4 @@ Including here for personal reference - these are the public IPs of services dep
 - [ ] network backup service
 - [ ] mqtt broker
 - [ ] network SANE interface for scanning + CUPS server?
+- [ ] MySQL provider for cluster w/ backups and management UI
