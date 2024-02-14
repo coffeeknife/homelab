@@ -45,3 +45,4 @@ Including here for personal reference - these are the public IPs of services dep
 - [ ] paperless-ngx
 - [ ] network backup service
 - [ ] mqtt broker
+- [ ] network SANE interface for scanning + CUPS server?
