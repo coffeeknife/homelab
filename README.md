@@ -28,7 +28,7 @@ Including here for personal reference - these are the public IPs of services dep
 | IP | Service | Port | Purpose |
 | --- | --- | --- | --- |
 | `192.168.1.202` | Local Docker registry | `5000` | Will hold self-built images |
-| `192.168.1.203` | Portainer | `9000` | Management dashboard, automatic updates from Git |
+| `192.168.1.203` | ArgoCD | `80` | Continuous deployment from Git (migration from portainer in progress) |
 | `192.168.1.204` | Uptime Kuma | `3001` | Uptime monitor w/ Discord notifications |
 | `192.168.1.205` | Homebridge | `8581` | Home automation |
 | `192.168.1.206` | LinkerD UI | `80` | Secure inter-pod communication |
