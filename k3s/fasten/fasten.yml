@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: fasten
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fasten
+  namespace: fasten
+  labels:
+    app: fasten
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fasten
+  template:
+    metadata:
+      labels:
+        app: fasten
+    spec:
+      containers:
+        - name: fasten
+          image: ghcr.io/fastenhealth/fasten-onprem:main
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: fasten-db
+              mountPath: /opt/fasten/db
+            - name: fasten-cache
+              mountPath: /opt/fasten/cache
+      volumes:
+        - name: fasten-db
+          persistentVolumeClaim:
+            claimName: fasten-pvc-db
+        - name: fasten-cache
+          persistentVolumeClaim:
+            claimName: fasten-pvc-cache
