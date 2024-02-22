@@ -20,6 +20,7 @@ Yes, all of my nodes are named after planets even though my local domain is `bir
 
 - cluster is running k3s bare metal
 - MetalLB load balancer
+- i'm very heavily referencing http://rpi4cluster.com for my configs
 
 ## Service IPs
 
