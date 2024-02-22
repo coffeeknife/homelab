@@ -34,6 +34,7 @@ Including here for personal reference - these are the public IPs of services dep
 | `192.168.1.205` | Homebridge | `8581` | Home automation |
 | `192.168.1.206` | LinkerD UI | `80` | Secure inter-pod communication |
 | `192.168.1.207` | Fasten | `8080` | Health dashboard |
+| `192.168.1.208` | Prometheus | `9090` | Monitoring |
 
 ## Todo
 
