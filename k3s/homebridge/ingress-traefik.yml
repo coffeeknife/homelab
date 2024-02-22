@@ -6,6 +6,8 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: traefik
 spec:
+  entryPoints:
+    - websecure
   rules:
   - host: "home.bird.nest"
     http:
