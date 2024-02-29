@@ -9,6 +9,7 @@ repo to hold k3s and docker configs for my homelab. this is an incredibly WIP se
 | `vulcan` | RPi 4, 4GB RAM | Raspbian (bullseye) | Kubernetes node | Star Trek |
 | `gunsmoke` | RPi 3B, 1GB RAM | Raspbian (bullseye) | Kubernetes node | Trigun |
 | `gallifrey` | RPi 4, 2GB RAM | Raspbian (bullseye) | Dedicated VPN + PiHole DNS | Doctor Who |
+| tbd | 2x Acer EEE PC | tbd | Future Kubernetes nodes once I find power supplies for them |
 
 I'm slowly collecting hardware to build a rack server, which will serve as another control-plane node. All four nodes are running docker standalone for when I need to use dedicated hardware on the machine. (I'll figure out how to roll this all into k3s eventually.) 
 
