@@ -37,6 +37,7 @@ Including here for personal reference - these are the public IPs of services dep
 | `192.168.1.207` | Fasten | `8080` | Health dashboard |
 | `192.168.1.208` | Prometheus | `9090` | Monitoring |
 | `192.168.1.209` | Grafana | `3000` | Monitoring | 
+| `192.168.1.210` | ScanServJS | `8080` | SANE scanner UI |
 
 ## Todo
 
