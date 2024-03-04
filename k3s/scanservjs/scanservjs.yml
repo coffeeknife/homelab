@@ -25,3 +25,11 @@ spec:
           image: sbs20/scanservjs:latest
           ports:
             - containerPort: 8080
+          volumeMounts:
+            - name: dbus
+              mountPath: /var/run/dbus
+      volumes:
+        - name: dbus
+          hostPath:
+            path: /var/run/dbus
+          
