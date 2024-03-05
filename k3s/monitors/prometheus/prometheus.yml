@@ -25,6 +25,15 @@ spec:
       - node-exporter
       - kubelet
       - traefik
+  podMonitorSelector:
+    matchExpressions:
+    - key: name
+      operator: In
+      values:
+      - linkerd-controller
+      - linkerd-proxy
+      - linkerd-service-mirror
+  serviceMonitorNamespaceSelector: {}
   storage:
     volumeClaimTemplate:
       spec:
