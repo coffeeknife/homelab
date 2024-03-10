@@ -37,3 +37,5 @@ spec:
         - name: fasten-cache
           persistentVolumeClaim:
             claimName: fasten-pvc-cache
+      nodeSelector:
+        workload: heavy # selects nodes with lots of extra ram
