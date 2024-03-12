@@ -28,7 +28,7 @@ Yes, all of my nodes are named after planets even though my local domain is `bir
 
 ## Service IPs
 
-Including here for personal reference - these are the public IPs of services deployed on K3S with MetalLB. My router's DHCP does not assign anything higher than `.199` to anything joining the network, and MetalLB uses `.200-.250`.
+Including here for personal reference - these are the public IPs of services deployed on K3S with MetalLB. My router's DHCP does not assign anything higher than `.199` to anything joining the network, and MetalLB uses `.200-.250`. (Someday my cluster will be behind a separate router.)
 
 | IP | Service | Port | Purpose |
 | --- | --- | --- | --- |
