@@ -12,6 +12,8 @@ repo to hold k3s and docker configs for my homelab. this is an incredibly WIP se
 | tbd | older Thinkpad, 4GB RAM + i5 | tbd | Future Kubernetes node |
 | tbd | 2x Acer EEE PC | tbd | Future Kubernetes nodes once I find power supplies for them |
 
+3/12/24: `gunsmoke` demoted from Kubernetes node. its lack of a 1000Mbps-capable interface slows down the entire communication mesh to a crawl
+
 I'm slowly collecting hardware to build a rack server, which will serve as another control-plane node. All four nodes are running docker standalone for when I need to use dedicated hardware on the machine. (I'll figure out how to roll this all into k3s eventually.) 
 
 Why is `etheirys` on CentOS? Entirely so I can put it on my resume.
