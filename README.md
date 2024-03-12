@@ -7,7 +7,7 @@ repo to hold k3s and docker configs for my homelab. this is an incredibly WIP se
 | --- | --- | --- | ---| --- |
 | `etheirys` | 2017 iMac, modded w/ 32gb RAM | CentOS 7 | Kubernetes controller | Final Fantasy XIV |
 | `vulcan` | RPi 4, 4GB RAM | Raspbian (bullseye) | Kubernetes node | Star Trek |
-| `gunsmoke` | RPi 3B, 1GB RAM | Raspbian (bullseye) | Kubernetes node | Trigun |
+| `gunsmoke` | RPi 3B, 1GB RAM | Raspbian (bullseye) | Noncritical apps w/ hardware requirements | Trigun |
 | `gallifrey` | RPi 4, 2GB RAM | Raspbian (bullseye) | Dedicated VPN + PiHole DNS | Doctor Who |
 | tbd | 2x Acer EEE PC | tbd | Future Kubernetes nodes once I find power supplies for them |
 
