@@ -10,7 +10,6 @@ repo to hold k3s and docker configs for my homelab. this is an incredibly WIP se
 | `gunsmoke` | RPi 3B, 1GB RAM | Raspbian (bullseye) | Noncritical apps w/ hardware requirements | Trigun |
 | `gallifrey` | RPi 4, 2GB RAM | Raspbian (bullseye) | Dedicated VPN + PiHole DNS | Doctor Who |
 | tbd | older Thinkpad, 4GB RAM + i5 | tbd | Future Kubernetes node |
-| tbd | 2x Acer EEE PC | tbd | Future Kubernetes nodes once I find power supplies for them |
 
 3/12/24: `gunsmoke` demoted from Kubernetes node. its lack of a 1000Mbps-capable interface slows down the entire communication mesh to a crawl
 
