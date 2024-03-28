@@ -1,0 +1,14 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: homarr-int-svc
+  namespace: homarr
+spec:
+  type: ClusterIP
+  selector:
+    app: homarr
+  ports:
+  - name: http
+    port: 7575
+    protocol: TCP
+    targetPort: 7575

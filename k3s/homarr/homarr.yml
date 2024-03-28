@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: homarr
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homarr
+  namespace: homarr
+  labels:
+    app: homarr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homarr
+  template:
+    metadata:
+      labels:
+        app: homarr
+    spec:
+      containers:
+        - name: homarr
+          image: ghcr.io/ajnart/homarr:latest
+          ports:
+            - containerPort: 7575
+          volumeMounts:
+            - name: homarr-configs
+              mountPath: /app/data/configs
+            - name: homarr-icons
+              mountPath: /app/public/icons
+            - name: homarr-data
+              mountPath: /data
+      volumes:
+        - name: homarr-configs
+          persistentVolumeClaim:
+            claimName: homarr-config-pvc
+        - name: homarr-icons
+          persistentVolumeClaim:
+            claimName: homarr-icon-pvc
+        - name: homarr-data
+          persistentVolumeClaim:
+            claimName: homarr-data-pvc
