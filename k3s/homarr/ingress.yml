@@ -16,4 +16,4 @@ spec:
           service:
             name: homarr-int-svc
             port:
-              number: 80
+              number: 7575
