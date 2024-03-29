@@ -43,8 +43,6 @@ services:
       - redis
     volumes:
       - "/mnt/birdpool/librenms/data:/data"
-    env_file:
-      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -68,8 +66,6 @@ services:
       - redis
     volumes:
       - "/mnt/birdpool/librenms/data:/data"
-    env_file:
-      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -102,8 +98,6 @@ services:
         protocol: udp
     volumes:
       - "/mnt/birdpool/librenms/data:/data"
-    env_file:
-      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
@@ -135,8 +129,6 @@ services:
         protocol: udp
     volumes:
       - "/mnt/birdpool/librenms/data:/data"
-    env_file:
-      - "./librenms.env"
     environment:
       - "TZ=${TZ}"
       - "PUID=${PUID}"
