@@ -76,6 +76,7 @@ services:
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
       - "DISPATCHER_NODE_ID=dispatcher1"
+      - "REDIS_HOST=${REDIS_HOST}"
       - "SIDECAR_DISPATCHER=1"
     restart: always
 
