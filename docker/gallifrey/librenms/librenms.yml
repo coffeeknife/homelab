@@ -52,6 +52,7 @@ services:
       - "DB_USER=${MYSQL_USER}"
       - "DB_PASSWORD=${MYSQL_PASSWORD}"
       - "DB_TIMEOUT=60"
+      - "REDIS_HOST=${REDIS_HOST}"
     restart: always
 
   dispatcher:
