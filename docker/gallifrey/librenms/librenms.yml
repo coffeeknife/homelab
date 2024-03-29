@@ -34,10 +34,7 @@ services:
     cap_add:
       - NET_ADMIN
       - NET_RAW
-    ports:
-      - target: 8000
-        published: 8000
-        protocol: tcp
+    network_mode: host
     depends_on:
       - db
       - redis
@@ -120,13 +117,7 @@ services:
     depends_on:
       - librenms
       - redis
-    ports:
-      - target: 162
-        published: 162
-        protocol: tcp
-      - target: 162
-        published: 162
-        protocol: udp
+    network_mode: host
     volumes:
       - "/mnt/birdpool/librenms/data:/data"
     environment:
