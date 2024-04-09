@@ -25,7 +25,7 @@ spec:
         - name: navidrome
           image: deluan/navidrome:latest
           ports:
-            - containerPort: 4553
+            - containerPort: 4533
           env:
             - name: ND_SCANSCHEDULE
               value: 1h
