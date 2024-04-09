@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: navidrome
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: navidrome
+  namespace: navidrome
+  labels:
+    app: navidrome
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: navidrome
+  template:
+    metadata:
+      labels:
+        app: navidrome
+    spec:
+      nodeName: etheirys
+      containers:
+        - name: navidrome
+          image: deluan/navidrome:latest
+          ports:
+            - containerPort: 4553
+          env:
+            - name: ND_SCANSCHEDULE
+              value: 1h
+            - name: ND_LOGLEVEL
+              value: info
+            - name: ND_SESSIONTIMEOUT
+              value: 24h
+            - name: ND_BASEURL
+              value: 192.168.1.211:4553
+          volumeMounts:
+            - name: navidrome-data
+              mountPath: /data
+            - name: navidrome-music
+              mountPath: /music
+      volumes:
+        - name: navidrome-data
+          persistentVolumeClaim:
+            claimName: navidrome-data-pvc
+        - name: navidrome-music
+          hostPath: 
+            path: /mnt/birdpool/media/music
