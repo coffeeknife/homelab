@@ -35,6 +35,16 @@ spec:
               value: 24h
             - name: ND_BASEURL
               value: ''
+            - name: ND_LASTFM_APIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: lastfm-api-key # make this secret before running this
+                  key: api-key
+            - name: ND_LASTFM_APISECRET
+              valueFrom:
+                secretKeyRef:
+                  name: lastfm-api-key
+                  key: api-secret
           volumeMounts:
             - name: navidrome-data
               mountPath: /data
