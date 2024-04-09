@@ -40,7 +40,7 @@ spec:
                 secretKeyRef:
                   name: lastfm-api-key # make this secret before running this
                   key: api-key
-            - name: ND_LASTFM_APISECRET
+            - name: ND_LASTFM_SECRET
               valueFrom:
                 secretKeyRef:
                   name: lastfm-api-key
