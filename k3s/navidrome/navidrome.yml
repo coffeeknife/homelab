@@ -34,7 +34,7 @@ spec:
             - name: ND_SESSIONTIMEOUT
               value: 24h
             - name: ND_BASEURL
-              value: '192.168.1.211'
+              value: 'http://192.168.1.211:4533/'
             - name: ND_LASTFM_APIKEY
               valueFrom:
                 secretKeyRef:
