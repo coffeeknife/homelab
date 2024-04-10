@@ -20,7 +20,7 @@ spec:
       labels:
         app: navidrome
     spec:
-      nodeName: etheirys
+      nodeName: vulcan
       containers:
         - name: navidrome
           image: deluan/navidrome:latest
@@ -34,7 +34,7 @@ spec:
             - name: ND_SESSIONTIMEOUT
               value: 24h
             - name: ND_BASEURL
-              value: ''
+              value: '192.168.1.211'
             - name: ND_LASTFM_APIKEY
               valueFrom:
                 secretKeyRef:
