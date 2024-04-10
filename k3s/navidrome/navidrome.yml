@@ -36,7 +36,7 @@ spec:
             - name: ND_BASEURL
               value: 'http://192.168.1.211:4533/'
             - name: ND_SCANNER_GROUPALBUMRELEASES
-              value: true
+              value: 'true'
             - name: ND_LASTFM_APIKEY
               valueFrom:
                 secretKeyRef:
