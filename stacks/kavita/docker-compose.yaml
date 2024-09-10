@@ -1,0 +1,39 @@
+version: "3"
+services:
+  kavita:
+    image: lscr.io/linuxserver/kavita:latest
+    container_name: kavita
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes:
+      - ${kavita_config}:/config
+      - ${kavita_data}:/data
+    networks:
+      - caddy
+
+    restart: unless-stopped
+    deploy:
+      labels:
+        # ingress
+        caddy: ${kavita_domain}
+        caddy.reverse_proxy: "{{ upstreams 5000 }}"
+        tls: internal
+        # homepage
+        homepage.group: ${kavita_group}
+        homepage.name: Kavita
+        homepage.icon: kavita
+        homepage.href: https://${kavita_domain}
+        homepage.description: Manga, comic and book server.
+        homepage.widget.type: kavita
+        homepage.widget.url: http://kavita:5000
+        homepage.widget.username: ${kavita_username}
+        homepage.widget.password: ${kavita_password}
+      placement:
+        constraints:
+          - node.labels.gigabit==true
+
+networks:
+  caddy:
+    external: true
