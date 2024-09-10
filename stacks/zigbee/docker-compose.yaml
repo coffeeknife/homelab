@@ -1,0 +1,54 @@
+  version: '3'
+  services:
+    zigbee2mqtt:
+      container_name: zigbee2mqtt
+      image: koenkk/zigbee2mqtt
+      volumes:
+        - ${z2m_data}:/app/data
+        - ${zigbee_dev_path}:/dev/ttyACM0
+      ports:
+        - 8090:80
+        # CC251
+        #- /dev/ttyUSB_cc2531:/dev/ttyACM0
+        # CC2530 / GBAN GB2530S
+        #- /dev/ttyUSB_cc2530:/dev/ttyACM0
+      restart: always
+      networks:
+        - mqtt
+        - caddy
+      deploy:
+        labels:
+          # ingress
+          caddy: ${z2m_domain}
+          caddy.reverse_proxy: "{{ upstreams 80 }}"
+          caddy.tls: internal
+          # homepage
+          homepage.group: ${z2m_group}
+          homepage.name: Zigbee2MQTT
+          homepage.icon: zigbee2mqtt
+          homepage.href: https://${z2m_domain}
+          homepage.description: Manager for non-WiFi smart devices
+        placement:
+          constraints:
+            - node.labels.conbee==true
+
+    mosquitto:
+      image: eclipse-mosquitto
+      container_name: mosquitto
+      restart: unless-stopped
+      volumes:
+        - ${mqtt_config}:/mosquitto/config
+        - ${mqtt_data}:/mosquitto/data
+        - ${mqtt_log}:/mosquitto/log
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=America/Chicago
+      networks:
+        - mqtt
+
+  networks:
+    mqtt:
+      external: true
+    caddy:
+      external: true
