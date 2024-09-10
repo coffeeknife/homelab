@@ -1,0 +1,6 @@
+# restart docker engine, done nightly
+- hosts: all
+  tasks:
+    - systemd:
+        name: docker
+        state: restarted

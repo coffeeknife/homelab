@@ -1,0 +1,10 @@
+# prunes completed/failed containers older than 24hrs. run nightly.
+---
+- hosts: all
+  collections:
+    - community.docker
+  tasks:
+    - docker_prune:
+        containers: true
+        containers_filters:
+          until: 24h

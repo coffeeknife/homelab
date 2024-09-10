@@ -1,0 +1,12 @@
+# prune docker entirely. run weekly
+---
+- hosts: all
+  collections:
+    - community.docker
+  tasks:
+    - docker_prune:
+        containers: true
+        images: true
+        networks: true
+        volumes: true
+        builder_cache: true

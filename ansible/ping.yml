@@ -1,0 +1,6 @@
+# uptime check, run every 10 minutes w/ failures reported via discord
+---
+- hosts: all
+  gather_facts: false
+  tasks:
+    - ping:
