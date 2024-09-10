@@ -28,7 +28,7 @@ services:
         caddy.reverse_proxy: "{{ upstreams 8096 }}"
         caddy.tls: internal
         # homepage
-        homepage.group: Media
+        homepage.group: ${jellyfin_group}
         homepage.name: Jellyfin
         homepage.icon: jellyfin
         homepage.href: https://${jellyfin_domain}
@@ -61,7 +61,7 @@ services:
         caddy.reverse_proxy: "{{ upstreams 5055 }}"
         caddy.tls: internal
         # homepage 
-        homepage.group: Media
+        homepage.group: ${jellyseerr_group}
         homepage.name: Jellyseerr
         homepage.icon: jellyseerr
         homepage.href: https://${jellyseerr_domain}
