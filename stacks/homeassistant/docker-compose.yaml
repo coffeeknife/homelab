@@ -38,5 +38,5 @@ networks:
     external: true
   host:
     external: true
-  zigbee_mqtt:
+  mqtt:
     external: true
