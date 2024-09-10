@@ -1,0 +1,14 @@
+# docker-compose.yaml
+# from m-adawi/swarm-cd
+version: '3.7'
+services:
+  swarm-cd:
+    image: ghcr.io/m-adawi/swarm-cd:latest
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./repos.yaml:/app/repos.yaml:ro
+      - ./stacks.yaml:/app/stacks.yaml:ro
