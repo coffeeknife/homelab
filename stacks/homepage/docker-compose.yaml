@@ -1,0 +1,21 @@
+version: "3.3"
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    networks:
+      - caddy
+    volumes:
+      - /mnt/birdpool/homepage:/app/config # Make sure your local config directory exists
+      - /var/run/docker.sock:/var/run/docker.sock
+    deploy:
+      labels:
+        caddy: ${homepage_domain}
+        caddy.reverse_proxy: "{{ upstreams 3000 }}"
+        caddy.tls: internal
+      placement:
+        constraints:
+          - node.role==manager
+
+networks:
+  caddy:
+    external: true
