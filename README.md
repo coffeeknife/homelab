@@ -1,6 +1,9 @@
 # homelab
 repo for gitops-ifying my homelab and publishing my configs.
 
+- `/ansible` contains playbooks for regular cluster maintenance.
+- `/stacks` contains composefiles for all my docker services.
+
 ## infrastructure rundown
 my homelab has 3 hosts running as a docker swarm:
 - **etheirys** - manager node, 2017 iMac, has dedicated graphics card and 32gb of ram
@@ -12,3 +15,8 @@ my homelab has 3 hosts running as a docker swarm:
 
 ## continuous deployment
 stacks auto updated using Portainer
+
+## todo
+- [ ] move caddy stack from portainer to ansible
+- [ ] move extra caddy routing (for external services) from portainer to ansible
+- [ ] create set of playbooks to bootstrap the whole cluster (docker swarm + docker node tags, semaphore, portainer)
