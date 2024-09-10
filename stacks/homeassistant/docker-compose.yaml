@@ -1,0 +1,42 @@
+version: '3'
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - ${hass_config}:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - 8123:8123
+    networks:
+      - host
+      - caddy
+      - zigbee_mqtt
+    deploy:
+      labels:
+        # ingress
+        caddy: ${hass_domain}
+        caddy.reverse_proxy: "{{ upstreams 8123 }}"
+        caddy.tls: internal
+        # dashboard
+        homepage.group: ${hass_dash_group}
+        homepage.name: Home Assistant
+        homepage.icon: home-assistant
+        homepage.href: https://${hass_domain}
+        homepage.description: Smart home dashboard
+        homepage.widget.type: homeassistant
+        homepage.widget.url: http://homeassistant:8123
+        homepage.widget.key: ${hass_api_key} # TODO properly secret this
+        homepage.widget.fields: ${hass_widget_fields} #'["people_home", "lights_on"]'
+      placement:
+        constraints:
+          - node.labels.gigabit==true
+networks:
+  caddy:
+    external: true
+  host:
+    external: true
+  zigbee_mqtt:
+    external: true
