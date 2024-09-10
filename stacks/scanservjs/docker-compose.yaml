@@ -1,0 +1,27 @@
+version: '3'
+services:
+    scanservjs:
+        networks:
+          - caddy
+
+        volumes:
+            - /var/run/dbus:/var/run/dbus
+        restart: unless-stopped
+        privileged: true
+        image: sbs20/scanservjs:latest
+        deploy:
+          labels:
+            # ingress
+            caddy: ${scanserv_domain}
+            caddy.reverse_proxy: "{{ upstreams 8080 }}"
+            caddy.tls: internal
+            # homepage
+            homepage.group: ${scanserv_group}
+            homepage.name: ScanServJS
+            homepage.icon: scanservjs
+            homepage.href: https://${scanserv_domain}
+            homepage.description: Web UI for home scanners
+
+networks:
+  caddy:
+    external: true
