@@ -1,0 +1,8 @@
+version: "3.9"
+
+services:
+  myfeedcord:
+    # image: qolors/feedcord # for amd64 architecture
+    image: qolors/feedcord:latest-arm64  # For arm64 architecture (Uncomment this line and comment the above if using arm64)
+    volumes:
+      - ${config-path}:/app/config/appsettings.json
