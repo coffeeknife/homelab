@@ -1,8 +1,8 @@
 ---
-- hosts: {{ pull_hosts }}
+- hosts: {{ pull_hosts | default("all") }}
   collections:
     - community.docker
   tasks:
     - docker_image:
-        name: {{ image }}
+        name: {{ pull_image }}
         source: pull
