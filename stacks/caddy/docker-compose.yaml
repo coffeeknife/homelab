@@ -12,7 +12,7 @@ services:
       - caddy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /mnt/birdpool/caddy:/data
+      - ${caddy_data}:/data
     restart: unless-stopped
     deploy:
       placement:
