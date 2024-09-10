@@ -13,7 +13,7 @@ services:
     networks:
       - host
       - caddy
-      - zigbee_mqtt
+      - mqtt
     deploy:
       labels:
         # ingress
