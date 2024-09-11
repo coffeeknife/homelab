@@ -1,0 +1,11 @@
+version: '3'
+services:
+  statping:
+    image: statping/statping:dev
+    restart: always
+    volumes:
+      - ${statping_data}:/app
+    environment:
+      DB_CONN: sqlite
+    ports:
+      - 8080:8080
