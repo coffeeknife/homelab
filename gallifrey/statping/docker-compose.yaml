@@ -1,7 +1,7 @@
 version: '3'
 services:
   statping:
-    image: statping/statping:dev
+    image: adamboutcher/statping-ng:latest
     restart: always
     network_mode: host
     volumes:
