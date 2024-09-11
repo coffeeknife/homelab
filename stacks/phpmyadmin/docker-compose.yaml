@@ -4,10 +4,12 @@ services:
   phpmyadmin:
     image: phpmyadmin
     restart: always
+    networks:
+      - caddy
     environment:
       - PMA_HOST=${mysql_host}
       - PMA_PORT=${mysql_port}
-      - PMA_ABSOLUTE_URI=https://${pma_domain}
+      - PMA_ABSOLUTE_URI="https://${pma_domain}"
     deploy:
       labels:
         # reverse proxy
@@ -19,3 +21,7 @@ services:
         homepage.name: phpMyAdmin
         homepage.icon: phpmyadmin
         homepage.href: https://${pma_domain}
+
+networks:
+  caddy:
+    external: true
