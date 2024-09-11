@@ -3,6 +3,7 @@ services:
   statping:
     image: statping/statping:dev
     restart: always
+    network_mode: host
     volumes:
       - statping_data:/app
     environment:
