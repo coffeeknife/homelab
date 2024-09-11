@@ -1,0 +1,14 @@
+version: '3.1'
+
+services:
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    environment:
+      - PMA_HOST=${mysql_host}
+      - PMA_PORT=${mysql_port}
+    deploy:
+      labels:
+        caddy: ${pma_domain}
+        caddy.reverse_proxy: "{{ upstreams 80 }}"
+        caddy.tls: internal
