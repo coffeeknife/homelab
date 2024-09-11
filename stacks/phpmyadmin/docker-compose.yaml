@@ -9,6 +9,12 @@ services:
       - PMA_PORT=${mysql_port}
     deploy:
       labels:
+        # reverse proxy
         caddy: ${pma_domain}
         caddy.reverse_proxy: "{{ upstreams 80 }}"
         caddy.tls: internal
+        # homepage
+        homepage.group: ${pma_group}
+        homepage.name: phpMyAdmin
+        homepage.icon: phpmyadmin
+        homepage.href: https://${pma_domain}
