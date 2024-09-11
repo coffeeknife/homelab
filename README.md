@@ -13,6 +13,7 @@ my homelab has 3 hosts running as a docker swarm:
 - **vulcan** - raspberry pi 4 w/ 4gb ram and an 8tb usb hard drive
     - samba/nfs share host
 - **gunsmoke** - raspberry pi 3b w/ 1gb ram and a ComBee II
+
 finally, I have an extra node running my vpn service and DNS:
 - **gallifrey** - raspberry pi 4 w/ 2gb ram
     - wireguard vpn
