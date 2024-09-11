@@ -7,6 +7,7 @@ services:
     environment:
       - PMA_HOST=${mysql_host}
       - PMA_PORT=${mysql_port}
+      - PMA_ABSOLUTE_URI=https://${pma_domain}
     deploy:
       labels:
         # reverse proxy
