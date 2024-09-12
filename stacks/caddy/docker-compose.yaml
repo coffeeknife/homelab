@@ -10,6 +10,9 @@ services:
       - CADDY_ADMIN=2019
     networks:
       - caddy
+    configs:
+      - source: proxies
+        target: /etc/caddy/Caddyfile
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${caddy_data}:/data
@@ -20,7 +23,7 @@ services:
           - node.role==manager
 
 configs:
-  pihole_proxy:
+  proxies:
     content: |
       ${pihole_domain} {
         reverse_proxy ${pihole_addr}
