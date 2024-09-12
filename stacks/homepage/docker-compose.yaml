@@ -31,6 +31,7 @@ configs:
 #      }
     labels:
       caddy: ${pihole_domain}
+      caddy.reverse_proxy: ${pihole_addr}
       homepage.description: Network adblock & local DNS
       homepage.group: ${pihole_group}
       homepage.href: https://${pihole_domain}/admin
