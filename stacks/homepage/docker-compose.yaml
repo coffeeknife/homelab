@@ -20,16 +20,16 @@ services:
 configs:
   pihole:
     external: false
-#    content: |
-#      ${pihole_domain} {
-#        tls internal
-#        handle / {
-#          redir https://${pihole_domain}/admin
-#        }
-#        handle {
-#          reverse_proxy ${pihole_addr}
-#        }
-#      }
+    content: |
+      ${pihole_domain} {
+        tls internal
+        handle / {
+          redir https://${pihole_domain}/admin
+        }
+        handle {
+          reverse_proxy ${pihole_addr}
+        }
+      }
     labels:
       caddy: ${pihole_domain}
       caddy.reverse_proxy: ${pihole_addr}
