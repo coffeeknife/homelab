@@ -19,7 +19,6 @@ services:
 # homepage/reverse proxy entries for non-docker infrastructure
 configs:
   pihole:
-    external: false
     content: |
       ${pihole_domain} {
         tls internal
