@@ -19,6 +19,12 @@ services:
         constraints:
           - node.role==manager
 
+configs:
+  pihole_proxy:
+    content: |
+      ${pihole_domain} {
+        reverse_proxy ${pihole_addr}
+      }
 
 networks:
   caddy:
