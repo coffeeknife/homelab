@@ -15,28 +15,6 @@ services:
       placement:
         constraints:
           - node.role==manager
-
-# homepage/reverse proxy entries for non-docker infrastructure
-configs:
-  pihole:
-    content: |
-      ${pihole_domain} {
-        tls internal
-        handle / {
-          redir https://${pihole_domain}/admin
-        }
-        handle {
-          reverse_proxy ${pihole_addr}
-        }
-      }
-    labels:
-      caddy: ${pihole_domain}
-      caddy.reverse_proxy: ${pihole_addr}
-      homepage.description: Network adblock & local DNS
-      homepage.group: ${pihole_group}
-      homepage.href: https://${pihole_domain}/admin
-      homepage.icon: pi-hole
-      homepage.name: PiHole
       
 networks:
   caddy:
