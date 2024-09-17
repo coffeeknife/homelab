@@ -2,9 +2,11 @@
 ---
 - name: Mount nfs share at boot
   hosts: "{{ book_hosts | default('all') }}"
+  collections:
+    - ansible.posix
   tasks:
     - name: Mount specified nfs share
-      ansible.posix.mount:
+      mount:
         src: "{{ nfs_ip }}:{{ share_path }}"
         path: "{{ share_path }}"
         fstype: nfs
