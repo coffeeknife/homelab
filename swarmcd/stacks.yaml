@@ -1,0 +1,5 @@
+caddy:
+  repo: homelab
+  branch: main
+  compose_file: /stacks/caddy/docker_compose.yaml
+  values_file: /swarmcd/values.yaml
