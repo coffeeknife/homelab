@@ -7,7 +7,7 @@
   tasks:
     - name: Install nfs utils
       package:
-        name: nfs-utils
+        name: nfs-common
         state: present
     - name: Mount specified nfs share
       mount:
