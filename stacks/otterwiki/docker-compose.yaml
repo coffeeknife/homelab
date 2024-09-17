@@ -3,20 +3,20 @@ services:
   otterwiki:
     image: redimp/otterwiki
     volumes:
-      - ${otter_data}:/app-data
+      - ${data_path}/otterwiki:/app-data
     networks:
       - caddy
     deploy:
       labels:
         # ingress
-        caddy: ${otter_domain}
+        caddy: wiki.${base_domain}
         caddy.reverse_proxy: "{{ upstreams 80 }}"
         caddy.tls: internal
         # homepage
-        homepage.group: ${otter_group}
+        homepage.group: ${svc_group}
         homepage.name: OtterWiki
         homepage.icon: google-docs
-        homepage.href: https://${otter_domain}
+        homepage.href: https://wiki.${base_domain}
         homepage.description: Local wiki
 
 networks:

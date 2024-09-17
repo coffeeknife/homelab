@@ -4,7 +4,7 @@
       container_name: zigbee2mqtt
       image: koenkk/zigbee2mqtt
       volumes:
-        - ${z2m_data}:/app/data
+        - ${data_path}/zigbee/z2m:/app/data
         - ${zigbee_dev_path}:/dev/ttyACM0
       ports:
         - 8090:80
@@ -19,14 +19,14 @@
       deploy:
         labels:
           # ingress
-          caddy: ${z2m_domain}
+          caddy: iot.${base_domain}
           caddy.reverse_proxy: "{{ upstreams 80 }}"
           caddy.tls: internal
           # homepage
-          homepage.group: ${z2m_group}
+          homepage.group: ${svc_group}
           homepage.name: Zigbee2MQTT
           homepage.icon: zigbee2mqtt
-          homepage.href: https://${z2m_domain}
+          homepage.href: https://iot.${base_domain}
           homepage.description: Manager for non-WiFi smart devices
         placement:
           constraints:
@@ -37,13 +37,13 @@
       container_name: mosquitto
       restart: unless-stopped
       volumes:
-        - ${mqtt_config}:/mosquitto/config
-        - ${mqtt_data}:/mosquitto/data
-        - ${mqtt_log}:/mosquitto/log
+        - ${data_path}/zigbee/mqtt/config:/mosquitto/config
+        - ${data_path}/zigbee/mqtt/data:/mosquitto/data
+        - ${data_path}/zigbee/mqtt/log:/mosquitto/log
       environment:
         - PUID=1000
         - PGID=1000
-        - TZ=America/Chicago
+        - TZ=${tz}
       networks:
         - mqtt
 

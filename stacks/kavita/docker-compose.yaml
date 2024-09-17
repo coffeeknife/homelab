@@ -6,10 +6,10 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=America/Chicago
+      - TZ=${tz}
     volumes:
-      - ${kavita_config}:/config
-      - ${kavita_data}:/data
+      - ${storage_path}/kavita/config:/config
+      - ${storage_path}/kavita/data:/data
     networks:
       - caddy
 
@@ -17,14 +17,14 @@ services:
     deploy:
       labels:
         # ingress
-        caddy: ${kavita_domain}
+        caddy: read.${base_domain}
         caddy.reverse_proxy: "{{ upstreams 5000 }}"
         tls: internal
         # homepage
-        homepage.group: ${kavita_group}
+        homepage.group: ${media_group}
         homepage.name: Kavita
         homepage.icon: kavita
-        homepage.href: https://${kavita_domain}
+        homepage.href: https://read.${base_domain}
         homepage.description: Manga, comic and book server.
         homepage.widget.type: kavita
         homepage.widget.url: http://kavita:5000

@@ -12,14 +12,14 @@ services:
         deploy:
           labels:
             # ingress
-            caddy: ${scanserv_domain}
+            caddy: scan.${base_domain}
             caddy.reverse_proxy: "{{ upstreams 8080 }}"
             caddy.tls: internal
             # homepage
-            homepage.group: ${scanserv_group}
+            homepage.group: ${svc_group}
             homepage.name: ScanServJS
             homepage.icon: scanservjs
-            homepage.href: https://${scanserv_domain}
+            homepage.href: https://scan.${base_domain}
             homepage.description: Web UI for home scanners
 
 networks:

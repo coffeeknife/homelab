@@ -8,19 +8,19 @@ services:
       - caddy
     environment:
       - PMA_HOST=${mysql_host}
-      - PMA_PORT=${mysql_port}
-      - PMA_ABSOLUTE_URI="https://${pma_domain}"
+      - PMA_PORT=3306
+      - PMA_ABSOLUTE_URI="https://db.${base_domain}"
     deploy:
       labels:
         # reverse proxy
-        caddy: ${pma_domain}
+        caddy: db.${base_domain}
         caddy.reverse_proxy: "{{ upstreams 80 }}"
         caddy.tls: internal
         # homepage
-        homepage.group: ${pma_group}
+        homepage.group: ${infra_group}
         homepage.name: phpMyAdmin
         homepage.icon: phpmyadmin
-        homepage.href: https://${pma_domain}
+        homepage.href: https://db.${base_domain}
 
 networks:
   caddy:

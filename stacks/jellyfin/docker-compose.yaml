@@ -8,10 +8,10 @@ services:
     ports:
       - 8096:8096
     volumes:
-      - ${jellyfin_config}:/config
-      - ${jellyfin_cache}:/cache
-      - ${jellyfin_media}:/media
-      - ${jellyfin_gpu}:/dev/dri/renderD128 # graphics card mount location on designated node
+      - ${data_path}/jellyfin/config:/config
+      - ${data_path}/jellyfin/cache:/cache
+      - ${data_path}/jellyfin/media:/media
+      - ${gpu_path}:/dev/dri/renderD128 # graphics card mount location on designated node
     restart: 'unless-stopped'
     # Optional - alternative address used for autodiscover
     # Optional - may be necessary for docker healthcheck to pass if running in host network mode
@@ -24,21 +24,21 @@ services:
           cpus: '4'
       labels:
         # ingress
-        caddy: ${jellyfin_domain}
+        caddy: stream.${base_domain}
         caddy.reverse_proxy: "{{ upstreams 8096 }}"
         caddy.tls: internal
         # homepage
-        homepage.group: ${jellyfin_group}
+        homepage.group: ${media_group}
         homepage.name: Jellyfin
         homepage.icon: jellyfin
-        homepage.href: https://${jellyfin_domain}
+        homepage.href: https://stream.${base_domain}
         homepage.description: Home TV & movie streaming
         homepage.widget.type: jellyfin
         homepage.widget.url: http://jellyfin:8096
-        homepage.widget.key: ${jellyfin_apikey}
+        homepage.widget.key: ${jellyfin_api_key}
         homepage.widget.enableNowPlaying: 'false'
         homepage.widget.enableBlocks: 'true'
-        homepage.widget.fields: ${jellyfin_widgetfields}
+        homepage.widget.fields: 
       placement:
         constraints:
           - node.role==manager
@@ -49,26 +49,26 @@ services:
       - caddy
     environment:
       - LOG_LEVEL=debug
-      - TZ=America/Chicago
+      - TZ=${tz}
     depends_on:
       - jellyfin
     volumes:
-      - ${jellyseerr_config}:/app/config
+      - ${storage_path}/jellyfin/jellyseerr:/app/config
     deploy:
       labels:
         # ingress
-        caddy: ${jellyseerr_domain}
+        caddy: req.stream.${base_domain}
         caddy.reverse_proxy: "{{ upstreams 5055 }}"
         caddy.tls: internal
         # homepage 
-        homepage.group: ${jellyseerr_group}
+        homepage.group: ${media_group}
         homepage.name: Jellyseerr
         homepage.icon: jellyseerr
-        homepage.href: https://${jellyseerr_domain}
+        homepage.href: https://req.stream.${base_domain}
         homepage.description: Request manager for Jellyfin
         homepage.widget.type: jellyseerr
         homepage.widget.url: http://jellyseerr:5055
-        homepage.widget.key: ${jellyseerr_apikey}
+        homepage.widget.key: ${jellyseerr_api_key}
 
         
 networks:

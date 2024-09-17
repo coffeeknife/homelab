@@ -5,6 +5,6 @@ services:
     # image: qolors/feedcord # for amd64 architecture
     image: qolors/feedcord:latest-arm64  # For arm64 architecture (Uncomment this line and comment the above if using arm64)
     volumes:
-      - ${feedcord_config}:/app/config/appsettings.json
+      - ${data_path}/${config_dir}/feedcord.json:/app/config/appsettings.json
     environment:
-      - TZ=America/Chicago
+      - TZ=${tz}

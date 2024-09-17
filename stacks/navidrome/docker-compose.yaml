@@ -11,19 +11,19 @@ services:
       ND_SESSIONTIMEOUT: 24h
       ND_BASEURL: ""
     volumes:
-      - "${navidrome_data}:/data"
-      - "${navidrome_music}:/music:ro"
+      - "${data_path}/navidrome:/data"
+      - "${data_path}/media/music:/music:ro"
     deploy:
       labels:
         # ingress
-        caddy: ${navidrome_domain}
+        caddy: music.${base_domain}
         caddy.reverse_proxy: "{{ upstreams 4533 }}"
         caddy.tls: internal
         # homepage
-        homepage.group: ${navidrome_group}
+        homepage.group: ${media_group}
         homepage.name: Navidrome
         homepage.icon: navidrome
-        homepage.href: https://${navidrome_domain}
+        homepage.href: https://music.${base_domain}
         homepage.description: Music server compatible with Subsonic clients.
       placement:
         constraints:

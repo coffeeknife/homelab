@@ -10,20 +10,20 @@ services:
             - PORT=5050
             - HOST=0.0.0.0
         volumes:
-            - '${metatube_downloads}:/downloads:rw'
-            - '${metatube_db}:/database:rw'
-            - '${metatube_migrations}:/config/migrations:rw'   
+            - '${storage_path}/metatube/downloads:/downloads:rw'
+            - '${storage_path}/metatube/database:/database:rw'
+            - '${storage_path}/metatube/migrations:/config/migrations:rw'   
         deploy:
           labels:
             # ingress
-            caddy: ${metatube_domain}
+            caddy: yt-dl.${base_domain}
             caddy.reverse_proxy: "{{ upstreams 5050 }}"
             caddy.tls: internal
             # homepage
-            homepage.group: ${metatube_group}
+            homepage.group: ${dl_group)
             homepage.name: Metatube
             homepage.icon: youtubedl
-            homepage.href: https://${metatube_domain}
+            homepage.href: https://yt-dl.${base_domain}
             homepage.description: YouTube archiver with automatic metadata tagging.
           placement:
             constraints:

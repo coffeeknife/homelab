@@ -11,18 +11,18 @@ services:
     ports:
       - 8445:80
     volumes:
-      - ${vaultwarden_data}:/data:rw
+      - ${data_path}/vaultwarden:/data:rw
     deploy:
       labels:
         # ingress
-        caddy: ${vaultwarden_domain}
+        caddy: pass.${base_domain}
         caddy.tls: internal
         caddy.reverse_proxy: "{{ upstreams 80 }}"
         # homepage
-        homepage.group: ${vaultwarden_group}
+        homepage.group: ${svc_group}
         homepage.name: Vaultwarden
         homepage.icon: vaultwarden
-        homepage.href: https://${vaultwarden_domain}
+        homepage.href: https://pass.${base_domain}
         homepage.description: Password manager that works with Bitwarden clients. 
       placement:
         constraints:

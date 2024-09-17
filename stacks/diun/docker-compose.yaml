@@ -6,17 +6,17 @@ services:
     network_mode: "bridge"
     container_name: diun
     volumes:
-      - "${diun_data}:/data"
+      - "${data_path}/diun:/data"
       - "/var/run/docker.sock:/var/run/docker.sock"
     environment:
-      - "TZ=America/Chicago"
+      - "TZ=${tz}"
       - "LOG_LEVEL=info"
       - "LOG_JSON=false"
       - "DIUN_WATCH_WORKERS=20"
       - "DIUN_WATCH_SCHEDULE=0 0 * * *"
       - "DIUN_PROVIDERS_DOCKER=true"
       - "DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT=true"
-      - "DIUN_NOTIF_DISCORD_WEBHOOKURL=${diun_discord_webhook}"
+      - "DIUN_NOTIF_DISCORD_WEBHOOKURL=${discord_webhook}"
       - "DIUN_NOTIF_DISCORD_RENDERFIELDS=true"
     deploy:
       placement:
