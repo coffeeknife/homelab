@@ -2,9 +2,11 @@
 ---
 - name: Initialize docker swarm
   hosts: "{{ hosts | default('workers') }}"
+  collections:
+    - community.docker
   tasks:
     - name: Join docker swarm
-      community.docker.docker_swarm:
+      docker_swarm:
         state: join
         join_token: "{{ join_token }}"
         remote_addrs: ["{{ controller_ip }}:2377"]
