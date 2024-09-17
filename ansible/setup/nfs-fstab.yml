@@ -5,6 +5,10 @@
   collections:
     - ansible.posix
   tasks:
+    - name: Install nfs utils
+      package:
+        name: nfs-utils
+        state: present
     - name: Mount specified nfs share
       mount:
         src: "{{ nfs_ip }}:{{ share_path }}"
