@@ -30,7 +30,7 @@
           homepage.description: Manager for non-WiFi smart devices
         placement:
           constraints:
-            - node.labels.conbee==true
+            - node.labels.combee==true
 
     mosquitto:
       image: eclipse-mosquitto
