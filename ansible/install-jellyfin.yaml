@@ -1,0 +1,16 @@
+---
+- name: Create and install Jellyfin VM on Proxmox host
+  hosts: proxmox
+
+  tasks:
+    - name: Create VM
+      community.general.proxmox:
+        vmid: 110
+        hostname: jellyfin
+        api_user: root@pam
+        api_password: "{{ api_password }}"
+        api_host: "192.168.1.53"
+        password: "{{ password }}"
+        ostemplate: 'local:vztmpl/alpine-3.2.0-default_20240908_amd64.tar.xz'
+        netif:
+          net0: "name=eth0,gw=192.168.1.1,ip=192.168.1.210/24,bridge=vmbr0"
