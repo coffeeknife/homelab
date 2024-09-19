@@ -1,0 +1,14 @@
+---
+- name: Install necessary pip packages for proxmox
+  hosts: proxmox
+  tasks:
+    - name: Ensure pip is installed
+      ansible.builtin.package:
+        name: pip
+        state: present
+
+    - name: Run pip
+      ansible.builtin.pip:
+        name:
+          - proxmoxer
+          - requests
