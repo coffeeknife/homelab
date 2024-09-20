@@ -18,5 +18,6 @@
         disk: "local-lvm:64"
         memory: 4096
         force: true
+        update: true
         netif:
           net0: "name=eth0,gw=192.168.1.1,ip=192.168.1.211/24,bridge=vmbr0,firewall=1"
