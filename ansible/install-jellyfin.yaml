@@ -28,6 +28,10 @@
         api_host: "192.168.1.53"
         state: started
  
+    - name: Wait for Jellyfin LXC to start
+      pause:
+        minutes: 1
+
 - name: Install Jellyfin
   hosts: jellyfin
 
