@@ -4,18 +4,26 @@
 
   tasks:
     - name: Create TrueNAS VM
-      community.general.proxmox:
+      community.general.proxmox_kvm:
         vmid: 101
-        hostname: truenas
+        name: truenas
         node: etheirys
         api_user: root@pam
-        unprivileged: true
         api_password: "{{ lookup('ansible.builtin.env', 'API_PASSWORD') }}"
         api_host: "192.168.1.53"
-        password: "{{ lookup('ansible.builtin.env', 'PASSWORD') }}"
         cores: 2
         memory: 8192
-        disk: "local-lvm:16"
-        ostemplate: "local:iso/TrueNAS-13.0-U6.2.iso"
-        netif:
-          net0: "name=eth0,gw=192.168.1.1,ip=192.168.1.202/24,bridge=vmbr0,firewall=1"
+        localtime: true
+        sata:
+          sata0: 'VMs_LVM:16'
+        net:
+          net0: 'virtio,bridge=vmbr1,rate=1000'
+        ipconfig:
+          ipconfig0: 'ip=192.168.1.202/24,gw=192.168.1.1'
+        ide:
+          ide0: 'local:iso/TrueNAS-13.0-U6.2.iso'
+        state: present
+        onboot: true
+        ostype: l26
+        usb:
+          usb0: '0bc2:ab45'
