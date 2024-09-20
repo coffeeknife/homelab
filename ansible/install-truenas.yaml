@@ -29,3 +29,4 @@
         onboot: true
         ostype: l26
         hotplug: disk,network,usb,memory,cpu
+        proxmox_default_behavior: compatibility
