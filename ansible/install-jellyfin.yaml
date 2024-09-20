@@ -19,7 +19,7 @@
         memory: 4096
         netif:
           net0: "name=eth0,gw=192.168.1.1,ip=192.168.1.211/24,bridge=vmbr0,firewall=1"
-    
+
     - name: Start Jellyfin LXC
       community.general.proxmox:
         vmid: 110
@@ -27,9 +27,9 @@
         api_password: "{{ lookup('ansible.builtin.env', 'API_PASSWORD') }}"
         api_host: "192.168.1.53"
         state: started
- 
+
     - name: Wait for Jellyfin LXC to start
-      pause:
+      ansible.builtin.pause:
         minutes: 1
 
 - name: Install Jellyfin
