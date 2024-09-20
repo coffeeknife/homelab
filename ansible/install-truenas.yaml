@@ -23,6 +23,7 @@
         onboot: true
         ostype: l26
         hotplug: disk,network,usb
+        agent: true
         proxmox_default_behavior: compatibility
         net:
           net0: 'virtio,bridge=vmbr1'
