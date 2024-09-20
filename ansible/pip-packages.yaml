@@ -2,13 +2,14 @@
 - name: Install necessary pip packages for proxmox
   hosts: proxmox
   tasks:
-    - name: Ensure pipx is installed
+    - name: Ensure pip is installed
       ansible.builtin.package:
-        name: pipx
+        name: pip
         state: present
 
     - name: Run pip
-      community.general.pipx:
+      ansible.builtin.pip:
+        executable: /usr/bin/pip
         name:
           - proxmoxer
           - requests
