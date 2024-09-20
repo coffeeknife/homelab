@@ -7,6 +7,7 @@
       community.general.proxmox:
         vmid: 110
         hostname: jellyfin
+        node: etheirys
         api_user: root@pam
         api_password: "{{ lookup('ansible.builtin.env', 'API_PASSWORD') }}"
         api_host: "192.168.1.53"
