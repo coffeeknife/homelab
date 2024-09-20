@@ -9,6 +9,7 @@
         hostname: jellyfin
         node: etheirys
         api_user: root@pam
+        unprivileged: true
         api_password: "{{ lookup('ansible.builtin.env', 'API_PASSWORD') }}"
         api_host: "192.168.1.53"
         password: "{{ lookup('ansible.builtin.env', 'PASSWORD') }}"
