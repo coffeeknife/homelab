@@ -12,6 +12,6 @@
         api_password: "{{ lookup('ansible.builtin.env', 'API_PASSWORD') }}"
         api_host: "192.168.1.53"
         password: "{{ lookup('ansible.builtin.env', 'PASSWORD') }}"
-        ostemplate: 'local:vztmpl/alpine-3.2.0-default_20240908_amd64.tar.xz'
+        ostemplate: 'local:vztmpl/alpine-3.20-default_20240908_amd64.tar.xz'
         netif:
           net0: "name=eth0,gw=192.168.1.1,ip=192.168.1.210/24,bridge=vmbr0"
