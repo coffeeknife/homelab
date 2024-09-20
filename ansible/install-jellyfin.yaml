@@ -19,6 +19,7 @@
         memory: 4096
         netif:
           net0: "name=eth0,gw=192.168.1.1,ip=192.168.1.211/24,bridge=vmbr0,firewall=1"
+          
 ---
 - name: Install Jellyfin
   hosts: jellyfin
