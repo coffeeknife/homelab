@@ -15,7 +15,7 @@
         memory: 8192
         localtime: true
         sata:
-          sata0: 'local_lvm:16'
+          sata0: 'local-lvm:16'
         ide:
           ide0: 'local:iso/TrueNAS-13.0-U6.2.iso'
         state: present
