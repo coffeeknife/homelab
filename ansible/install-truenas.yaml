@@ -17,7 +17,8 @@
         sata:
           sata0: 'local-lvm:16'
         ide:
-          ide0: 'local:iso/TrueNAS-13.0-U6.2.iso'
+          ide0: 'local:iso/TrueNAS-13.0-U6.2.iso,media=cdrom'
+        boot: order=ide0;sata0
         state: present
         onboot: true
         ostype: l26
