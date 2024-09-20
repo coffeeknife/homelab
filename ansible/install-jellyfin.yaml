@@ -16,7 +16,6 @@
         ostemplate: 'local:vztmpl/alpine-3.20-default_20240908_amd64.tar.xz'
         cores: 4
         disk: "local-lvm:64"
-        firewall: yes
         memory: 4096
         netif:
-          net0: "name=eth0,gw=192.168.1.1,ip=192.168.1.211/24,bridge=vmbr0"
+          net0: "name=eth0,gw=192.168.1.1,ip=192.168.1.211/24,bridge=vmbr0,firewall=1"
