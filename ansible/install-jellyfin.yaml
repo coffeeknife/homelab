@@ -1,9 +1,9 @@
 ---
-- name: Create Jellyfin VM on Proxmox host
+- name: Create Jellyfin LXC on Proxmox host
   hosts: proxmox
 
   tasks:
-    - name: Create Alpine VM
+    - name: Create Alpine LXC
       community.general.proxmox:
         vmid: 110
         hostname: jellyfin
@@ -16,10 +16,16 @@
         ostemplate: 'local:vztmpl/alpine-3.20-default_20240908_amd64.tar.xz'
         cores: 4
         disk: "local-lvm:64"
-        state: started
         memory: 4096
         netif:
           net0: "name=eth0,gw=192.168.1.1,ip=192.168.1.211/24,bridge=vmbr0,firewall=1"
+    
+    - name: Start Jellyfin LXC
+      community.general.proxmox:
+        vmid: 110
+        api_user: root@pam
+        api_password: "{{ lookup('ansible.builtin.env', 'API_PASSWORD') }}"
+        api_host: "192.168.1.53"
  
 - name: Install Jellyfin
   hosts: jellyfin
