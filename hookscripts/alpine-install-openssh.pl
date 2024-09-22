@@ -37,6 +37,8 @@ if ($phase eq 'pre-start') {
     # successfully started.
 
     system("setup-sshd -c openssh");
+    system("rc-update add sshd");
+    system("rc-service sshd start");
     print "$vmid started successfully.\n";
 
 } elsif ($phase eq 'pre-stop') {
