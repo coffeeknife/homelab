@@ -14,7 +14,7 @@
         api_host: "192.168.1.53"
         password: "{{ lookup('ansible.builtin.env', 'PASSWORD') }}"
         ostemplate: 'local:vztmpl/alpine-3.20-default_20240908_amd64.tar.xz'
-        hookscript: local:snippets/alpine-install-openssh.sh
+        hookscript: 'local:snippets/alpine-install-openssh.pl'
         cores: 4
         disk: "local-lvm:64"
         memory: 4096

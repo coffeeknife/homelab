@@ -1,4 +1,4 @@
-#!/usr/bin/ash
+#!/usr/bin/perl
 
 # Exmple hook script for PVE guests (hookscript config option)
 # You can set this via pct/qm with
@@ -8,45 +8,55 @@
 # of any storage with directories e.g.:
 # qm set 100 -hookscript local:snippets/hookscript.pl
 
-echo "GUEST HOOK: $@"
+use strict;
+use warnings;
+
+print "GUEST HOOK: " . join(' ', @ARGV). "\n";
 
 # First argument is the vmid
 
-vmid = $1;
+my $vmid = shift;
 
 # Second argument is the phase
 
-phase = $2;
+my $phase = shift;
 
-if [phase -eq 'pre-start']; then 
+if ($phase eq 'pre-start') {
 
     # First phase 'pre-start' will be executed before the guest
     # is started. Exiting with a code != 0 will abort the start
 
-    # print "preparations failed, aborting."
+    print "$vmid is starting, doing preparations.\n";
 
-elif [phase -eq 'post-start']; then
+    # print "preparations failed, aborting."
+    # exit(1);
+
+} elsif ($phase eq 'post-start') {
 
     # Second phase 'post-start' will be executed after the guest
     # successfully started.
 
-    setup-sshd -c openssh
-    echo "$vmid started successfully."
+    system("setup-sshd -c openssh");
+    print "$vmid started successfully.\n";
 
-elif [phase -eq 'pre-stop']; then
+} elsif ($phase eq 'pre-stop') {
 
     # Third phase 'pre-stop' will be executed before stopping the guest
     # via the API. Will not be executed if the guest is stopped from
     # within e.g., with a 'poweroff'
 
-elif [phase -eq 'post-stop']; then
+    print "$vmid will be stopped.\n";
+
+} elsif ($phase eq 'post-stop') {
 
     # Last phase 'post-stop' will be executed after the guest stopped.
     # This should even be executed in case the guest crashes or stopped
     # unexpectedly.
 
-else 
-    echo "got unknown phase '$phase'" 1>&2; exit 1
-fi
+    print "$vmid stopped. Doing cleanup.\n";
 
-exit 0
+} else {
+    die "got unknown phase '$phase'\n";
+}
+
+exit(0);
