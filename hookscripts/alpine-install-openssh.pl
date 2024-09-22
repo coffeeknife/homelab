@@ -36,9 +36,7 @@ if ($phase eq 'pre-start') {
     # Second phase 'post-start' will be executed after the guest
     # successfully started.
 
-    system("setup-sshd -c openssh");
-    system("rc-update add sshd");
-    system("rc-service sshd start");
+    system("pct exec $vmid setup-sshd -c openssh");
     print "$vmid started successfully.\n";
 
 } elsif ($phase eq 'pre-stop') {
