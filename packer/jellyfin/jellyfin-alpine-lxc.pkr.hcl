@@ -9,7 +9,7 @@ packer {
 
 source "lxc" "alpine" {
     config_file = "lxc.conf"
-    template_name = "alpine-3.20-default"
+    template_name = "alpine"
 }
 
 build {
