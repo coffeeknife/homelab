@@ -5,11 +5,11 @@ packer {
             version = "~> 1"
         }
     }
-#    source "lxc" "alpine" {
-#        config_file = "/tmp/lxc/config"
-#        template_name = "alpine-3.20-default"
-#        template_environment_var = [""]
-#    }
+    source "lxc" "alpine" {
+        config_file = "/tmp/lxc/config"
+        template_name = "alpine-3.20-default"
+        template_environment_var = [""]
+    }
 #    build {
 #        sources = [
 #            "source.lxc.alpine"
