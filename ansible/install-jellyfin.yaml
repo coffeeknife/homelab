@@ -14,7 +14,6 @@
         api_host: "192.168.1.53"
         password: "{{ lookup('ansible.builtin.env', 'PASSWORD') }}"
         ostemplate: 'local:vztmpl/alpine-3.20-default_20240908_amd64.tar.xz'
-        hookscript: 'local:snippets/alpine-install-openssh.pl'
         cores: 4
         disk: "local-lvm:64"
         memory: 4096
@@ -29,18 +28,10 @@
         api_host: "192.168.1.53"
         state: started
 
-    - name: Wait for Jellyfin LXC to start
-      ansible.builtin.pause:
-        minutes: 1
+    - name: Install Jellyfin in LXC
+      community.general.lxc_container:
+        name: jellyfin
+        container_command: |
+          apk add jellyfin
+          rc-update add jellyfin
 
-- name: Install Jellyfin
-  hosts: jellyfin
-
-  tasks:
-    - name: Install Jellyfin packages
-      ansible.builtin.package:
-        name:
-          - jellyfin
-          - jellyfin-web
-          - jellyfin-ffmpeg
-        state: present
