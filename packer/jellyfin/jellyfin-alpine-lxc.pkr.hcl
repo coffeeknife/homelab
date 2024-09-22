@@ -8,6 +8,7 @@ packer {
 }
 
 source "lxc" "alpine" {
+    config = "lxc.conf"
     create_options = ["--template", "download", "--dist", "alpine", "--release", "3.20", "--arch", "x86_64"]
 }
 
