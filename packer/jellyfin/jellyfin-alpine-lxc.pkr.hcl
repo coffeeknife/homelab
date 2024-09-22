@@ -10,7 +10,6 @@ packer {
 source "lxc" "alpine" {
     config_file = "lxc.conf"
     template_name = "alpine-3.20-default"
-    template_environment_vars = [""]
 }
 
 build {
