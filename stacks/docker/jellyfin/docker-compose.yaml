@@ -1,1 +1,16 @@
-version: '3' # TODO
+version: '3'
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    user: 1000:1000
+    network_mode: 'host'
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128 # pass through GPU (make sure it's attached to VMM)
+    volumes:
+      - /mnt/jellyfin/config:/config
+      - /mnt/jellyfin/cache:/cache
+      - /mnt/jellyfin/media:/media
+    restart: 'unless-stopped'
+    extra_hosts: # for docker healthcheckk
+      - 'host.docker.internal:host-gateway'
