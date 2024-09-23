@@ -11,14 +11,14 @@ fi
 
 STATUS=$(systemctl is-active jellyfin)
 
-if [$STATUS == "active"]; then
+if [STATUS == "active"]; then
   systemctl restart jellyfin
   systemctl status jellyfin
   exit 0
 else
   # create service file for jellyfin
   COMPOSEFILE= $(pwd)/docker-compose.yaml
-  echo $COMPOSEFILE
+  echo COMPOSEFILE
   #cat > /etc/systemd/system/jellyfin.service << EOF
   #[Unit]
   #Description=Jellyfin Docker Compose Stack
