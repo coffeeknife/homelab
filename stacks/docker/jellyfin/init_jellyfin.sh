@@ -17,23 +17,22 @@ else
   # create service file for jellyfin
   COMPOSEFILE= $(pwd)/docker-compose.yaml
   echo $COMPOSEFILE
-  cat > /etc/systemd/system/jellyfin.service << EOF
-  [Unit]
-  Description=Jellyfin Docker Compose Stack
-  After=docker.service
-  Requires=docker.service
+  #cat > /etc/systemd/system/jellyfin.service << EOF
+  #[Unit]
+  #Description=Jellyfin Docker Compose Stack
+  #After=docker.service
+  #Requires=docker.service
   
-  [Service]
-  Type=oneshot
-  RemainAfterExit=yes
-  ExecStart=/bin/bash -c "docker compose -f $COMPOSEFILE up --detach"
-  ExecStop=/bin/bash -c "docker compose -f $COMPOSEFILE stop"
+  #[Service]
+  #Type=oneshot
+  #RemainAfterExit=yes
+  #ExecStart=/bin/bash -c "docker compose -f $COMPOSEFILE up --detach"
+  #ExecStop=/bin/bash -c "docker compose -f $COMPOSEFILE stop"
 
-  [Install]
-  WantedBy=multi-user.target
-  EOF
+  #[Install]
+  #WantedBy=multi-user.target
+  #EOF
 
-  echo 'file made'
 fi
 
 exit 0
