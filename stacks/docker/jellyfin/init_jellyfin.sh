@@ -9,7 +9,9 @@ else
   echo 'docker already installed, skipping'
 fi
 
-if [$(systemctl is-active jellyfin) == "active"]; then
+STATUS=$(systemctl is-active jellyfin)
+
+if [$STATUS == "active"]; then
   systemctl restart jellyfin
   systemctl status jellyfin
   exit 0
