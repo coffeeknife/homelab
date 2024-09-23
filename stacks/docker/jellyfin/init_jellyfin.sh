@@ -16,6 +16,7 @@ if [$(systemctl is-active jellyfin) == "active"]; then
 else
   # create service file for jellyfin
   COMPOSEFILE="$(pwd)/docker-compose.yaml"
+  echo $COMPOSEFILE
   cat > /etc/systemd/system/jellyfin.service << EOF
   [Unit]
   Description=Jellyfin Docker Compose Stack
