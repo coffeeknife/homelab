@@ -6,7 +6,7 @@ services:
     user: 1000:1000
     network_mode: 'host'
     devices:
-      - /dev/dri/renderD128:/dev/dri/renderD128 # pass through GPU (make sure it's attached to VMM)
+      - /dev/dri:/dev/dri # pass through GPU (make sure it's attached to VMM)
     volumes:
       - /mnt/jellyfin/config:/config
       - /mnt/jellyfin/cache:/cache
