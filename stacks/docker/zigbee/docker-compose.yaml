@@ -5,8 +5,11 @@ services:
     image: koenkk/zigbee2mqtt
     volumes:
       - /mnt/zigbee/z2m:/app/data
+      - /run/udev:/run/udev:ro
     ports:
       - 80:80
+    environment:
+      - TZ=America/Chicago
     devices:
       - /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2598714-if00:/dev/ttyACM0
       # CC251
