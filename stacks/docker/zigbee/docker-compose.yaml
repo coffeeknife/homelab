@@ -1,0 +1,16 @@
+version: '3'
+services:
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt
+    volumes:
+      - /mnt/zigbee/z2m:/app/data
+    ports:
+      - 80:80
+    devices:
+      - /dev/serial/by-id/usb-dresden_elektronik_ingenieurtechnik_GmbH_ConBee_II_DE2598714-if00:/dev/ttyACM0
+      # CC251
+      #- /dev/ttyUSB_cc2531:/dev/ttyACM0
+      # CC2530 / GBAN GB2530S
+      #- /dev/ttyUSB_cc2530:/dev/ttyACM0
+    restart: always
