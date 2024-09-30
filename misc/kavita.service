@@ -11,6 +11,7 @@ ExecStart=/opt/Kavita/Kavita
 TimeoutStopSec=20
 KillMode=process
 Restart=on-failure
+AmbientCapabilities = CAP_NET_BIND_SERVICE
  
 [Install]
 WantedBy=multi-user.target
