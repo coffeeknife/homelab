@@ -6,11 +6,3 @@ hardware:
     gallifrey.wrenspace.dev:
   vars:
     ansible_user: root
-k3s:
-  hosts:
-    kube-1.wrenspace.dev:
-    kube-2.wrenspace.dev:
-    kube-3.wrenspace.dev:
-    gallifrey.wrenspace.dev:
-  vars:
-    ansible_user: root
