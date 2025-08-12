@@ -5,7 +5,7 @@ hardware:
     gunsmoke.wrenspace.dev:
     gallifrey.wrenspace.dev:
   vars:
-    ansible_user: ansible
+    ansible_user: root
 k3s:
   hosts:
     kube-1.wrenspace.dev:
@@ -13,4 +13,4 @@ k3s:
     kube-3.wrenspace.dev:
     gallifrey.wrenspace.dev:
   vars:
-    ansible_user: kube
+    ansible_user: root
