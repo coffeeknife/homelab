@@ -7,7 +7,7 @@
       apt: update_cache=yes
     
     - name: Upgrade all apt packages
-      apt: state=latest
+      apt: state=latest upgrade=yes
 
     - name: Check if a reboot is needed for Debian and Ubuntu boxes
       register: reboot_required_file
