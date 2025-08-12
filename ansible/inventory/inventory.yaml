@@ -1,0 +1,16 @@
+hardware:
+  hosts:
+    etheirys.wrenspace.dev:
+    vulcan.wrenspace.dev:
+    gunsmoke.wrenspace.dev:
+    gallifrey.wrenspace.dev:
+  vars:
+    ansible_user: ansible
+k3s:
+  hosts:
+    kube-1.wrenspace.dev:
+    kube-2.wrenspace.dev:
+    kube-3.wrenspace.dev:
+    gallifrey.wrenspace.dev:
+  vars:
+    ansible_user: kube
