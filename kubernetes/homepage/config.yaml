@@ -9,19 +9,58 @@ data:
   kubernetes.yaml: |
     mode: cluster
   
-  settings.yaml: ""
-  #settings.yaml: |
-  #  providers:
-  #    longhorn:
-  #      url: https://longhorn.my.network
+  settings.yaml: |
+    title: wrenspace.dev
+    description: robin homelab homepage
+    useEqualHeights: false
+
+    background: https://preview.redd.it/penacony-is-so-beatiful-v0-6bu10u1q2ygc1.png?auto=webp&s=025d9937a04b9b67a25793fabd5063bfa1fbbff6
+    headerStyle: clean
+    statusStyle: dot
+
+    layout: 
+      Media:
+        header: false
+        style: row 
+        columns: 4
+      Services:
+      Dev/Admin:
+      Infrastructure:
+      Monitoring:
+
+  cardBlur: xl
 
   custom.css: ""
   custom.js: ""
   bookmarks.yaml: |
     - Developer:
-        - Github:
-            - abbr: GH
-              href: https://github.com/
+      - Github:
+          - abbr: GH
+            href: https://github.com/
+
+    - Social:
+        - Matrix:
+            - abbr: MX 
+              href: https://chat.wrenspace.dev/
+        - Reddit:
+            - abbr: RE
+              href: https://reddit.com/
+
+    - Entertainment:
+        - YouTube:
+            - abbr: YT
+              href: https://youtube.com/
+
+    - Media Sourcing:
+        - Anna's Archive:
+            - abbr: AA
+              href: https://annas-archive.org/
+        - Nyaasi:
+            - abbr: NA
+              href: https://nyaa.si/
+        - EXTTO:
+            - abbr: EX
+              href: https://ext.to/
   
   services.yaml: |
     - My First Group:
