@@ -3,7 +3,8 @@ kind: Deployment
 metadata:
   name: homepage
   namespace: homepage
-  configmap.reloader.stakater.com/reload: "homepage"
+  annotations:
+    configmap.reloader.stakater.com/reload: "homepage"
   labels:
     app.kubernetes.io/name: homepage
 spec:
