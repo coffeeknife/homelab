@@ -10,6 +10,7 @@ spec:
   type: NodePort
   ports:
     - port: 3000
+      nodePort: 33000
       targetPort: http
       protocol: TCP
       name: http
