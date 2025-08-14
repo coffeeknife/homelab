@@ -28,7 +28,7 @@ data:
       Infrastructure:
       Monitoring:
 
-  cardBlur: xl
+    cardBlur: xl
 
   custom.css: ""
   custom.js: ""
