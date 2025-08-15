@@ -100,8 +100,7 @@ data:
         - Immich:
             icon: immich
             description: Camera roll backup
-            server: immich
-            container: immich_server
+            siteMonitor: https://photo.wrenspace.dev/
             href: https://photo.wrenspace.dev/
 
     - Media:
@@ -109,8 +108,7 @@ data:
             icon: jellyfin
             description: Streaming Server
             href: https://stream.wrenspace.dev/
-            server: jellyfin
-            container: jellyfin
+            siteMonitor: https://stream.wrenspace.dev/
             widget:
                 type: jellyfin
                 url: https://stream.wrenspace.dev/
