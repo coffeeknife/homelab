@@ -103,6 +103,11 @@ spec:
                 secretKeyRef:
                   name: homepage-env
                   key: pve_pass
+            - name: HOMEPAGE_VAR_ARGO_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: homepage-env
+                  key: argo_key
             - name: HOMEPAGE_VAR_CADDY_API
               valueFrom:
                 secretKeyRef:
