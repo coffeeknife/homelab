@@ -200,7 +200,8 @@ data:
             icon: argo-cd
             description: Kubernetes Continuous Delivery
             siteMonitor: https://argocd.wrenspace.dev/
-            href: https://argocd.wrenspace.dev/
+            namespace: argocd
+            app: argocd-server
             widget:
                 type: argocd
                 url: https://argocd.wrenspace.dev/
