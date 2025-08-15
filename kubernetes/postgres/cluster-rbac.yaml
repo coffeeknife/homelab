@@ -1,0 +1,9 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: db-manager
+  namespace: postgres-db
+rules:
+- apiGroups: ["postgresql.cnpg.io"]
+  resources: ["roles", "databases"]
+  verbs: ["create", "get", "list", "patch", "delete"]

@@ -1,0 +1,15 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-db
+  namespace: postgres-db
+spec:
+  instances: 2 # You requested a single server
+  primaryUpdateStrategy: unsupervised
+
+  storage:
+    size: 10Gi # Adjust storage size as needed
+
+  # Defines the default superuser for administrative access
+  superuserSecret:
+    name: postgres-superuser-secret
