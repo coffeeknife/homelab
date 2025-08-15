@@ -213,8 +213,8 @@ data:
         - Semaphore:
             icon: ansible
             description: Automation
-            siteMonitor: http://ansible.wrenspace.dev/
-            href: http://ansible.wrenspace.dev
+            siteMonitor: https://ansible.wrenspace.dev/
+            href: https://ansible.wrenspace.dev
 
     - Monitoring:
         - Uptime Kuma:
