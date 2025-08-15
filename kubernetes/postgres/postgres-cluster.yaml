@@ -4,20 +4,16 @@ metadata:
   name: postgres-db
   namespace: postgres-db
 spec:
-  instances: 2 # You requested a single server
+  instances: 3 
   primaryUpdateStrategy: unsupervised
-
   storage:
-    size: 10Gi # Adjust storage size as needed
-
-  # Defines the default superuser for administrative access
-  superuserSecret:
-    name: postgres-superuser-secret
-
+    size: 10Gi 
   managed:
     roles:
       - name: robin
         passwordSecret:
           name: admin-secret
-        privileges:
-          - LOGIN
+        login: true
+        superuser: true
+        inRoles:
+          - pg_monitor
