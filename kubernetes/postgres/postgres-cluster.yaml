@@ -13,19 +13,6 @@ spec:
   # Defines the default superuser for administrative access
   superuserSecret:
     name: postgres-superuser-secret
-  
-  serviceTemplate:
-    - metadata:
-        name: postgres-nodeport
-      spec:
-        type: NodePort
-        selector:
-          cnpg.io/cluster: postgres-db
-          cnpg.io/instanceRole: primary
-        ports:
-          - port: 5432
-            targetPort: 5432
-            nodePort: 30432 
 
   managed:
     roles:
