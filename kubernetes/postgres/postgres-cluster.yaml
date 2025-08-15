@@ -19,3 +19,5 @@ spec:
       - name: robin
         passwordSecret:
           name: admin-secret
+        privileges:
+          - LOGIN
