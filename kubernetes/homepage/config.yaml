@@ -63,20 +63,176 @@ data:
               href: https://ext.to/
   
   services.yaml: |
-    - My First Group:
-        - My First Service:
-            href: http://localhost/
-            description: Homepage is awesome
+    ---
+    # For configuration options and examples, please see:
+    # https://gethomepage.dev/configs/services/
 
-    - My Second Group:
-        - My Second Service:
-            href: http://localhost/
-            description: Homepage is the best
+    - Services:
+        - Identity Server:
+            icon: openldap
+            description: Change your password here
+            href: https://id.wrenspace.dev/
+            siteMonitor: https://id.wrenspace.dev/
+        - Nextcloud:
+            icon: nextcloud
+            description: Dropbox clone
+            href: https://drive.wrenspace.dev
+            siteMonitor: https://drive.wrenspace.dev
+        - Paperless:
+            icon: paperless-ngx
+            description: Filing cabinet
+            siteMonitor: https://file.wrenspace.dev/
+            href: https://file.wrenspace.dev/
+            widget:
+                type: paperlessngx
+                url: https://file.wrenspace.dev/
+                key: {{HOMEPAGE_VAR_PAPERLESS_KEY}}
+        - Home Assistant:
+            icon: home-assistant
+            description: Smarthome Hub
+            siteMonitor: https://home.wrenspace.dev/
+            href: https://home.wrenspace.dev/auth/oidc/redirect
+        - Vaultwarden:
+            icon: bitwarden
+            description: Password manager
+            siteMonitor: https://vault.wrenspace.dev/
+            href: https://vault.wrenspace.dev/
+        - Immich:
+            icon: immich
+            description: Camera roll backup
+            server: immich
+            container: immich_server
+            href: https://photo.wrenspace.dev/
 
-    - My Third Group:
-        - My Third Service:
-            href: http://localhost/
-            description: Homepage is 😎
+    - Media:
+        - Jellyfin:
+            icon: jellyfin
+            description: Streaming Server
+            href: https://stream.wrenspace.dev/
+            server: jellyfin
+            container: jellyfin
+            widget:
+                type: jellyfin
+                url: https://stream.wrenspace.dev/
+                key: {{HOMEPAGE_VAR_JELLYFIN_KEY}}
+                enableBlocks: true
+                enableNowPlaying: false
+        - Jellyseerr:
+            icon: jellyseerr
+            description: Jellyfin media requests
+            href: https://req.stream.wrenspace.dev/
+            siteMonitor: https://req.stream.wrenspace.dev/
+            widget:
+                type: jellyseerr
+                url: https://req.stream.wrenspace.dev/
+                key: {{HOMEPAGE_VAR_JELLYSEERR_KEY}}
+        - Komga:
+            icon: komga
+            description: Manga Server
+            href: https://manga.wrenspace.dev/
+            siteMonitor: https://manga.wrenspace.dev/
+            widget:
+                type: komga
+                url: https://manga.wrenspace.dev/
+                key: {{HOMEPAGE_VAR_KOMGA_KEY}}
+        - Audiobookshelf:
+            icon: audiobookshelf
+            description: eBook, Audiobook & Podcast Server
+            siteMonitor: https://audio.wrenspace.dev/
+            href: https://audio.wrenspace.dev/
+            widget:
+                type: audiobookshelf
+                url: https://audio.wrenspace.dev
+                key: {{HOMEPAGE_VAR_ABSHELF_KEY}}
+        - Linkwarden:
+            icon: linkwarden
+            description: Pocket-style Bookmarks/Web Archive
+            siteMonitor: https://links.wrenspace.dev/
+            href: https://links.wrenspace.dev/
+        - CommaFeed:
+            icon: commafeed
+            description: News & RSS Feed Aggregator
+            siteMonitor: https://feed.wrenspace.dev/
+            href: https://feed.wrenspace.dev/
+
+    - Dev/Admin:
+        - Gitea:
+            icon: gitea
+            description: GitHub alternative
+            href: https://git.wrenspace.dev/
+            siteMonitor: https://git.wrenspace.dev/
+        - Opengist:
+            icon: opengist
+            description: Pastebin
+            href: https://gist.wrenspace.dev/
+            siteMonitor: https://gist.wrenspace.dev/
+        - Minecraft:
+            icon: minecraft
+            description: Minecraft Server Controller
+            href: https://craft.wrenspace.dev/
+            siteMonitor: https://craft.wrenspace.dev
+        - Synapse:
+            icon: matrix
+            description: Matrix Server Admin Console
+            href: https://synapse.wrenspace.dev/
+            siteMonitor: https://synapse.wrenspace.dev/
+        - Zigbee2MQTT:
+            icon: zigbee2mqtt
+            description: Low-Frequency Radio IoT Bridge
+            href: https://iot.wrenspace.dev/
+            siteMonitor: https://iot.wrenspace.dev/
+        - VSCode:
+            icon: vscode
+            description: Development environment
+            siteMonitor: https://vs.wrenspace.dev/
+            href: https://vs.wrenspace.dev/
+
+    - Infrastructure:
+        - Etheirys:
+            icon: proxmox
+            description: VM Host
+            siteMonitor: https://pve.wrenspace.dev/
+            href: https://pve.wrenspace.dev/
+            widget:
+                type: proxmox
+                url: https://pve.wrenspace.dev/
+                username: {{HOMEPAGE_VAR_PVE_USER}}
+                password: {{HOMEPAGE_VAR_PVE_PASS}}
+        - ArgoCD:
+            icon: argo-cd
+            description: Kubernetes Continuous Delivery
+            siteMonitor: https://argocd.wrenspace.dev/
+            href: https://argocd.wrenspace.dev/
+            widget:
+                type: argocd
+                url: https://argocd.wrenspace.dev/
+                key: {{HOMEPAGE_VAR_ARGO_KEY}}
+            icon: cockpit
+            description: Unix web UI
+            siteMonitor: https://nix.wrenspace.dev/
+            href: https://nix.wrenspace.dev/
+        - Semaphore:
+            icon: ansible
+            description: Automation
+            siteMonitor: http://ansible.wrenspace.dev/
+            href: http://ansible.wrenspace.dev
+
+    - Monitoring:
+        - Uptime Kuma:
+            icon: uptime-kuma
+            description: Monitoring and alerts
+            siteMonitor: https://ping.wrenspace.dev/
+            href: https://ping.wrenspace.dev/
+            widget:
+                type: uptimekuma
+                url: https://ping.wrenspace.dev/
+                slug: gen
+        - Caddy:
+            icon: caddy
+            description: SSL/Reverse Proxy
+            widget:
+                type: caddy
+                url: {{HOMEPAGE_VAR_CADDY_API}}
   
   widgets.yaml: |
     ---
