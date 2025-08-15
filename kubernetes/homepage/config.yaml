@@ -207,6 +207,7 @@ data:
                 type: argocd
                 url: https://argocd.wrenspace.dev/
                 key: {{HOMEPAGE_VAR_ARGO_KEY}}
+        - Cockpit:
             icon: cockpit
             description: Unix web UI
             siteMonitor: https://nix.wrenspace.dev/
