@@ -1,0 +1,15 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: admin-secret
+  namespace: postgres-db
+spec:
+  unsealedData:
+    username: cm9iaW4= # robin in base64 - that's my name!
+  encryptedData:
+    password: AgBX85twFnZNygGN+Okm9klfsKzvwFjbLQn3e9PdQmRgE11RIwf++QebckMnlDe6ewgCvzSvWwtqyNMBIgnopTzOwe8ZAWvz3niiN5YZC8r1OKrqL350iikijUFiiB/N87SKYMqtImgTn2hOtqf5LpWUPuDf4guZ2dHZTloPfLXT0in3cviaa2NUfctQTbR/FqnFW6WPXwigA9eqFUNsV4QxYm5WiWU29gDS2ZXs9CMzzHG6KNmCtobpt69xFdx9x3Z+KvG4NE3oMIKt1B+BXMYRC7jBYO/cFLVM15d/Zs+UFdIwonggiXH9ZlWP9Zkuh6DqejdBWLUMHl87w4GThf0IQZcAQfBVqmHNgsA6dkiFyHV5Ak2ZstrotNLPd1b1IvEKZzD/BdNkDghmFZR+bhGTQ9A2jio8+89rfOFUq6hibE8YAo87cQdgl59BKMV43i0qHLjoDgNVb4PDiP+EyLYWKlwbVFpZf/sDDi3nWjbnqR/NE1r1O7BOPL4AX85zmz6YQZGICw9kcGh9dyR8RaFVzVd/atbqmb8IiMcPmPzxLKh3Q5kjhhzbnmAtsXRCeANW9xQor9M6dk8XXSWxZ1gA642mZR5Xe8v5ckCDUbHT27uztYfTPveT9HB9+GMRbuivKXTgY+0dIp5XVcF+2AlOaiF2kexhL4Er+PTidM4HZPyBd4poWRy8vASImpEcOjOTdcvXbgyKAUAkFw==
+  template:
+    metadata:
+      name: admin-secret
+      namespace: postgres-db
+    type: kubernetes.io/basic-auth
