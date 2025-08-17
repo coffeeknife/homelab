@@ -6,6 +6,7 @@ metadata:
   annotations:
     secret-generator.v1.mittwald.de/autogenerate: "password"
     secret-generator.v1.mittwald.de/regenerate: "true"
+    argocd.argoproj.io/sync-wave: "-1"
 type: Opaque
 ---
 apiVersion: postgresql.cnpg.io/v1
@@ -13,6 +14,8 @@ kind: Role
 metadata:
   name: lldap
   namespace: postgres-db
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
 spec:
   cluster:
     name: postgres-db
@@ -28,6 +31,8 @@ kind: Database
 metadata:
   name: lldap-db
   namespace: postgres-db
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   name: lldap-db
   owner: lldap
