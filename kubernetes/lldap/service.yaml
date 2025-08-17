@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lldap-service
+  namespace: lldap
+spec:
+  # This is where MetalLB works its magic!
+  type: LoadBalancer
+  selector:
+    app: lldap
+  ports:
+  - name: ldap
+    protocol: TCP
+    port: 3890
+    targetPort: 3890
+  - name: http
+    protocol: TCP
+    # Exposing the web UI on standard port 80
+    port: 80
+    targetPort: 17170

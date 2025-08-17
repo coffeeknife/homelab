@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lldap
+  namespace: lldap
+  labels:
+    app: lldap
+spec:
+  selector:
+    matchLabels:
+      app: lldap
+  template:
+    metadata:
+      labels:
+        app: lldap
+    spec:
+      containers:
+        - name: lldap
+          image: lldap/lldap:stable
+          ports:
+          - name: ldap
+            containerPort: 3890
+          - name: http
+            containerPort: 17170
+          env:
+            - name: LLDAP_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: lldap-secret
+                  key: jwt_secret
+            - name: LLDAP_LDAP_BASE_DN
+              valueFrom:
+                secretKeyRef:
+                  name: lldap-secret
+                  key: base_dn
+            - name: LLDAP_HTTP_URL
+              valueFrom:
+                secretKeyRef:
+                  name: lldap-secret
+                  key: http_url
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: password
+            - name: LLDAP_DATABASE_URL
+              value: mysql://lldap:$(DB_PASSWORD)@mariadb.mariadb-sys.svc.cluster.local:3306/lldap-db
+          volumeMounts:
+          - name: data
+            mountPath: /data
+          resources:
+            requests:
+              memory: 128Mi
+              cpu: 300m
+            limits:
+              memory: 256Mi
+              cpu: 500m
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: lldap-key-pvc
