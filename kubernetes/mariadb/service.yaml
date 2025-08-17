@@ -9,6 +9,7 @@ spec:
   type: NodePort
   ports:
     - port: 3306
+      nodePort: 31623
       protocol: TCP
   selector:
     app.kubernetes.io/name: mariadb
