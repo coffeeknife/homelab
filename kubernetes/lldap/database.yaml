@@ -1,0 +1,38 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: lldap-db
+  namespace: postgres-db
+spec:
+  name: lldap-db
+  owner: lldap
+  cluster:
+    name: postgres-db
+  extensions:
+  - name: bloom
+    ensure: present
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Role
+metadata:
+  name: lldap
+  namespace: postgres-db
+spec:
+  cluster:
+    name: postgres-db
+  password:
+    valueFrom:
+      secretKeyRef:
+        name: lldap-db-secret
+        key: password
+  login: true
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: lldap-db-secret
+  namespace: postgres-db
+  annotations:
+    secret-generator.v1.mittwald.de/autogenerate: "password"
+    secret-generator.v1.mittwald.de/regenerate: "true"
+type: Opaque
