@@ -3,8 +3,6 @@ kind: Database
 metadata:
   name: lldap-db
   namespace: postgres-db
-  annotations:
-    argocd.argoproj.io/sync-wave: "2"
 spec:
   name: lldap-db
   owner: lldap
