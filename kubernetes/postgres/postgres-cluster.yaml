@@ -17,3 +17,8 @@ spec:
         superuser: true
         inRoles:
           - pg_monitor
+      - name: lldap
+        passwordSecret:
+          name: lldap-db-secret
+        login: true
+        superuser: false
