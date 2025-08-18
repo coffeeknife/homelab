@@ -53,4 +53,4 @@ spec:
       kind: Rule
       services:
         - name: lldap-internal
-          port: http
+          port: 80
