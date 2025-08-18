@@ -1,9 +1,13 @@
 configMap:
   session:
-    cookies: [ { domain: 127.0.0.1 } ]
+    cookies:
+      domain: wrenspace.dev
   storage:
-    local: [ { enabled: true } ]
+    local:
+      enabled: true
   notifier:
-    filesystem: [ { enabled: true } ]
+    filesystem:
+      enabled: true
   authentication_backend:
-    file: [ { enabled: true } ]
+    file:
+      enabled: true
