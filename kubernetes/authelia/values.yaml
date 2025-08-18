@@ -28,12 +28,10 @@ secret:
 ingress:
   enabled: true
   className: "traefik"
-  # Direct properties for hosts and tls
-  hosts:
-    - auth.wrenspace.dev
+  # Host and TLS are configured at the top level of the ingress block
+  host: auth.wrenspace.dev
   tls:
-    - secretName: authelia-tls-secret
-  # Annotations are for specific ingress controller configuration
+    secretName: authelia-tls-secret
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
