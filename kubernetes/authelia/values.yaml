@@ -32,6 +32,9 @@ ingress:
     cert-manager.io/cluster-issuer: cert-issuer
   traefikCRD:
     enabled: true
-  host: auth.wrenspace.dev
-  tls:
-    secretName: authelia-tls-secret
+    entryPoints:
+      - websecure
+    matchOverride: "Host(`auth.wrenspace.dev`)"
+    tls:
+      domainsOverride:
+        - main: auth.wrenspace.dev
