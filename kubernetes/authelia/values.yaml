@@ -28,11 +28,16 @@ secret:
 ingress:
   enabled: true
   className: "traefik"
-  # Host and TLS are configured at the top level of the ingress block
-  host: auth.wrenspace.dev
-  tls:
-    secretName: authelia-tls-secret
   annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
-    cert-manager.io/cluster-issuer: cert-issuer
+  traefikCRD:
+    enabled: true
+    routes:
+      - rule: Host(`auth.wrenspace.dev`)
+        services:
+          - name: authelia
+            port: 9091
+    tls:
+      secretName: authelia-tls-secret
