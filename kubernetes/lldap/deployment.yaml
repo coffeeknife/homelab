@@ -46,7 +46,7 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - >
-              /app/lldap --http-url=${LLDAP_HTTP_URL} --ldap-base-dn=${LLDAP_LDAP_BASE_DN} --jwt-secret=${LLDAP_JWT_SECRET} --database-url=mysql://lldap:${DB_PASSWORD}@mariadb.mariadb-sys.svc.cluster.local:3306/lldap-db
+              /app/lldap run --http-url=${LLDAP_HTTP_URL} --ldap-base-dn=${LLDAP_LDAP_BASE_DN} --jwt-secret=${LLDAP_JWT_SECRET} --database-url=mysql://lldap:${DB_PASSWORD}@mariadb.mariadb-sys.svc.cluster.local:3306/lldap-db
           volumeMounts:
           - name: data
             mountPath: /data
