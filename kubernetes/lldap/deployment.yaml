@@ -25,6 +25,8 @@ spec:
           - name: ldaps
             containerPort: 6360
           env:
+            - name: LLDAP_LDAPS_OPTIONS_ENABLED
+              value: "true"
             - name: LLDAP_JWT_SECRET
               valueFrom:
                 secretKeyRef:
