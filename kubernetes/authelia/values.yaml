@@ -28,15 +28,17 @@ secret:
 ingress:
   traefikCRD:
     enabled: true
-    entryPoints:
-      - websecure
-    routes:
-      - rule: Host(`auth.wrenspace.dev`)
-        services:
-          - name: authelia
-            port:
-              number: 9091
-    tls:
-      secretName: authelia-tls-secret
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
+  routes:
+    - rule: Host(`auth.wrenspace.dev`)
+      entryPoints:
+        - websecure
+      services:
+        - name: authelia
+          port:
+            number: 9091
+  tls:
+    secretName: authelia-tls-secret
+    hosts:
+      - auth.wrenspace.dev
