@@ -24,24 +24,12 @@ spec:
             containerPort: 17170
           - name: ldaps
             containerPort: 6360
+          envFrom:
+            - configMapRef:
+                name: lldap-config
+            - secretRef:
+                name: lldap-secret
           env:
-            - name: LLDAP_LDAPS_OPTIONS_ENABLED
-              value: "true"
-            - name: LLDAP_JWT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: lldap-secret
-                  key: jwt_secret
-            - name: LLDAP_LDAP_BASE_DN
-              valueFrom:
-                secretKeyRef:
-                  name: lldap-secret
-                  key: base_dn
-            - name: LLDAP_HTTP_URL
-              valueFrom:
-                secretKeyRef:
-                  name: lldap-secret
-                  key: http_url
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
