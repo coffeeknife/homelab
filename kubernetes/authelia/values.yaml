@@ -32,11 +32,17 @@ ingress:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
     cert-manager.io/cluster-issuer: cert-issuer
-  hosts:
+  rules:
     - host: auth.wrenspace.dev
-      paths:
-        - path: /
-          pathType: Prefix
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: authelia
+                port:
+                  number: 80
   tls:
     - secretName: authelia-tls-secret
       hosts:
