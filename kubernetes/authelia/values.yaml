@@ -11,5 +11,5 @@ configMap:
   authentication_backend:
     file:
       enabled: true
-  service:
-    type: LoadBalancer
+service:
+  type: LoadBalancer
