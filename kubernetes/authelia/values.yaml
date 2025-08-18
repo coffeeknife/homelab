@@ -31,6 +31,8 @@ ingress:
   certManager: true
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
+  tls:
+    enabled: true
   traefikCRD:
     enabled: true
     entryPoints:
