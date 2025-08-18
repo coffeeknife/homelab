@@ -36,5 +36,6 @@ ingress:
       - websecure
     matchOverride: "Host(`auth.wrenspace.dev`)"
     tls:
+      certResolver: cert-issuer
       domainsOverride:
         - main: auth.wrenspace.dev
