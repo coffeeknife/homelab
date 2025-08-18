@@ -4,15 +4,15 @@ metadata:
   name: lldap
   namespace: lldap
   labels:
-    app: lldap
+    app.kubernetes.io/name: lldap
 spec:
   selector:
     matchLabels:
-      app: lldap
+      app.kubernetes.io/name: lldap
   template:
     metadata:
       labels:
-        app: lldap
+        app.kubernetes.io/name: lldap
     spec:
       containers:
         - name: lldap
