@@ -40,6 +40,8 @@ spec:
           volumeMounts:
           - name: data
             mountPath: /data
+          - name: cert
+            mountPath: /cert
           resources:
             requests:
               memory: 128Mi
@@ -51,3 +53,11 @@ spec:
       - name: data
         persistentVolumeClaim:
           claimName: lldap-key-pvc
+      - name: cert
+        secret:
+          secretName: cert
+          items:
+            - key: tls.key
+              path: tls.key
+            - key: tls.crt
+              path: tls.crt
