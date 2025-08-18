@@ -22,7 +22,9 @@ metadata:
   namespace: homepage
 spec:
   entryPoints:
-    - web
+    - websecure
+  tls:
+    secretName: cert
   routes:
     - match: Host(`wrenspace.dev`)
       kind: Rule

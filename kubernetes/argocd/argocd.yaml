@@ -19,3 +19,4 @@ data:
   #   login - allows to login using UI
   accounts.api: apiKey
   policy.default: role:readonly
+  server.insecure: "true"
