@@ -25,3 +25,18 @@ secret:
   additionalSecrets:
     lldap-auth:
       items: [ { key: password, path: authentication.ldap.password.txt } ]
+ingress:
+  enabled: true
+  className: "traefik" # or "traefik"
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  hosts:
+    - host: auth.wrenspace.dev
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: authelia-tls-secret
+      hosts:
+        - auth.wrenspace.dev
