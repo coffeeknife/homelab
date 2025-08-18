@@ -14,4 +14,4 @@ configMap:
 service:
   type: LoadBalancer
 secret:
-  existingSecret: crypto.yaml
+  existingSecret: crypto
