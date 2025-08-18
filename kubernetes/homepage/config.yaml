@@ -72,7 +72,8 @@ data:
             icon: openldap
             description: Change your password here
             href: https://id.wrenspace.dev/
-            siteMonitor: https://id.wrenspace.dev/
+            namespace: lldap
+            app: lldap
         - Nextcloud:
             icon: nextcloud
             description: Dropbox clone
