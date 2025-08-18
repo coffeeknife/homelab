@@ -18,3 +18,4 @@ data:
   #   apiKey - allows generating API keys
   #   login - allows to login using UI
   accounts.api: apiKey
+  policy.default: role:readonly
