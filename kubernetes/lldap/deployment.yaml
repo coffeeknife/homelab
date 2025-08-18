@@ -44,7 +44,7 @@ spec:
                   name: mariadb-secret
                   key: password
             - name: LLDAP_DATABASE_URL
-              value: "mysql://lldap:$(DB_PASSWORD)@mariadb.mariadb-sys.svc.cluster.local:3306/lldap-db"
+              value: "mysql://lldap:$(DB_PASSWORD)@mariadb.mariadb-sys.svc.cluster.local/lldap-db"
           volumeMounts:
           - name: data
             mountPath: /data
