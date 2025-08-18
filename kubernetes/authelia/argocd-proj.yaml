@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: authelia
+spec:
+  destination:
+    namespace: authelia
+    server: https://kubernetes.default.svc
+  sources:
+    - path: ''
+      repoURL: https://charts.authelia.com
+      targetRevision: 0.10.42
+      chart: authelia
+      helm:
+        valuesFiles:
+          - $values/kubernetes/authelia/values.yaml
+    - repoURL: https://git.wrenspace.dev/coffeeknife/homelab
+      targetRevision: HEAD
+      ref: values
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      enabled: true
+    syncOptions:
+      - CreateNamespace=true
