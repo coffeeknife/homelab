@@ -7,7 +7,7 @@ spec:
   # This is where MetalLB works its magic!
   type: LoadBalancer
   selector:
-    app: lldap
+    app.kubernetes.io/name: lldap
   ports:
   - name: ldap
     protocol: TCP
