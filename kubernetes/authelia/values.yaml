@@ -27,10 +27,11 @@ secret:
       items: [ { key: password, path: authentication.ldap.password.txt } ]
 ingress:
   enabled: true
-  className: "traefik" # or "traefik"
+  className: "traefik"
   annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
     cert-manager.io/cluster-issuer: cert-issuer
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
   hosts:
     - host: auth.wrenspace.dev
       paths:
