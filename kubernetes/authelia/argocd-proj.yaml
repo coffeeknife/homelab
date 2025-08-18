@@ -12,7 +12,7 @@ spec:
       targetRevision: 0.10.42
       chart: authelia
       helm:
-        valuesFiles:
+        valueFiles:
           - $values/kubernetes/authelia/values.yaml
     - repoURL: https://git.wrenspace.dev/coffeeknife/homelab
       targetRevision: HEAD
