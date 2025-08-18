@@ -44,6 +44,8 @@ metadata:
   name: lldap
   namespace: lldap
 spec:
+  tls:
+    secretName: cert
   entryPoints:
     - websecure
   routes:
@@ -55,5 +57,3 @@ spec:
       middlewares:
         - name: myheaders
           namespace: lldap
-  tls:
-    secretName: cert
