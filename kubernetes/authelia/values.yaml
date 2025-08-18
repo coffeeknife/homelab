@@ -39,3 +39,5 @@ ingress:
       certResolver: cert-issuer
       domainsOverride:
         - main: auth.wrenspace.dev
+  tls:
+    enabled: true
