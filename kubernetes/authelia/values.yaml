@@ -13,3 +13,5 @@ configMap:
       enabled: true
 service:
   type: LoadBalancer
+secret:
+  existingSecret: crypto.yaml
