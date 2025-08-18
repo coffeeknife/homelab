@@ -37,3 +37,23 @@ spec:
   - name: ldaps
     port: 6360
     targetPort: ldaps
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: lldap
+  namespace: lldap
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`id.wrenspace.dev`)
+      kind: Rule
+      services:
+        - name: lldap-internal
+          port: http
+      middlewares:
+        - name: myheaders
+          namespace: lldap
+  tls:
+    certResolver: cert-issuer
