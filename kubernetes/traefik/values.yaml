@@ -1,9 +1,20 @@
 ports:
+  web:
+    port: 80
+    expose: true
+    exposedPort: 80
+    protocol: TCP
+  websecure:
+    port: 443
+    expose: true
+    exposedPort: 443
+    protocol: TCP
   ldaps:
     port: 636
-    expose: "true"
+    expose: true
     exposedPort: 636
     protocol: TCP
 
+# Add your additional arguments here
 additionalArguments:
   - "--entrypoints.ldaps.address=:636"
