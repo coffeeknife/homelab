@@ -26,19 +26,4 @@ secret:
     lldap-auth:
       items: [ { key: password, path: authentication.ldap.password.txt } ]
 ingress:
-  enabled: true
-  className: "traefik"
-  certManager: true
-  annotations:
-    cert-manager.io/cluster-issuer: cert-issuer
-  tls:
-    enabled: true
-  traefikCRD:
-    enabled: true
-    entryPoints:
-      - websecure
-    matchOverride: "Host(`auth.wrenspace.dev`)"
-    tls:
-      certResolver: cert-issuer
-      domainsOverride:
-        - main: auth.wrenspace.dev
+  enabled: false
