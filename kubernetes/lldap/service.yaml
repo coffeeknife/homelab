@@ -56,4 +56,4 @@ spec:
         - name: myheaders
           namespace: lldap
   tls:
-    certResolver: cert-issuer
+    secretName: cert
