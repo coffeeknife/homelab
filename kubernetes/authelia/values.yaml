@@ -12,7 +12,7 @@ configMap:
     ldap:
       enabled: true
       implementation: lldap
-      address: ldaps://lldap-internal.lldap.svc.cluster.local:6360
+      address: ldaps://id.wrenspace.dev
       base_dn: DC=wrenspace,DC=dev
       user: UID=search,OU=people,DC=wrenspace,DC=dev
       password: { secret_name: lldap-auth }
