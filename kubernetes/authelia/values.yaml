@@ -9,9 +9,17 @@ configMap:
     filesystem:
       enabled: true
   authentication_backend:
-    file:
+    ldap:
       enabled: true
+      implementation: lldap
+      address: ldaps://id.wrenspace.dev
+      base_dn: DC=wrenspace,DC=dev
+      user: UID=search,OU=people,DC=wrenspace,DC=dev
+      password: { secret_name: lldap-auth }
 service:
   type: LoadBalancer
 secret:
   existingSecret: crypto
+  additionalSecrets:
+    lldap-creds:
+      items: [ { key: password, path: authentication.ldap.password.txt } ]
