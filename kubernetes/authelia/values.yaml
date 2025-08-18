@@ -26,19 +26,15 @@ secret:
     lldap-auth:
       items: [ { key: password, path: authentication.ldap.password.txt } ]
 ingress:
-  traefikCRD:
-    enabled: true
-  annotations:
-    cert-manager.io/cluster-issuer: cert-issuer
-  routes:
-    - rule: Host(`auth.wrenspace.dev`)
-      entryPoints:
-        - websecure
-      services:
-        - name: authelia
-          port:
-            number: 9091
+  enabled: true
+  className: "traefik"
+  # Direct properties for hosts and tls
+  hosts:
+    - auth.wrenspace.dev
   tls:
-    secretName: authelia-tls-secret
-    hosts:
-      - auth.wrenspace.dev
+    - secretName: authelia-tls-secret
+  # Annotations are for specific ingress controller configuration
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    cert-manager.io/cluster-issuer: cert-issuer
