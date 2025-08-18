@@ -14,7 +14,3 @@ spec:
   usages:
     - digital signature
     - key encipherment
-  secretTemplate:
-    metadata:
-      annotations:
-        cert-manager.io/disable-auto-secret-name: "true"
