@@ -17,6 +17,3 @@ ports:
       default: true
     exposedPort: 636
     protocol: TCP
-
-additionalArguments:
-  - "--entrypoints.ldaps.address=:636"
