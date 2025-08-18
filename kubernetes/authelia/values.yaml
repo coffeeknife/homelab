@@ -30,14 +30,8 @@ ingress:
   className: "traefik"
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
   traefikCRD:
     enabled: true
-    routes:
-      - rule: Host(`auth.wrenspace.dev`)
-        services:
-          - name: authelia
-            port: 9091
-    tls:
-      secretName: authelia-tls-secret
+  host: auth.wrenspace.dev
+  tls:
+    secretName: authelia-tls-secret
