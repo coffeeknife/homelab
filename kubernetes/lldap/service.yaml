@@ -54,6 +54,3 @@ spec:
       services:
         - name: lldap-internal
           port: http
-      middlewares:
-        - name: myheaders
-          namespace: lldap
