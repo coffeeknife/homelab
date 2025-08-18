@@ -4,4 +4,4 @@ metadata:
   name: lldap-config
   namespace: lldap
 data:
-  LLDAP_LLDAP_LDAPS_OPTIONS_ENABLED: 'true'
+  LLDAP_LDAPS_OPTIONS__ENABLED: 'true'
