@@ -68,5 +68,3 @@ spec:
       services:
         - name: lldap-internal
           port: ldaps
-  tls:
-    secretName: cert
