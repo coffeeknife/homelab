@@ -1,7 +1,7 @@
 configMap:
   session:
-    cookies:
-      domain: wrenspace.dev
+    cookies: 
+      - domain: wrenspace.dev
   storage:
     local:
       enabled: true
