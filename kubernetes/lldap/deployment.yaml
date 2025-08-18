@@ -22,6 +22,8 @@ spec:
             containerPort: 3890
           - name: http
             containerPort: 17170
+          - name: ldaps
+            containerPort: 6360
           env:
             - name: LLDAP_JWT_SECRET
               valueFrom:
