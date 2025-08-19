@@ -42,7 +42,7 @@ metadata:
   namespace: lldap
 spec:
   tls:
-    secretName: cert
+    passthrough: true
   entryPoints:
     - ldaps
   routes:
