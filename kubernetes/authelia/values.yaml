@@ -18,11 +18,42 @@ configMap:
       password: { secret_name: lldap-auth }
       tls:
         server_name: 'id.wrenspace.dev'
+  identity_providers:
+    oidc:
+      enabled: true
+      jwks:
+        - key_id: default
+          algorithm: RS256
+          use: sig
+          key: { path: /secrets/jwk-rsa/private.pem }
+      cors:
+        endpoints: [ userinfo, authorization, token, revocation, introspection ]
+        allowed_origins_from_client_redirect_uris: true
+      claims_policies:
+        legacy:
+          id_token: [ email, email_verified, alt_emails, name, preferred_username, groups ]
+      clients: # test client
+        - client_id: public_client
+          client_name: Public Test Client
+          public: true
+          pre_configured_consent_duration: 3 months
+          authorization_policy: one_factor
+          require_pkce: false
+          redirect_uris: [ http://localhost:8080/callback ]
+          claims_policy: legacy
+          scopes: [ openid, email, profile, groups ]
+          grant_types: [ implicit ]
+          response_types: [ id_token ]
+          revocation_endpoint_auth_method: none
+          introspection_endpoint_auth_method: none
+          pushed_authorization_request_endpoint_auth_method: none
 service:
   type: LoadBalancer
 secret:
   existingSecret: crypto
   additionalSecrets:
+    jwk-rsa:
+      items: [ { key: private.pem, path: private.pem } ]
     lldap-auth:
       items: [ { key: password, path: authentication.ldap.password.txt } ]
 ingress:
