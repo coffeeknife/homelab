@@ -1,0 +1,92 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nextcloud
+  namespace: external-ingress
+spec:
+  dnsNames:
+    - drive.wrenspace.dev
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: cert-issuer
+  secretName: nextcloud
+  usages:
+    - digital signature
+    - key encipherment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nextcloud
+  namespace: external-ingress
+spec:
+  ports:
+  - name: app
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  clusterIP: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: nextcloud
+  namespace: external-ingress
+subsets:
+- addresses:
+  - ip: 192.168.1.69
+  ports:
+  - name: app
+    port: 80
+    protocol: TCP
+---
+# Middleware to handle the permanent redirects (301)
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-redirects
+  namespace: external-ingress
+spec:
+  redirectRegex:
+    regex: "^https?://drive\\.wrenspace\\.dev/(?:\\.well-known/carddav|\\.well-known/caldav)$"
+    replacement: "https://drive.wrenspace.dev/remote.php/dav"
+    permanent: true
+---
+# Middleware to handle the custom security headers
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: nextcloud-headers
+  namespace: external-ingress
+spec:
+  headers:
+    customResponseHeaders:
+      X-Content-Type-Options: "nosniff"
+      X-Xss-Protection: "1; mode=block"
+      X-Robots-Tag: "noindex, nofollow"
+      X-Frame-Options: "SAMEORIGIN"
+      Referrer-Policy: "no-referrer"
+      Strict-Transport-Security: "max-age=15552000"
+---
+# IngressRoute updated to use the new middlewares
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nextcloud
+  namespace: external-ingress
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`drive.wrenspace.dev`)
+      middlewares:
+        - name: nextcloud-redirects
+        - name: nextcloud-headers
+      services:
+        - name: nextcloud
+          port: 80
+  tls:
+    secretName: nextcloud
