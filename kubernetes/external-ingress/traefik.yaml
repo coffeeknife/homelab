@@ -42,5 +42,6 @@ spec:
       services:
         - name: traefik-dashboard
           port: 9000
+          scheme: http
   tls:
     secretName: traefik-dashboard-tls
