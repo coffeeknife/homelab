@@ -43,6 +43,14 @@ subsets:
     protocol: TCP
 ---
 apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: pve-transport
+  namespace: external-ingress
+spec:
+  insecureSkipVerify: true
+---
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: pve
@@ -53,10 +61,11 @@ spec:
   routes:
     - kind: Rule
       match: Host(`pve.wrenspace.dev`)
+      middlewares:
+        - name: pve-ip-whitelist@kubernetescrd
       services:
         - name: pve
           port: 8006
-          serversTransport:
-            insecureSkipVerify: true
+          serversTransport: pve-transport@kubernetescrd
   tls:
     secretName: pve
