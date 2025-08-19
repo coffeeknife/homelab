@@ -1,0 +1,60 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: immich
+  namespace: external-ingress
+spec:
+  dnsNames:
+    - photo.wrenspace.dev
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: cert-issuer
+  secretName: immich
+  usages:
+    - digital signature
+    - key encipherment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: immich
+  namespace: external-ingress
+spec:
+  ports:
+  - name: app
+    port: 80
+    protocol: TCP
+    targetPort: 2283
+  clusterIP: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: immich
+  namespace: external-ingress
+subsets:
+- addresses:
+  - ip: 192.168.200.34
+  ports:
+  - name: app
+    port: 2283
+    protocol: TCP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: immich
+  namespace: external-ingress
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`photo.wrenspace.dev`)
+      services:
+        - name: immich
+          port: 80
+  tls:
+    secretName: immich
