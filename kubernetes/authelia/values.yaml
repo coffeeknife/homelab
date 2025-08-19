@@ -3,7 +3,7 @@ configMap:
     name: authelia_session
     same_site: lax
     cookies: 
-      - domain: auth.wrenspace.dev
+      - domain: wrenspace.dev
         authelia_url: https://auth.wrenspace.dev
         default_redirection_url: https://wrenspace.dev
   storage:
