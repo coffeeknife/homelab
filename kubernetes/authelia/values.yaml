@@ -15,6 +15,7 @@ configMap:
       enabled: true
       implementation: lldap
       address: ldaps://lldap-internal.lldap.svc.cluster.local:6360
+      timeout: 5s
       base_dn: DC=wrenspace,DC=dev
       user: UID=search,OU=people,DC=wrenspace,DC=dev
       password: { secret_name: lldap-auth }
