@@ -41,6 +41,8 @@ metadata:
   name: lldap-ldaps
   namespace: lldap
 spec:
+  tls:
+    secretName: cert
   entryPoints:
     - ldaps
   routes:
