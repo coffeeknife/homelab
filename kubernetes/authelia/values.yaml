@@ -75,6 +75,9 @@ configMap:
             - 'picture'
           userinfo_signed_response_alg: 'none'
           token_endpoint_auth_method: 'client_secret_basic'
+          claims_policies:
+            openid:
+              preferred_username: "uid"
 
 service:
   type: LoadBalancer
