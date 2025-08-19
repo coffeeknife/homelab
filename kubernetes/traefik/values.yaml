@@ -7,4 +7,4 @@ ports:
     protocol: TCP
 dashboard:
   enable: true
-  ingressRoute: false
+  ingressRoute: true
