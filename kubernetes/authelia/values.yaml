@@ -1,5 +1,7 @@
 configMap:
   session:
+    name: authelia_session
+    same_site: lax
     cookies: 
       - domain: wrenspace.dev
   storage:
