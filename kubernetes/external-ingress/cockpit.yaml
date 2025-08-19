@@ -49,6 +49,8 @@ metadata:
   namespace: external-ingress
 spec:
   insecureSkipVerify: true
+  # Added 'https' to ensure Traefik speaks the correct protocol to the Cockpit backend.
+  scheme: https
 ---
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
