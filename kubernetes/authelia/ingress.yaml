@@ -1,0 +1,32 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: authelia-secure
+  namespace: authelia
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`auth.wrenspace.dev`)
+      kind: Rule
+      services:
+        - name: authelia
+          port: 9091
+          scheme: http
+  tls:
+    secretName: authelia-tls-cert
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: authelia-tls-secret
+  namespace: authelia
+spec:
+  secretName: authelia-tls-secret
+  issuerRef:
+    name: cert-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - auth.wrenspace.dev
