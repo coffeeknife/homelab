@@ -4,7 +4,7 @@ configMap:
       - domain: wrenspace.dev
   storage:
     local:
-      enabled: false
+      enabled: true
   notifier:
     filesystem:
       enabled: true

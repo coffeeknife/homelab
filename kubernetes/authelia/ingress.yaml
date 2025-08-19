@@ -15,6 +15,7 @@ spec:
         - name: authelia
           port: 80
           scheme: http
+          passHostHeader: true
   tls:
     secretName: authelia-tls-secret
 ---
