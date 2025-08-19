@@ -1,11 +1,12 @@
 configMap:
-  session:
-    domain: wrenspace.dev
-    cookies: 
-      - domain: wrenspace.dev
+  configuration:
+    session:
+      domain: wrenspace.dev
+      cookies:
+        - domain: wrenspace.dev
   storage:
     local:
-      enabled: true
+      enabled: false
   notifier:
     filesystem:
       enabled: true
