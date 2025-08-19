@@ -5,7 +5,6 @@ configMap:
     cookies: 
       - domain: wrenspace.dev
         authelia_url: https://auth.wrenspace.dev
-        default_redirection_url: https://wrenspace.dev
   storage:
     local:
       enabled: true
