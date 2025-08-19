@@ -64,6 +64,6 @@ spec:
       services:
         - name: pve
           port: 8006
-          serversTransport: pve-transport@kubernetescrd
+          serversTransport: pve-transport
   tls:
     secretName: pve
