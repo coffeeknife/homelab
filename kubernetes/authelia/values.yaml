@@ -11,6 +11,8 @@ configMap:
   notifier:
     filesystem:
       enabled: true
+  access_control:
+    default_policy: 'one_factor'
   authentication_backend:
     ldap:
       enabled: true
