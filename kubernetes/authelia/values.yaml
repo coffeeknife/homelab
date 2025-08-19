@@ -39,7 +39,7 @@ configMap:
         - client_id: gitea
           client_name: Gitea
           client_secret: { path: /secrets/client-secrets/gitea.secret.txt }
-          public: true
+          public: false
           authorization_policy: 'one_factor'
           require_pkce: false
           redirect_uris:
