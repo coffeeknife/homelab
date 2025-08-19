@@ -16,7 +16,7 @@ spec:
           port: 9091
           scheme: http
   tls:
-    secretName: authelia-tls-cert
+    secretName: authelia-tls-secret
 ---
 apiVersion: cert-manager.io/v1
 kind: Certificate
