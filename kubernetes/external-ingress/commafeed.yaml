@@ -36,7 +36,7 @@ metadata:
   namespace: external-ingress
 subsets:
 - addresses:
-  - ip: 192.168.100.44
+  - ip: 192.168.200.44
   ports:
   - name: app
     port: 8082
