@@ -101,7 +101,6 @@ configMap:
           client_secret: { path: /secrets/client-secrets/jellyfin.secret.txt }
           redirect_uris:
             - 'https://stream.wrenspace.dev/sso/OID/redirect/authelia'
-            - 'https://stream.wrenspace.dev/auth/oidc/callback'
           authorization_policy: 'one_factor'
           public: false
           require_pkce: false
@@ -109,6 +108,7 @@ configMap:
             - 'openid'
             - 'profile'
             - 'email'
+            - 'groups'
           response_types:
             - 'code'
           grant_types:
