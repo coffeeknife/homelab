@@ -78,6 +78,24 @@ configMap:
           claims_policies:
             openid:
               preferred_username: "uid"
+        
+        - client_id: 'komga'
+          client_secret: { path: /secrets/client-secrets/komga.secret.txt }
+          require_pkce: false
+          authorization_policy: 'one_factor'
+          redirect_uris:
+            - 'https://manga.wrenspace.dev/login/oauth2/code/authelia'
+          scopes:
+            - 'openid'
+            - 'profile'
+            - 'email'
+          response_types:
+            - 'code'
+          grant_types:
+            - 'authorization_code'
+          access_token_signed_response_alg: 'none'
+          userinfo_signed_response_alg: 'none'
+          token_endpoint_auth_method: 'client_secret_basic'
 
 service:
   type: LoadBalancer
@@ -94,5 +112,7 @@ secret:
           path: gitea.secret.txt
         - key: paperless
           path: paperless.secret.txt
+        - key: komga
+          path: komga.secret.txt
 ingress:
   enabled: false
