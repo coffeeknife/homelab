@@ -5,3 +5,6 @@ ports:
       default: true
     exposedPort: 636
     protocol: TCP
+dashboard:
+  enable: true
+  ingressRoute: false
