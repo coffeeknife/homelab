@@ -1,0 +1,60 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: audiobookshelf
+  namespace: external-ingress
+spec:
+  dnsNames:
+    - audio.wrenspace.dev
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: cert-issuer
+  secretName: audiobookshelf
+  usages:
+    - digital signature
+    - key encipherment
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: audiobookshelf
+  namespace: external-ingress
+spec:
+  ports:
+  - name: app
+    port: 80
+    protocol: TCP
+    targetPort: 13378
+  clusterIP: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: audiobookshelf
+  namespace: external-ingress
+subsets:
+- addresses:
+  - ip: 192.168.100.171
+  ports:
+  - name: app
+    port: 13378
+    protocol: TCP
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: audiobookshelf
+  namespace: external-ingress
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`audio.wrenspace.dev`)
+      services:
+        - name: audiobookshelf
+          port: 80
+  tls:
+    secretName: audiobookshelf
