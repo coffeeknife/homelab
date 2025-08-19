@@ -1,5 +1,4 @@
 configMap:
-  domain: wrenspace.dev
   session:
     cookies: 
       - domain: wrenspace.dev
