@@ -117,11 +117,11 @@ configMap:
           token_endpoint_auth_method: 'client_secret_post' 
           token_endpoint_auth_signing_alg: 'RS256'
           request_object_signing_alg: 'RS256'
-          authorization_signed_response_alg: 'none'
+          authorization_signed_response_alg: 'RS256'
           id_token_signed_response_alg: 'RS256' 
-          access_token_signed_response_alg: 'none'
-          userinfo_signed_response_alg: 'none' 
-          introspection_signed_response_alg: 'none'
+          access_token_signed_response_alg: 'RS256'
+          userinfo_signed_response_alg: 'RS256' 
+          introspection_signed_response_alg: 'RS256'
           jwks_uri: 'https://stream.wrenspace.dev/jwks.json'
 
 service:
