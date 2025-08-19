@@ -46,7 +46,7 @@ spec:
   entryPoints:
     - ldaps
   routes:
-    - match: HostSNI(`*`)
+    - match: HostSNI(`id.wrenspace.dev`)
       services:
         - name: lldap-internal
           port: ldaps
