@@ -101,6 +101,7 @@ configMap:
           client_secret: { path: /secrets/client-secrets/jellyfin.secret.txt }
           redirect_uris:
             - 'https://stream.wrenspace.dev/sso/OID/redirect/authelia'
+            - 'https://stream.nest.internal/sso/OID/redirect/authelia'
           authorization_policy: 'one_factor'
           public: false
           require_pkce: false
