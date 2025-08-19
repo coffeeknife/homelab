@@ -59,6 +59,10 @@ configMap:
 
 service:
   type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 9091
 secret:
   existingSecret: crypto
   additionalSecrets:
