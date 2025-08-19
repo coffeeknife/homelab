@@ -1,3 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: traefik-dashboard
+  namespace: traefik
+spec:
+  dnsNames:
+    - traefik.wrenspace.dev
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: cert-issuer
+  secretName: traefik-dashboard-tls
+  usages:
+    - digital signature
+    - key encipherment
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -25,3 +42,5 @@ spec:
       services:
         - name: traefik-dashboard
           port: 9000
+  tls:
+    secretName: traefik-dashboard-tls
