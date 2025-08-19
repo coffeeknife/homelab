@@ -228,12 +228,11 @@ data:
                 type: uptimekuma
                 url: https://ping.wrenspace.dev/
                 slug: gen
-        - Caddy:
-            icon: caddy
-            description: SSL/Reverse Proxy
-            widget:
-                type: caddy
-                url: {{HOMEPAGE_VAR_CADDY_API}}
+        - Traefik:
+            icon: traefik
+            description: Web and TCP routing
+            siteMonitor: https://traefik.wrenspace.dev/dashboard/
+            href: https://traefik.wrenspace.dev/dashboard/
   
   widgets.yaml: |
     ---
