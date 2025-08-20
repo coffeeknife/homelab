@@ -120,7 +120,7 @@ configMap:
 
         - client_id: linkwarden
           client_name: Linkwarden
-          client_secret: { /secrets/client-secrets/linkwarden.secret.txt }
+          client_secret: { path: /secrets/client-secrets/linkwarden.secret.txt }
           public: false
           authorization_policy: one_factor
           consent_mode: implicit
