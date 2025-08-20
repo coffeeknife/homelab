@@ -118,6 +118,28 @@ configMap:
           userinfo_signed_response_alg: 'RS256'
           token_endpoint_auth_method: 'client_secret_post'
 
+        - client_id: 'audiobookshelf'
+          client_secret: { path: /secrets/client-secrets/audiobookshelf.secret.txt }
+          authorization_policy: 'one_factor'
+          require_pkce: false
+          redirect_uris:
+            - 'https://audio.wrenspace.dev/audiobookshelf/auth/openid/callback'
+            - 'https://audio.wrenspace.dev/audiobookshelf/auth/openid/mobile-redirect'
+            - 'audiobookshelf://oauth'
+          scopes:
+            - 'openid'
+            - 'profile'
+            - 'groups'
+            - 'picture'
+            - 'email'
+          response_types:
+            - 'code'
+          grant_types:
+            - 'authorization_code'
+          access_token_signed_response_alg: 'none'
+          userinfo_signed_response_alg: 'none'
+          token_endpoint_auth_method: 'client_secret_basic'
+
 service:
   type: LoadBalancer
 secret:
@@ -137,5 +159,7 @@ secret:
           path: komga.secret.txt
         - key: jellyfin
           path: jellyfin.secret.txt
+        - key: audiobookshelf
+          path: audiobookshelf.secret.txt
 ingress:
   enabled: false
