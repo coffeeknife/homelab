@@ -118,7 +118,20 @@ configMap:
           userinfo_signed_response_alg: 'RS256'
           token_endpoint_auth_method: 'client_secret_post'
 
-        
+        - client_id: linkwarden
+          client_name: Linkwarden
+          client_secret: { /secrets/client-secrets/linkwarden.secret.txt }
+          public: false
+          authorization_policy: one_factor
+          consent_mode: implicit
+          scopes:
+            - openid
+            - groups
+            - email
+            - profile
+          redirect_uris:
+            - https://links.wrenspace.dev/api/v1/auth/callback/authelia
+          userinfo_signed_response_alg: none
 
 service:
   type: LoadBalancer
@@ -139,5 +152,7 @@ secret:
           path: komga.secret.txt
         - key: jellyfin
           path: jellyfin.secret.txt
+        - key: linkwarden
+          path: linkwarden.secret.txt
 ingress:
   enabled: false
