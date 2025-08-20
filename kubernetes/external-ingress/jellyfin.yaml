@@ -43,6 +43,20 @@ subsets:
     protocol: TCP
 ---
 apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: jellyfin-headers
+  namespace: external-ingress
+spec:
+  headers:
+    customRequestHeaders:
+      X-Forwarded-Host: "Host"
+      X-Forwarded-Proto: "https"
+      X-Forwarded-For: "RemoteAddr"
+      Upgrade: "websocket"
+      Connection: "Upgrade"
+---
+apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: jellyfin
@@ -56,5 +70,7 @@ spec:
       services:
         - name: jellyfin
           port: 80
+      middlewares:
+        - name: jellyfin-headers
   tls:
     secretName: jellyfin
