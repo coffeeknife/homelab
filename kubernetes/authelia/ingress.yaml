@@ -18,16 +18,3 @@ spec:
           passHostHeader: true
   tls:
     secretName: authelia-tls-secret
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: authelia-tls-secret
-  namespace: authelia
-spec:
-  secretName: authelia-tls-secret
-  issuerRef:
-    name: cert-issuer
-    kind: ClusterIssuer
-  dnsNames:
-    - auth.wrenspace.dev
