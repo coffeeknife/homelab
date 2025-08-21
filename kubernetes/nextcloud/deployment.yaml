@@ -30,8 +30,8 @@ spec:
             - configMapRef:
                 name: nextcloud-config
           volumeMounts:
-            - mountPath: /var/www/html
-              name: nextcloud-config
+            #- mountPath: /var/www/html
+            #  name: nextcloud-config
             - mountPath: /var/www/html/data
               name: nextcloud-nfs-data
           resources:
