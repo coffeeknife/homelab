@@ -45,7 +45,7 @@ metadata:
   namespace: nextcloud
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.middlewares: nextcloud-redir@kubernetescrd, nextcloud-headers@kubernettescrd
+    traefik.ingress.kubernetes.io/router.middlewares: nextcloud-redir@kubernetescrd, nextcloud-headers@kubernetescrd
     cert-manager.io/cluster-issuer: cert-issuer
 spec:
   rules:
