@@ -78,7 +78,8 @@ data:
             icon: nextcloud
             description: Dropbox clone
             href: https://drive.wrenspace.dev
-            siteMonitor: https://drive.wrenspace.dev
+            namespace: nextcloud
+            app: nextcloud
         - Paperless:
             icon: paperless-ngx
             description: Filing cabinet
