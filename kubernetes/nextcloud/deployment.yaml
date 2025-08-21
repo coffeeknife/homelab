@@ -30,8 +30,8 @@ spec:
             - configMapRef:
                 name: nextcloud-config
           volumeMounts:
-            #- mountPath: /var/www/html
-            #  name: nextcloud-config
+            - mountPath: /var/www/html
+              name: nextcloud-config
             - mountPath: /var/www/html/data
               name: nextcloud-nfs-data
           resources:
@@ -41,10 +41,10 @@ spec:
             limits:
               memory: 1Gi
               cpu: "2"
-          readinessProbe:
-            exec:
-              command:
-                - curl -sSf 'http://localhost/status.php' | grep '"installed":true' | grep '"maintenance":false' | grep '"needsDbUpgrade":false' || exit 1
+          #readinessProbe:
+          #  exec:
+          #    command:
+          #      - curl -sSf 'http://localhost/status.php' | grep '"installed":true' | grep '"maintenance":false' | grep '"needsDbUpgrade":false' || exit 1
         - name: redis
           image: redis
           args: ["--requirepass", "$(REDIS_HOST_PASSWORD)"]
