@@ -17,6 +17,9 @@ spec:
       containers:
         - name: nextcloud
           image: nextcloud
+          securityContext:
+            runAsUser: 999
+            runAsGroup: 992
           ports:
             - name: http
               containerPort: 80
