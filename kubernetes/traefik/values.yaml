@@ -8,3 +8,6 @@ ports:
 dashboard:
   enable: true
   ingressRoute: true
+providers:
+  kubernetesCRD:
+    allowCrossNamespace: true
