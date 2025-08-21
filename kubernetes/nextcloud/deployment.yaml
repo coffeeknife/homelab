@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud
+  namespace: nextcloud
+  labels:
+    app.kubernetes.io/name: nextcloud
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: nextcloud
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: nextcloud
+    spec:
+      containers:
+        - name: nextcloud
+          image: nextcloud
+          ports:
+            - name: http
+              containerPort: 80
+          envFrom:
+            - secretRef:
+                name: nextcloud-db-secret
+            - secretRef:
+                name: nextcloud-redis-secret
+            - secretRef:
+                name: nextcloud-admin-secret
+            - configMapRef:
+                name: nextcloud-config
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: nextcloud-config
+            - mountPath: /var/www/html/data
+              name: nextcloud-nfs-data
+          resources:
+            requests:
+              memory: 512Mi
+              cpu: "1"
+            limits:
+              memory: 1Gi
+              cpu: "2"
+          readinessProbe:
+            exec:
+              command:
+                - curl -sSf 'http://localhost/status.php' | grep '"installed":true' | grep '"maintenance":false' | grep '"needsDbUpgrade":false' || exit 1
+        - name: redis
+          image: redis
+          args: ["--requirepass", "$(REDIS_HOST_PASSWORD)"]
+          ports:
+            - name: redis
+              containerPort: 6379
+          envFrom:
+            - secretRef:
+                name: nextcloud-redis-secret
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 200m
+              memory: 512Mi
+      volumes:
+        - name: nextcloud-config
+          persistentVolumeClaim:
+            claimName: nextcloud-config
+        - name: nextcloud-nfs-data
+          nfs:
+            path: /mnt/birdpool/drive
+            server: 192.168.1.69
