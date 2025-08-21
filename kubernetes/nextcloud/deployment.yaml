@@ -36,6 +36,7 @@ spec:
               name: nextcloud-config
             - mountPath: /var/www/html/data
               name: nextcloud-nfs-data
+              subPath: nextcloud
           resources:
             requests:
               memory: 512Mi
