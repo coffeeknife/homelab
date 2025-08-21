@@ -18,6 +18,8 @@ spec:
         - name: nextcloud
           image: nextcloud
           securityContext:
+            allowPrivilegeEscalation: true
+            runAsUser: 999
             runAsGroup: 992
           ports:
             - name: http
@@ -36,7 +38,6 @@ spec:
               name: nextcloud-config
             - mountPath: /var/www/html/data
               name: nextcloud-nfs-data
-              subPath: nextcloud
           resources:
             requests:
               memory: 512Mi
