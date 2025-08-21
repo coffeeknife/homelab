@@ -231,7 +231,8 @@ data:
         - Traefik:
             icon: traefik
             description: Web and TCP routing
-            siteMonitor: https://traefik.wrenspace.dev/dashboard/
+            namespace: traefik
+            app: traefik
             href: https://traefik.wrenspace.dev/dashboard/
         - Longhorn:
             icon: longhorn
