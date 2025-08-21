@@ -237,7 +237,7 @@ data:
             icon: longhorn
             description: Distributed Kubernetes storage
             namespace: longhorn-system
-            app: longhorn-frontend
+            app: longhorn-ui
             href: https://longhorn.wrenspace.dev/
 
   widgets.yaml: |
