@@ -6,7 +6,20 @@ nextcloud:
     usernameKey: username
     passwordKey: password
   defaultConfigs:
+    .htaccess: true
     imaginary.config.php: true
+    autoconfig.php: true
+    redis.config.php: true
+    upgrade-disable-web.config.php: true
+  extraVolumes:
+    - name: nextcloud-data
+      nfs:
+        server: 192.168.1.69
+        path: /mnt/birdpool/drive
+  extraVolumeMounts:
+    - name: nextcloud-data
+      mountPath: /var/www/html/data
+
 
 internalDatabase:
   enabled: false
