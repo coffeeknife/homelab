@@ -108,5 +108,4 @@ service:
 persistence:
   enabled: true
   nextcloudData:
-    enabled: true
-    size: 60Gi
+    enabled: false
