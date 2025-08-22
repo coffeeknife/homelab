@@ -47,7 +47,7 @@ collabora:
     aliasgroups:
       - host: "https://drive.wrenspace.dev:443"
     extra_params: --o:ssl.enable=false --o:ssl.termination=true
-    server_name: docs.wrenspace.dev
+    server_name: "docs.wrenspace.dev"
     existingSecret:
       enabled: true
       secretName: admin-secret
