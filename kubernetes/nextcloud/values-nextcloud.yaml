@@ -24,7 +24,7 @@ nextcloud:
   extraVolumeMounts:
     - mountPath: /drive
       name: drive-nfs
-  datadir: /drive
+  datadir: /drive/nextcloud # premade folder inside nfs mount
 
 internalDatabase:
   enabled: false
