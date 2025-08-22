@@ -16,7 +16,6 @@ nextcloud:
               0 => 'drive.wrenspace.dev'
             )
         );
-
   extraVolumes:
     - name: drive-nfs
       nfs:
@@ -25,6 +24,7 @@ nextcloud:
   extraVolumeMounts:
     - mountPath: /drive
       name: drive-nfs
+  datadir: /drive
 
 internalDatabase:
   enabled: false
