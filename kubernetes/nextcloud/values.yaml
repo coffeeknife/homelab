@@ -49,20 +49,20 @@ collabora:
       secretName: admin-secret
       usernameKey: username
       passwordKey: password
-    ingress:
-      className: traefik
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: cert-issuer
-        kubernetes.io/ingress.class: traefik
-      hosts:
-        - host: docs.wrenspace.com
-          paths:
-            - /
-      tls:
-        - hosts:
-            - docs.wrenspace.dev
-          secretName: nextcloud-tls
+  ingress:
+    className: traefik
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: cert-issuer
+      kubernetes.io/ingress.class: traefik
+    hosts:
+      - host: docs.wrenspace.com
+        paths:
+          - /
+    tls:
+      - hosts:
+          - docs.wrenspace.dev
+        secretName: nextcloud-tls
 
 
 imaginary:
