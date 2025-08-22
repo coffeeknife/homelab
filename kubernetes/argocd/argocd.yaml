@@ -20,3 +20,4 @@ data:
   accounts.api: apiKey
   policy.default: role:readonly
   server.insecure: "true"
+  kustomize.buildOptions: "--enable-helm"
