@@ -40,9 +40,6 @@ redis:
 
 collabora:
   enabled: true
-  collabora:
-    aliasgroups:
-      - "https://drive.wrenspace.dev"
 
 imaginary:
   enabled: true
