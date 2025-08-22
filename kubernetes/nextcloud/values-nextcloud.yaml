@@ -47,6 +47,7 @@ collabora:
     aliasgroups:
       - host: "https://drive.wrenspace.dev:443"
     extra_params: --o:ssl.enable=false --o:ssl.termination=true
+    server_name: docs.wrenspace.dev
   ingress:
     className: "traefik"
     enabled: true
@@ -56,7 +57,8 @@ collabora:
     hosts:
       - host: docs.wrenspace.dev
         paths:
-          - /
+          - path: /
+            pathType: Prefix
     tls:
       - hosts:
           - docs.wrenspace.dev
