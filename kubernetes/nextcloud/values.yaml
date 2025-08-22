@@ -6,11 +6,8 @@ nextcloud:
     usernameKey: username
     passwordKey: password
   defaultConfigs:
-    .htaccess: true
     imaginary.config.php: true
     autoconfig.php: true
-    redis.config.php: true
-    upgrade-disable-web.config.php: true
 
 internalDatabase:
   enabled: false
