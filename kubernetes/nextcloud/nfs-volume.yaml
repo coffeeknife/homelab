@@ -14,6 +14,7 @@ spec:
   nfs:
     path: /mnt/birdpool/drive
     server: 192.168.1.69
+    readOnly: false
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
