@@ -30,6 +30,7 @@ nextcloud:
       nfs:
         server: 192.168.1.69
         path: /mnt/birdpool/drive
+        readOnly: false
   extraVolumeMounts:
     - mountPath: /drive
       name: drive-nfs
