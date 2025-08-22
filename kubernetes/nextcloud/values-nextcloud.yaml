@@ -38,23 +38,6 @@ redis:
     existingSecret: redis-secret
     existingSecretPasswordKey: password
 
-collabora:
-  enabled: true
-  ingress:
-    enabled: true
-    className: traefik
-    annotations:
-      cert-manager.io/cluster-issuer: cert-issuer
-      kubernetes.io/ingress.class: traefik
-    hosts:
-      - host: docs.wrenspace.com
-        paths:
-          - /
-    tls:
-      - hosts:
-          - docs.wrenspace.dev
-        secretName: nextcloud-tls
-
 imaginary:
   enabled: true
 

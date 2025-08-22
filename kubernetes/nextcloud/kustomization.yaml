@@ -12,4 +12,4 @@ helmCharts:
     version: 7.0.2
     releaseName: "nextcloud"
     namespace: nextcloud
-    valuesFile: values.yaml
+    valuesFile: values-nextcloud.yaml
