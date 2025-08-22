@@ -7,6 +7,15 @@ nextcloud:
     passwordKey: password
   defaultConfigs:
     imaginary.config.php: true
+  configs:
+    domains.config.php: |-
+      <?php
+        $CONFIG = array(
+          'trusted_domains' =>
+            array(
+              0 => 'drive.wrenspace.dev'
+            )
+        );
 
 internalDatabase:
   enabled: false
