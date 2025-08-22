@@ -25,16 +25,6 @@ nextcloud:
         $CONFIG = array(
           'maintenance_window_start' => 6,
         );
-  extraVolumes:
-    - name: drive-nfs
-      nfs:
-        server: 192.168.1.69
-        path: /mnt/birdpool/drive
-        readOnly: false
-  extraVolumeMounts:
-    - mountPath: /drive
-      name: drive-nfs
-  datadir: /drive/nextcloud # premade folder inside nfs mount
 
 internalDatabase:
   enabled: false
@@ -109,4 +99,5 @@ service:
 persistence:
   enabled: true
   nextcloudData:
-    enabled: false
+    enabled: true
+    existingClaim: nextcloud-pvc

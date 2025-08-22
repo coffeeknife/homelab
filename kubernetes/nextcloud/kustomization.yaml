@@ -5,6 +5,7 @@ resources:
   - ns.yaml
   - secrets.yaml
   - database.yaml
+  - nfs-volume.yaml
 
 helmCharts:
   - name: nextcloud
