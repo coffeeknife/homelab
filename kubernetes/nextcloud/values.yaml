@@ -44,11 +44,6 @@ collabora:
     aliasgroups:
       - drive.wrenspace.dev
     server_name: docs.wrenspace.dev
-    existingSecret:
-      enabled: true
-      secretName: admin-secret
-      usernameKey: username
-      passwordKey: password
   ingress:
     className: traefik
     enabled: true
