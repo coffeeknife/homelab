@@ -42,7 +42,7 @@ collabora:
   enabled: true
   collabora:
     aliasgroups:
-      - https://drive.wrenspace.dev
+      - "https://drive.wrenspace.dev"
     server_name: docs.wrenspace.dev
   ingress:
     className: traefik
