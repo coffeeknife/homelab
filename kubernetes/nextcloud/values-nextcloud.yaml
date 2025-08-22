@@ -17,6 +17,15 @@ nextcloud:
             )
         );
 
+  extraVolumes:
+    - name: drive-nfs
+      nfs:
+        server: 192.168.1.69
+        path: /mnt/birdpool/drive
+  extraVolumeMounts:
+    - mountPath: /drive
+      name: drive-nfs
+
 internalDatabase:
   enabled: false
 
