@@ -14,7 +14,7 @@ spec:
       chart: authelia
       helm:
         valueFiles:
-          - $values/kubernetes/authelia/values-nextcloud.yaml
+          - $values/kubernetes/authelia/values.yaml
     - repoURL: https://git.wrenspace.dev/coffeeknife/homelab
       targetRevision: HEAD
       ref: values

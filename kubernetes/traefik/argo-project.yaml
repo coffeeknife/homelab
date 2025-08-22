@@ -14,7 +14,7 @@ spec:
       chart: traefik
       helm:
         valueFiles:
-          - $values/kubernetes/traefik/values-nextcloud.yaml
+          - $values/kubernetes/traefik/values.yaml
     - repoURL: https://git.wrenspace.dev/coffeeknife/homelab
       targetRevision: HEAD
       ref: values
