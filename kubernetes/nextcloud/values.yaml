@@ -1,0 +1,65 @@
+nextcloud:
+  host: drive.wrenspace.dev
+  existingSecret:
+    enabled: true
+    secretName: admin-secret
+    usernameKey: username
+    passwordKey: password
+  defaultConfigs:
+    imaginary.config.php: true
+
+internalDatabase:
+  enabled: false
+
+externalDatabase:
+  enabled: true
+  type: mysql
+  existingSecret:
+    enabled: true
+    secretName: mariadb-secret
+    usernameKey: username
+    passwordKey: password
+    hostKey: host
+    databaseKey: database
+
+redis:
+  enabled: true
+  auth:
+    enabled: true
+    existingSecret: redis-secret
+    existingSecretPasswordKey: password
+
+collabora:
+  enabled: true
+
+imaginary:
+  enabled: true
+
+cronjob:
+  enabled: true
+
+ingress:
+  className: traefik
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    kubernetes.io/ingress.class: traefik
+  hosts:
+    - host: drive.wrenspace.com
+      paths:
+        - /
+  tls:
+    - hosts:
+        - drive.wrenspace.dev
+      secretName: nextcloud-tls
+
+service:
+  type: ClusterIP
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+
+persistence:
+  enabled: true
+  nextcloudData:
+    enabled: true
+    size: 60Gi
