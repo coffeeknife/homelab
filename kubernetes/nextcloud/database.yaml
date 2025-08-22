@@ -38,3 +38,18 @@ spec:
   database: "nextcloud-db"
   table: "*"
   username: nextcloud
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: nextcloud-perm
+  namespace: nextcloud
+spec:
+  mariaDbRef:
+    name: mariadb
+    namespace: mariadb-sys
+  privileges:
+    - "SELECT"
+  database: "mysql"
+  table: "user"
+  username: nextcloud
