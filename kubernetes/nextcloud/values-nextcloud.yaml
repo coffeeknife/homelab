@@ -54,7 +54,7 @@ collabora:
       cert-manager.io/cluster-issuer: cert-issuer
       kubernetes.io/ingress.class: "traefik"
     hosts:
-      - host: docs.wrenspace.com
+      - host: docs.wrenspace.dev
         paths:
           - /
     tls:
