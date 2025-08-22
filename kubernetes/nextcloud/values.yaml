@@ -7,7 +7,6 @@ nextcloud:
     passwordKey: password
   defaultConfigs:
     imaginary.config.php: true
-    autoconfig.php: true
 
 internalDatabase:
   enabled: false
