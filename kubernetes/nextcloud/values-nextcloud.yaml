@@ -108,4 +108,4 @@ persistence:
   enabled: true
   nextcloudData:
     enabled: true
-    existingClaim: nextcloud-pvc
+    size: 60Gi
