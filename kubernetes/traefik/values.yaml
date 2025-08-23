@@ -5,6 +5,12 @@ ports:
       default: true
     exposedPort: 636
     protocol: TCP
+  mysql:
+    port: 3306
+    expose:
+      default: true
+    exposedPort: 3306
+    protocol: TCP
 dashboard:
   enable: true
   ingressRoute: true
