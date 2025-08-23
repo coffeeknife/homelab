@@ -7,32 +7,6 @@ nextcloud:
     passwordKey: password
   defaultConfigs:
     imaginary.config.php: true
-  configs:
-    logging.config.php: |-
-      <?php
-      $CONFIG = array (
-        'log_type' => 'file',
-        'logfile' => 'nextcloud.log',
-        'loglevel' => 0,
-        'logdateformat' => 'F d, Y H:i:s'
-        );
-    domains.config.php: |-
-      <?php
-        $CONFIG = array(
-          'trusted_domains' =>
-            array(
-              0 => 'drive.wrenspace.dev'
-            ),
-          'trusted_proxies' =>
-            array (
-              0 => '192.168.0.0/24'
-            )
-        );
-    maintenance.config.php: |-
-      <?php
-        $CONFIG = array(
-          'maintenance_window_start' => 6,
-        );
 
 internalDatabase:
   enabled: false
