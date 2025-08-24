@@ -5,8 +5,6 @@ nextcloud:
     secretName: admin-secret
     usernameKey: username
     passwordKey: password
-  defaultConfigs:
-    imaginary.config.php: true
 
 internalDatabase:
   enabled: false
