@@ -89,3 +89,13 @@ resources:
   limits:
     memory: "2Gi"
     cpu: "1"
+
+# prevent probes from interrupting startup
+livenessProbe:
+  enabled: false
+
+readinessProbe:
+  enabled: false
+
+startupProbe:
+  enabled: false
