@@ -81,3 +81,11 @@ persistence:
   nextcloudData:
     enabled: true
     existingClaim: nextcloud-pvc
+
+resources:
+  requests:
+    memory: "1Gi"
+    cpu: "250m"
+  limits:
+    memory: "2Gi"
+    cpu: "1"
