@@ -83,6 +83,7 @@ ingress:
     cert-manager.io/cluster-issuer: cert-issuer
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd
   hosts:
     - host: drive.wrenspace.dev
       paths:
