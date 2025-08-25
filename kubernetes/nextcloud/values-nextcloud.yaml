@@ -5,6 +5,9 @@ nextcloud:
     secretName: admin-secret
     usernameKey: username
     passwordKey: password
+  extraEnv:
+    - name: TRUSTED_PROXIES
+      value: "10.0.0.0/8"
 
 internalDatabase:
   enabled: false
