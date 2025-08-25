@@ -62,6 +62,8 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
     kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: "nextcloud-headers@kubernetescrd,nextcloud-redir@kubernetescrd"
   hosts:
     - host: drive.wrenspace.com
       paths:
