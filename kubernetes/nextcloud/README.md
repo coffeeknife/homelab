@@ -14,3 +14,4 @@ Nextcloud can't be fully configured from the helm chart and requires manual inte
     ```
 - **MariaDB Version:** The version of MariaDB running in the cluster is probably newer than the version Nextcloud was built against. Unless this is a corporate environment, this can be ignored fairly safely.
 - **Collabora:** Nextcloud Office must be installed from the app store and the url must be set to `https://docs.wrenspace.dev/` (or your domain, if you're using this config and you're not me).
+- **LDAP:** Enable on the apps screen, add credentials, remember to set admin group and map readable usernames instead of uuids for account names.
