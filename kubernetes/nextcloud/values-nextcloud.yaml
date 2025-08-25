@@ -19,6 +19,11 @@ nextcloud:
       $CONFIG = array(
         'maintenance_window_start' => 7,
       );
+    phone-region.config.php: |-
+      <?php
+      $CONFIG = array(
+        'default_phone_region' => 'US',
+      );
 
 internalDatabase:
   enabled: false
