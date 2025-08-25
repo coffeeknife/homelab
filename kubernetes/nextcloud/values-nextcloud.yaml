@@ -65,7 +65,7 @@ ingress:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.middlewares: "nextcloud-headers@kubernetescrd,nextcloud-redir@kubernetescrd"
   hosts:
-    - host: drive.wrenspace.com
+    - host: drive.wrenspace.dev
       paths:
         - /
   tls:
