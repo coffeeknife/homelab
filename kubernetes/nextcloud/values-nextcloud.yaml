@@ -70,7 +70,7 @@ collabora:
     tls:
       - hosts:
           - docs.wrenspace.dev
-        secretName: nextcloud-tls
+        secretName: nextcloud-tls-collabora
 
 cronjob:
   enabled: true
