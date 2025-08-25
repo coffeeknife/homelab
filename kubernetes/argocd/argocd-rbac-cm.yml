@@ -7,3 +7,4 @@ data:
   policy.csv: |
     p, role:readonly, applications, get, *, allow
     g, api, role:readonly
+    g, robin, role:admin

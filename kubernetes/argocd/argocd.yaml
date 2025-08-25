@@ -18,6 +18,7 @@ data:
   #   apiKey - allows generating API keys
   #   login - allows to login using UI
   accounts.api: apiKey
+  accounts.robin: apiKey, login
   policy.default: role:readonly
   server.insecure: "true"
   kustomize.buildOptions: "--enable-helm"
