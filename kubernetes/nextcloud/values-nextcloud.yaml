@@ -9,16 +9,6 @@ nextcloud:
     - name: TRUSTED_PROXIES
       value: "10.0.0.0/8"
   configs:
-    secret.config.php: |-
-      <?php
-      $CONFIG = array(
-        'secret' => 'TEMPORARY_SECRET',
-      );
-    hsts.config.php: |- # fix for hsts warning
-      <?php
-      $CONFIG = array(
-        'overwriteprotocol' => 'https', 
-      );
     maintenance.config.php: |-
       <?php 
       $CONFIG = array(
