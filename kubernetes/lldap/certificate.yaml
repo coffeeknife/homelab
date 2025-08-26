@@ -6,4 +6,8 @@ metadata:
 spec:
   secretName: lldap-tls-secret
   issuerRef: 
+    group: cert-manager.io
+    kind: ClusterIssuer
     name: cert-issuer
+  dnsNames:
+    - id.wrenspace.dev

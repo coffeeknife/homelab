@@ -2,7 +2,7 @@ apiVersion: k8s.mariadb.com/v1alpha1
 kind: Database
 metadata:
   name: lldap
-  namespace: lldap
+  namespace: mariadb-sys
 spec:
   mariaDbRef:
     name: mariadb
@@ -13,12 +13,12 @@ apiVersion: k8s.mariadb.com/v1alpha1
 kind: User
 metadata:
   name: lldap
-  namespace: lldap
+  namespace: mariadb-sys
 spec:
   mariaDbRef:
     name: mariadb
   passwordSecretKeyRef:
-    name: mariadb-pass
+    name: lldap-pass
     key: password
   maxUserConnections: 20
   host: "%"
@@ -28,7 +28,7 @@ apiVersion: k8s.mariadb.com/v1alpha1
 kind: Grant
 metadata:
   name: grant-lldap
-  namespace: lldap
+  namespace: mariadb-sys
 spec:
   mariaDbRef:
     name: mariadb
@@ -41,3 +41,12 @@ spec:
   username: lldap
   grantOption: true
   host: "%"
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: lldap-pass
+  namespace: mariadb-sys
+spec:
+  encryptedData:
+    password: AgAy0DHiy7zUQ+bk/+cuTwVDN/5ETWVmTVwx7Y4FuZiWzFndNHVE948xoqeGH7jWy827W1lTZyITR0D6HIa9TjiiSSUkC7HC5TvehEBRl52wztuZxci0Zdr5ezLzF1cUkMVPGioOOhsIcAi0BKsFObh14Ir9bxu8aDh8JLAgX5HPGQCWd2sBeC4pJgZ+fk1mLpv47yZ0XyF/CmAZItr7faB7Qe3jWI9J+AE/fRjjTT4VYWIjncLF3fGqIKKm8Zmf0rDKZox6si82clIcm1i7iZ0ZQqqBL2bckNKWaaZU5jLp49vt1roxnh7ScT128rWIKb6RyKZfwy6iwsaqVIJ29bNgjH6aPp2PFzpgGiQuBk/0gEFM6Soe75zSD+JTW4iHnxDwkeRODcYille6YRw7EARM+GpC3SOiCBov/wrryIVphVF5EcvUBIwyHY57ZzLujKjtfB6fCyzWJni4rWbi5Ku4E8HKu/5kbgd/xXDtcuvoAzwNst2JuifyZnAZSXfYNzx3GCG8qXXIGt31n3+VSYdsVolgSlAsROss+GyERO1pNFpDg6kiALSG/KJyU9FNMudHGmqRTagmf2nhWzGXrTS0tk01W2l1OvCffuzx1GDd02ZygTPchbKKiWZ6FxYNYIhc9PCgXTJ9e8wMb9PxeQn1Ah2A0AjAJ0pQzSeIemel7/9s7Q9vy/4KOD6/dKw1B/aGRgVIp5rCnWzO5sPFuFYR

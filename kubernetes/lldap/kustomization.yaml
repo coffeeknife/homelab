@@ -7,3 +7,4 @@ resources:
   - secrets.yaml
   - config.yaml
   - database.yaml
+  - certificate.yaml
