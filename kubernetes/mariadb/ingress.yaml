@@ -9,7 +9,7 @@ spec:
     - mysql
 
   routes:
-  - match: Host(`db.wrenspace.dev`)
+  - match: HostSNI(`db.wrenspace.dev`)
     services:
     - name: mariadb-port
       port: 3306
