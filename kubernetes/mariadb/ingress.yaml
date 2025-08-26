@@ -13,3 +13,6 @@ spec:
     services:
     - name: mariadb-port
       port: 3306
+  
+  tls:
+    passthrough: true
