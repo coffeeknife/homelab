@@ -6,7 +6,9 @@ metadata:
 data:
   TZ: 'America/Chicago'
   LLDAP_LDAP_BASE_DN: 'dc=wrenspace,dc=dev'
+  LLDAP_HTTP_URL: 'https://id.wrenspace.dev'
   LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET: 'true'
+  LLDAP_SMTP_OPTIONS__SMTP_ENCRYPTION: 'STARTTLS'
   LLDAP_LDAPS_OPTIONS__ENABLED: 'true'
   LLDAP_LDAPS_OPTIONS__CERT_FILE: '/secret/tls.crt'
   LLDAP_LDAPS_OPTIONS__KEY_FILE: '/secret/tls.key'
