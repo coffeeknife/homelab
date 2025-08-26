@@ -9,3 +9,4 @@ resources:
   - database.yaml
   - certificate.yaml
   - deployment.yaml
+  - service.yaml
