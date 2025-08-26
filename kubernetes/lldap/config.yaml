@@ -8,3 +8,5 @@ data:
   LLDAP_LDAP_BASE_DN: 'dc=wrenspace,dc=dev'
   LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET: 'true'
   LLDAP_LDAPS_OPTIONS__ENABLED: 'true'
+  LLDAP_LDAPS_OPTIONS__CERT_FILE: '/secret/tls.crt'
+  LLDAP_LDAPS_OPTIONS__KEY_FILE: '/secret/tls.key'

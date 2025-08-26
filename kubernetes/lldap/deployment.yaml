@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lldap
+  namespace: lldap
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 50%
+  selector:
+    matchLabels:
+      app: lldap
+  template:
+    metadata:
+      labels:
+        app: lldap
+    spec:
+      volumes:
+      - name: certificate
+        secret:
+          secretName: lldap-tls-secret
+      containers:
+      - name: lldap
+        image: lldap/lldap:2025-08-21
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+        envFrom:
+          - configMapRef:
+              name: lldap-config
+          - secretRef:
+              name: lldap-config
+        volumeMounts:
+          - name: certificate
+            readOnly: true
+            mountPath: /secret
+        ports:
+          - containerPort: 17170
+            name: http
+          - containerPort: 6360
+            name: ldaps

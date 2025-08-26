@@ -33,9 +33,7 @@ spec:
   mariaDbRef:
     name: mariadb
   privileges:
-    - "SELECT"
-    - "INSERT"
-    - "UPDATE"
+    - "ALL"
   database: "lldap"
   table: "*"
   username: lldap
