@@ -20,3 +20,25 @@ spec:
     protocol: TCP
     port: 6360
     targetPort: ldaps
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+  name: lldap
+  namespace: lldap
+spec:
+  rules:
+  - host: id.wrenspace.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: lldap
+            port:
+              name: http
+  tls:
+    - secretName: lldap-tls-secret
