@@ -1,7 +1,8 @@
 ports:
   websecure:
     port: 443
-    expose: true
+    expose:
+      default: true
     exposedPort: 443
     protocol: TCP
     http3:
