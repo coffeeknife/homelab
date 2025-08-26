@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smtp-relay
+  namespace: smtp-relay
+spec:
+  selector:
+    matchLabels:
+      app: smtp-relay
+  template:
+    metadata:
+      labels:
+        app: smtp-relay
+    spec:
+      containers:
+      - name: smtp-relay
+        image: djjudas21/smtp-relay:0.10.0
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        envFrom:
+          - configMapRef:
+              name: smtp-config
+          - secretRef:
+              name: smtp-secret
+        ports:
+        - containerPort: 2525
+          name: smtp
