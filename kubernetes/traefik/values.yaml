@@ -1,4 +1,14 @@
 ports:
+  websecure:
+    port: 443
+    expose: true
+    exposedPort: 443
+    protocol: TCP
+    http3:
+      enabled: true
+      advertisedPort: 443
+    tls:
+      enabled: true
   ldaps:
     port: 6360
     expose:
