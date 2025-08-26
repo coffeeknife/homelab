@@ -1,0 +1,74 @@
+configMap:
+  theme: dark
+
+  session:
+    cookies:
+      - domain: wrenspace.dev
+        subdomain: auth
+    redis:
+      enabled: true
+      deploy: true
+
+  storage:
+    mysql:
+      enabled: true
+      deploy: false
+      address: 'tcp://wrenspace.dev:3306'
+      password:
+        secret_name: mariadb-secret
+
+  notifier:
+    disable_startup_check: true
+    smtp:
+      address: smtp://send.smtp-relay.svc.cluster.local:25
+      sender: 'Authelia <admin@wrenspace.dev>'
+
+  authentication_backend:
+    ldap:
+      enabled: true
+      implementation: lldap
+      address: ldaps://wrenspace.dev:636
+      base_dn: "dc=wrenspace,dc=dev"
+      user: "uid=admin,ou=people,dc=wrenspace,dc=dev"
+      password:
+        secret_name: lldap-secret
+
+  access_control:
+    default_policy: deny
+    rules: [] # You can add rules later
+
+  identity_providers:
+    oidc:
+      enabled: true
+      jwks: {}
+      clients: # A client needs at least a unique 'id' and 'redirect_uris'
+        - id: 'example-client'
+          public: true
+          redirect_uris:
+            - 'https://some.app.com'
+
+redis:
+  persistence:
+    enabled: true
+
+ingress:
+  enabled: true
+  certManager: true
+  className: 'traefik'
+  tls:
+    enabled: true
+    secret: authelia-tls
+  traefikCRD:
+    enabled: true
+    disableIngressRoute: true
+    tls:
+      certResolver: 'cert-issuer'
+
+secret:
+  additionalSecrets:
+    lldap-secret:
+      path: ldap-password # This is the corrected path!
+      key: password
+    mariadb-secret:
+      path: mariadb-password # This is the corrected path!
+      key: password

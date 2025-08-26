@@ -1,0 +1,50 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Database
+metadata:
+  name: authelia
+  namespace: mariadb-sys
+spec:
+  mariaDbRef:
+    name: mariadb
+  characterSet: utf8
+  collate: utf8_general_ci
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: User
+metadata:
+  name: authelia
+  namespace: mariadb-sys
+spec:
+  mariaDbRef:
+    name: mariadb
+  passwordSecretKeyRef:
+    name: authelia-pass
+    key: password
+  maxUserConnections: 20
+  host: "%"
+  cleanupPolicy: Delete  
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: grant-authelia
+  namespace: mariadb-sys
+spec:
+  mariaDbRef:
+    name: mariadb
+  privileges:
+    - "ALL"
+  database: "authelia"
+  table: "*"
+  username: authelia
+  grantOption: true
+  host: "%"
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: authelia-pass
+  namespace: mariadb-sys
+spec:
+  encryptedData:
+    password: AgBiCAVR4HP0UIl/IiFRjEfYeqNr97tRetmDmFNxSGZg+ndjKGOniJG+XrGK7THnAUjGxS9klPwUgoOsJQLP9pOOsSz/pdl4fGOiAS0n9qboSNkCyLe/9vdl+3tza3dxfny7giiFUkRR27uFXQes5qlvX6FymRLxx/dhL12cKURS3jE9BKLodmKs1XdqT3DLAByzgtl2urIFPG0HSADw4iUpEnKNGkLzrTm/wg7Xtc1b0zrwBzmVwyM1wkvQl1fQVYRIJzw5tNyBDxuG/EiKkFaklV3V+R0B0FitT5sMyjZ82I5b0Oqqc/ToSBxGbchfWvE06ficTUUxQDc11TVbHzBELOXbBpAq/11mMIHPMOL5jxoBoANtDGLCKNz+K/ns4MtCSBL8Bjd8IDYxMgtskpHLDqqGEJA7ukaS1ertt8+555Mc16M2zDqkNTcYjmutwBUgowLgz1RESryw2Cnp+z1WaleUgraCwSn75zNsoNEqlnixnSNbJ9LhnOou1tmvebO+lv3oC30Wns9I1ArZd5CykMWbkLgLDd7LeQ+VighzeKJPwMkG4v8DioiPlw8H4n2RvocVSz/qPqp7jqmKGZ7DyqYkkFJ8jZ7av2wp7+3OoZa2MAv0M0/HzMa3Yz59Sixq2PjXGq3dAag0LhOI2llhcXJ+vMgmsVTlaXFljRw4vb9bKB1jMuVaCNSi2MjLy5/a4g09T/y87173ixihr6Uh
