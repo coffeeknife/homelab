@@ -1,0 +1,10 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: lldap-config
+  namespace: lldap
+data:
+  TZ: 'America/Chicago'
+  LLDAP_LDAP_BASE_DN: 'dc=wrenspace,dc=dev'
+  LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET: 'true'
+  LLDAP_LDAPS_OPTIONS__ENABLED: 'true'
