@@ -8,6 +8,9 @@ configMap:
   authentication_backend:
     file: { enabled: true } # temporary
 
+secret:
+  existingSecret: crypto
+
 # temp
 pod:
   kind: Deployment
