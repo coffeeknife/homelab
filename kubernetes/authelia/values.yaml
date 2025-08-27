@@ -20,7 +20,6 @@ configMap:
       password: # temporary for testing
         disabled: true
       disable_require_tls: true
-      disable_starttls: true
 
   authentication_backend:
     ldap:
