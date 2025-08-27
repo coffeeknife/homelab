@@ -6,10 +6,21 @@ configMap:
   notifier:
     filesystem: { enabled: true } # temporary
   authentication_backend:
-    file: { enabled: true } # temporary
+    ldap:
+      enabled: true
+      implementation: lldap
+      address: ldaps://lldap.lldap.svc.cluster.local:6360
+      tls:
+        server_name: id.wrenspace.dev
+      base_dn: dc=wrenspace,dc=dev
+      user: uid=search,ou=people,dc=wrenspace,dc=dev
+      password: { secret_name: lldap-auth }
 
 secret:
   existingSecret: crypto
+  additionalSecrets:
+    lldap-auth:
+      items: [ { key: password, path: authentication.ldap.password.txt } ]
 
 # temp
 pod:

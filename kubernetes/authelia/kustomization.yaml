@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - crypto.yaml
+  - creds.yaml
 
 helmCharts:
   - name: authelia
