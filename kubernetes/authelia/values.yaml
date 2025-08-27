@@ -1,10 +1,19 @@
 configMap:
   session:
     cookies: [ { domain: wrenspace.dev } ]
+
   storage:
-    local: { enabled: true } # temporary
+    mysql:
+      enabled: true
+      deploy: false
+      address: tcp://mariadb-port.mariadb-sys.svc.cluster.local:3306
+      database: authelia
+      password:
+        secret_name: db-auth
+
   notifier:
     filesystem: { enabled: true } # temporary
+
   authentication_backend:
     ldap:
       enabled: true
@@ -21,6 +30,8 @@ secret:
   additionalSecrets:
     lldap-auth:
       items: [ { key: password, path: authentication.ldap.password.txt } ]
+    db-auth:
+      items: [ { key: password, path: storage.mysql.password.txt } ]
 
 # temp
 pod:
