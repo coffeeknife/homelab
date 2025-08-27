@@ -1,6 +1,6 @@
 configMap:
   session:
-    cookies: [ { domain: wrenspace.dev } ]
+    cookies: [ { domain: wrenspace.dev, subdomain: auth } ]
 
   storage:
     mysql:
@@ -47,4 +47,10 @@ pod:
 ingress:
   enabled: true
   className: traefik
-  
+  certManager: true
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    cert-manager.io/cluster-issuer: cert-issuer
+  tls:
+    enabled: true
+    secret: authelia-tls-cert
