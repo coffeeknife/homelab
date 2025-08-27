@@ -1,0 +1,13 @@
+configMap:
+  session:
+    cookies: [ { domain: wrenspace.dev } ]
+  storage:
+    local: { enabled: true } # temporary
+  notifier:
+    filesystem: { enabled: true } # temporary
+  authentication_backend:
+    file: { enabled: true } # temporary
+
+# temp
+pod:
+  kind: Deployment
