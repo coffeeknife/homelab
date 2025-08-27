@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: lldap
   namespace: lldap
+
 spec:
   selector:
     app: lldap

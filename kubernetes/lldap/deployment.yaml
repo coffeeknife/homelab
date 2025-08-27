@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: lldap
   namespace: lldap
+  labels:
+    app.kubernetes.io/name: lldap
 spec:
   replicas: 2
   strategy:

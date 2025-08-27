@@ -70,10 +70,16 @@ data:
     - Services:
         - Identity Server:
             icon: openldap
-            description: Change your password here
+            description: Change your password/avatar here
             href: https://id.wrenspace.dev/
             namespace: lldap
             app: lldap
+        - Authelia:
+            icon: authelia
+            description: Enroll in 2FA
+            href: https://auth.wrenspace.dev/
+            namespace: authelia
+            app: authelia
         - Nextcloud:
             icon: nextcloud
             description: Dropbox clone
