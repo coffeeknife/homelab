@@ -12,7 +12,15 @@ configMap:
         secret_name: db-auth
 
   notifier:
-    filesystem: { enabled: true } # temporary
+    smtp:
+      enabled: true
+      address: smtp://send.smtp-relay.svc.cluster.local
+      sender: "Accounts <admin@wrenspace.dev>"
+      disable_html_emails: true
+      password: # temporary for testing
+        disabled: true
+      disable_require_tls: true
+      disable_starttls: true
 
   authentication_backend:
     ldap:
