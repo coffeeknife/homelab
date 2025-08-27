@@ -43,3 +43,8 @@ secret:
 # temp
 pod:
   kind: Deployment
+
+ingress:
+  enabled: true
+  className: traefik
+  
