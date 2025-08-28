@@ -48,3 +48,5 @@ spec:
             name: http
           - containerPort: 6360
             name: ldaps
+          - containerPort: 3890
+            name: ldap
