@@ -7,3 +7,4 @@ infrastructure automation
 - [homepage](gethomepage.dev)
 - [lldap](https://github.com/lldap/lldap)
 - [authelia](https://www.authelia.com/)
+- [nextcloud](https://nextcloud.com/)
