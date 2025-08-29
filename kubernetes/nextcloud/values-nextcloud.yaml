@@ -8,6 +8,17 @@ nextcloud:
   extraEnv:
     - name: TRUSTED_PROXIES
       value: "10.0.0.0/8"
+  extraVolumes:
+    - name: oauth-secret
+      secret:
+        secretName: oauth-secret
+        items:
+          - key: client-secret
+            path: oidc.secret.config.php
+  extraVolumeMounts:
+    - name: oauth-secret
+      mountPath: /var/www/html/config/oidc.secret.config.php
+      subPath: oidc.secret.config.php
   configs:
     maintenance.config.php: |-
       <?php 
@@ -18,6 +29,27 @@ nextcloud:
       <?php
       $CONFIG = array(
         'default_phone_region' => 'US',
+      );
+    oidc.config.php: |-
+      <?php
+      $CONFIG = array(
+        'allow_user_to_change_display_name' => false,
+        'oidc_login_provider_url' => 'https://auth.wrenspace.dev',
+        'oidc_login_client_id' => 'nextcloud',
+        'oidc_login_auto_redirect' => false,
+        'oidc_login_code_challenge_method' => 'S256',
+        'oidc_login_end_session_redirect' => false,
+        'oidc_login_button_text' => 'Log in with Authelia',
+        'oidc_login_hide_password_form' => true,
+        'oidc_login_proxy_ldap' => true,
+        'oidc_login_scope' => 'openid profile',
+        'oidc_login_attributes' => array (
+            'id' => 'preferred_username',
+            'name' => 'name',
+            'mail' => 'email',
+            'groups' => 'groups',
+            'ldap_uid' => 'preferred_username',
+        ),
       );
 
 internalDatabase:
