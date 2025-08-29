@@ -32,6 +32,39 @@ configMap:
       user: uid=search,ou=people,dc=wrenspace,dc=dev
       password: { secret_name: lldap-auth }
 
+  identity_providers:
+    oidc:
+      enabled: true
+      jwks:
+        - key_id: default
+          algorithm: RS256
+          use: sig
+          key: { path: /secrets/jwk-rsa/private.pem }
+      cors:
+        endpoints: [ userinfo, authorization, token, revocation, introspection ]
+        allowed_origins_from_client_redirect_uris: true
+      claims_policies:
+        legacy:
+          id_token: [ email, email_verified, alt_emails, name, preferred_username, groups ]
+
+      # CLIENTS HERE
+      clients:
+        # nextcloud
+        - client_id: nextcloud
+          client_name: Nextcloud
+          client_secret: { path: /secrets/client-secrets/nextcloud.secret.txt }
+          public: false
+          authorization_policy: two_factor
+          require_pkce: true
+          pkce_challenge_method: S256
+          redirect_uris: [ https://drive.wrenspace.dev/apps/oidc_login/oidc ]
+          scopes: [ openid, profile, email, groups ]
+          response_types: [ code ]
+          grant_types: [ authorization_code ]
+          access_token_signed_response_alg: none
+          userinfo_signed_response_alg: none
+          token_endpoint_auth_method: client_secret_basic
+
 secret:
   existingSecret: crypto
   additionalSecrets:
@@ -39,6 +72,9 @@ secret:
       items: [ { key: password, path: authentication.ldap.password.txt } ]
     db-auth:
       items: [ { key: password, path: storage.mysql.password.txt } ]
+    jwk-rsa:
+      items: [ { key: private.pem, path: private.pem } ]
+    client-secrets: {}
 
 # temp
 pod:

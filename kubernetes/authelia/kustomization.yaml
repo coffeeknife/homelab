@@ -7,6 +7,7 @@ resources:
   - crypto.yaml
   - creds.yaml
   - database.yaml
+  - client-secrets.yaml
 
 helmCharts:
   - name: authelia
