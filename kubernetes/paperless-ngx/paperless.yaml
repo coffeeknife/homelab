@@ -25,11 +25,14 @@ spec:
         ports:
           - name: http
             containerPort: 8000
+        envFrom:
+          - configMapRef:
+              name: paperless-config
         env:
           - name: REDIS_PASS
             valueFrom:
               secretKeyRef:
-                name: redis
-                key: redis-password
+                name: redis-creds
+                key: password
           - name: PAPERLESS_REDIS
-            value: redis://$(REDIS_PASS)@redis-master.paperless.svc.cluster.local:6379
+            value: "redis://default:$(REDIS_PASS)@redis-master.paperless.svc.cluster.local:6379"

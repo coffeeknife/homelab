@@ -5,6 +5,10 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - paperless.yaml
+  - service.yaml
+  - ingress.yaml
+  - config.yaml
+  - creds.yaml
 
 helmCharts:
   - name: redis
@@ -12,3 +16,7 @@ helmCharts:
     releaseName: redis
     version: 22.0.7
     namespace: paperless
+    valuesInline:
+      auth:
+        existingSecret: redis-creds
+        existingSecretPasswordKey: password
