@@ -6,6 +6,10 @@ metadata:
 data:
   PAPERLESS_URL: "https://file.wrenspace.dev"
   PAPERLESS_PORT: "8000"
+  PAPERLESS_TIME_ZONE: America/Chicago
+  # file processing
+  PAPERLESS_CONSUMER_ENABLE_BARCODES: "true"
+  PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE: "true"
   # db
   PAPERLESS_DBHOST: mariadb-port.mariadb-sys.svc.cluster.local
   PAPERLESS_DBENGINE: mariadb
@@ -22,3 +26,6 @@ data:
   PAPERLESS_DISABLE_REGULAR_LOGIN: "true"
   PAPERLESS_REDIRECT_LOGIN_TO_SSO: "true"
   PAPERLESS_ACCOUNT_SESSION_REMEMBER: "true"
+  # email sending
+  PAPERLESS_EMAIL_HOST: send.smtp-relay.svc.cluster.local
+  PAPERLESS_EMAIL_FROM: Paperless <admin@wrenspace.dev>
