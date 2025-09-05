@@ -5,3 +5,11 @@ metadata:
   namespace: paperless
   annotations:
     secret-generator.v1.mittwald.de/autogenerate: password
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mariadb-secret
+  namespace: paperless
+  annotations:
+    secret-generator.v1.mittwald.de/autogenerate: password

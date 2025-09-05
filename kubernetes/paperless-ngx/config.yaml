@@ -6,3 +6,10 @@ metadata:
 data:
   PAPERLESS_URL: "https://file.wrenspace.dev"
   PAPERLESS_PORT: "8000"
+  # db
+  PAPERLESS_DBHOST: mariadb-port.mariadb-sys.svc.cluster.local
+  PAPERLESS_DBENGINE: mariadb
+  PAPERLESS_DBPORT: "3306"
+  PAPERLESS_DBNAME: paperless-db
+  PAPERLESS_DBUSER: paperless
+  PAPERLESS_DB_READ_CACHE_ENABLED: "true"

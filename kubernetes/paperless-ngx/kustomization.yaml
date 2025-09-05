@@ -9,6 +9,7 @@ resources:
   - ingress.yaml
   - config.yaml
   - creds.yaml
+  - database.yaml
 
 helmCharts:
   - name: redis

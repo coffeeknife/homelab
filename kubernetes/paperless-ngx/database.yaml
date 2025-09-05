@@ -1,0 +1,40 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Database
+metadata:
+  name: paperless-db
+  namespace: paperless
+spec:
+  mariaDbRef:
+    name: mariadb
+    namespace: mariadb-sys
+  characterSet: utf8mb4
+  collate: utf8mb4_bin
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: User
+metadata:
+  name: paperless
+  namespace: paperless
+spec:
+  mariaDbRef:
+    name: mariadb
+    namespace: mariadb-sys
+  passwordSecretKeyRef:
+    name: mariadb-secret
+    key: password
+  maxUserConnections: 20
+---
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Grant
+metadata:
+  name: paperless-perm
+  namespace: paperless
+spec:
+  mariaDbRef:
+    name: mariadb
+    namespace: mariadb-sys
+  privileges:
+    - "ALL"
+  database: "paperless-db"
+  table: "*"
+  username: paperless

@@ -29,6 +29,11 @@ spec:
           - configMapRef:
               name: paperless-config
         env:
+          - name: PAPERLESS_DBPASS
+            valueFrom:
+              secretKeyRef:
+                name: mariadb-secret
+                key: password
           - name: REDIS_PASS
             valueFrom:
               secretKeyRef:
