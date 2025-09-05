@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: paperless-ngx
   namespace: paperless
+  annotations:
+    configmap.reloader.stakater.com/reload: "paperless-config"
 spec:
   selector:
     matchLabels:
@@ -16,6 +18,9 @@ spec:
         - name: paperless-pvc
           persistentVolumeClaim:
             claimName: paperless-pvc
+        - name: paperless-data
+          persistentVolumeClaim:
+            claimName: paperless-data
       containers:
       - name: paperless
         image: ghcr.io/paperless-ngx/paperless-ngx:2.18
@@ -32,6 +37,8 @@ spec:
         volumeMounts:
           - name: paperless-pvc
             mountPath: /usr/src/paperless/media
+          - name: paperless-data
+            mountPath: /usr/src/paperless/data
         envFrom:
           - configMapRef:
               name: paperless-config

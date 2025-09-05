@@ -13,3 +13,5 @@ data:
   PAPERLESS_DBNAME: paperless-db
   PAPERLESS_DBUSER: paperless
   PAPERLESS_DB_READ_CACHE_ENABLED: "true"
+  # branding
+  PAPERLESS_APP_TITLE: Yaoi Documents
