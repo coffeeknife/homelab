@@ -2,6 +2,18 @@ configMap:
   session:
     cookies: [ { domain: wrenspace.dev, subdomain: auth } ]
 
+  access_control:
+    default_policy: deny
+    rules:
+      - domain: 'drive.wrenspace.dev'
+        policy: two_factor
+        subject:
+          - ['group:nextcloud']
+      - domain: 'file.wrenspace.dev'
+        policy: two_factor
+        subject:
+          - ['group:paperless']
+
   storage:
     mysql:
       enabled: true
