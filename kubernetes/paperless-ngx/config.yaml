@@ -23,8 +23,8 @@ data:
   PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
   PAPERLESS_SOCIAL_AUTO_SIGNUP: "true"
   PAPERLESS_SOCIAL_ACCOUNT_SYNC_GROUPS: "true"
-  PAPERLESS_DISABLE_REGULAR_LOGIN: "true"
-  PAPERLESS_REDIRECT_LOGIN_TO_SSO: "true"
+  #PAPERLESS_DISABLE_REGULAR_LOGIN: "true"
+  #PAPERLESS_REDIRECT_LOGIN_TO_SSO: "true"
   PAPERLESS_ACCOUNT_SESSION_REMEMBER: "true"
   # email sending
   PAPERLESS_EMAIL_HOST: send.smtp-relay.svc.cluster.local
