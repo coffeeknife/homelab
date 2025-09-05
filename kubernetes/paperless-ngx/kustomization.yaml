@@ -10,6 +10,7 @@ resources:
   - config.yaml
   - creds.yaml
   - database.yaml
+  - nfs-volume.yaml
 
 helmCharts:
   - name: redis
