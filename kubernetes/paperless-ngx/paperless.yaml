@@ -28,10 +28,10 @@ spec:
         image: ghcr.io/paperless-ngx/paperless-ngx:2.18
         resources:
           requests:
-            cpu: 250m
+            cpu: 500m
             memory: 1024Mi
           limits:
-            cpu: 500m
+            cpu: 1000m
             memory: 2048Mi
         ports:
           - name: http
