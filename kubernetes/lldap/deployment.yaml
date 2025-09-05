@@ -19,6 +19,7 @@ spec:
     metadata:
       labels:
         app: lldap
+        app.kubernetes.io/name: lldap
     spec:
       volumes:
       - name: certificate

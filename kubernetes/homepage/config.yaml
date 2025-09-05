@@ -93,7 +93,8 @@ data:
         - Paperless:
             icon: paperless-ngx
             description: Filing cabinet
-            siteMonitor: https://file.wrenspace.dev/
+            namespace: paperless
+            app: paperless
             href: https://file.wrenspace.dev/
             widget:
                 type: paperlessngx
