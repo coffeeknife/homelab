@@ -13,3 +13,12 @@ metadata:
   namespace: paperless
   annotations:
     secret-generator.v1.mittwald.de/autogenerate: password
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: authelia-secret
+  namespace: paperless
+spec:
+  encryptedData:
+    client-secret: AgBPRVd1wxGp2ULbJkXNM+hQdqUPoOXAwYhNuNOfeS3l5LSLLRd3d+/EMbL0LdKOJWRueIpXYwB+CeqxU75CbsvGQT4mVT4NuqQzZgkmspJ1l/2yJxZRlNqO0+OfLTj4SZnduBxF/DUjE163pqBnwAPvA30LfIEhsf2v+fNojNp5UEyVyrMR++dTy+S8fZlCPH5Bz3I+FcSKCAC4KB4HK/RNjmmSp8YXIF7Eh03eKV01Lw46208K7ujQCGAOJrIYJZgS6Ip0QwGr9qrpTO05XFasCzcquy1S6zP6vDd5bMQ/JUq3v3dtIVSR6G0t7mTQeDLkbVsZFqchoyN4Fkv1p42sTYgIKL/5hzYUdcjETQwPHqf9mibOG5I+lDxBZmQubP3g+pn9QxMMh1q27C0zvMh2AaJ4MLoH0TS5BXDLmChhaIFdHwyfmWLS0qgeoRTr/ZmCrdxQOMvKZ5rS08KURoKTp1OncUhssSA/J7EsyV+3bKzUWlx+//FcIw7acRZQrrY2gAHuXqVPHpOZLSZRGKCmBuAohb/Wu2KEXOLojpZQd9mHvd9WnlVVWamWqLCITUsty9GkO4ECjnAZ1XHDKaAd4QETNVkxs62/lwyZl40ez5/xg6ufAnNnoFEhLIIvv7Vag2ZV7ukQ2eduPlGTWoZryXvS7zDTvnVgx5wKXb4RfPED2kwpH5wWX/IxeXAOipAVNi6wO6oFhCY8theKCxw0bDxAOcNt5DBGxxudqpjZonHWoeURBAe30/PpDvWABLEp6U3W+VN+7gnv0SWtC0kuc7KEUzJg2n4=
