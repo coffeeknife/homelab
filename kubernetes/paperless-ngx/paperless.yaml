@@ -23,6 +23,9 @@ spec:
         - name: paperless-data
           persistentVolumeClaim:
             claimName: paperless-data
+        - name: paperless-consume
+          persistentVolumeClaim:
+            claimName: paperless-consume
       containers:
       - name: paperless
         image: ghcr.io/paperless-ngx/paperless-ngx:2.18
@@ -46,6 +49,8 @@ spec:
             mountPath: /usr/src/paperless/media
           - name: paperless-data
             mountPath: /usr/src/paperless/data
+          - name: paperless-consume
+            mountPath: /usr/src/paperless/consume
         envFrom:
           - configMapRef:
               name: paperless-config

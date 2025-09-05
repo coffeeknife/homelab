@@ -11,6 +11,7 @@ resources:
   - creds.yaml
   - database.yaml
   - nfs-volume.yaml
+  - vsftpd.yaml
 
 helmCharts:
   - name: redis
@@ -19,6 +20,8 @@ helmCharts:
     version: 22.0.7
     namespace: paperless
     valuesInline:
+      master:
+        revisionHistoryLimit: 1
       auth:
         existingSecret: redis-creds
         existingSecretPasswordKey: password

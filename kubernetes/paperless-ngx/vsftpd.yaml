@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vsftpd
+  namespace: paperless
+spec:
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+      app: vsftpd
+  template:
+    metadata:
+      labels:
+        app: vsftpd
+    spec:
+      securityContext:
+        fsGroup: 1000
+      volumes:
+        - name: paperless-consume
+          persistentVolumeClaim:
+            claimName: paperless-consume
+      containers:
+        - name: vsftpd
+          image: forumi0721/alpine-vsftpd:x64
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          envFrom:
+            - secretRef:
+                name: vsftpd-secret
+          env:
+            - name: FTP_PASV_MIN_PORT
+              value: "30000"
+            - name: FTP_PASV_MAX_PORT
+              value: "30005"
+          volumeMounts:
+            - name: paperless-consume
+              mountPath: /data
+          ports:
+            - name: ftp
+              containerPort: 20
+            - name: ftp-passive
+              containerPort: 21
+            - name: passive-30000
+              containerPort: 30000
+            - name: passive-30001
+              containerPort: 30001
+            - name: passive-30002
+              containerPort: 30002
+            - name: passive-30003
+              containerPort: 30003
+            - name: passive-30004
+              containerPort: 30004
+            - name: passive-30005
+              containerPort: 30005
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vsftpd
+  namespace: paperless
+spec:
+  type: LoadBalancer
+  externalIPs:
+    - 192.168.200.102
+  selector:
+    app: vsftpd
+  ports:
+    - port: 20
+      name: ftp
+      targetPort: 20
+    - port: 21
+      name: ftp-passive
+      targetPort: 21
+    - port: 30000
+      name: passive-30000
+      targetPort: 30000
+    - port: 30001
+      name: passive-30001
+      targetPort: 30001
+    - port: 30002
+      name: passive-30002
+      targetPort: 30002
+    - port: 30003
+      name: passive-30003
+      targetPort: 30003
+    - port: 30004
+      name: passive-30004
+      targetPort: 30004
+    - port: 30005
+      name: passive-30005
+      targetPort: 30005
