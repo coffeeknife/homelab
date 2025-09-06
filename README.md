@@ -8,6 +8,11 @@ infrastructure automation
 - [lldap](https://github.com/lldap/lldap)
 - [authelia](https://www.authelia.com/)
 - [nextcloud](https://nextcloud.com/)
+- [paperless-ngx](https://docs.paperless-ngx.com/) with FTP server for network scanner
+
+## services remaining stateful on proxmox
+
+- [gitea](https://about.gitea.com/) - git host. needs to be outside cluster for argo to pull them uninterrupted. repos are mirrored to public providers for data loss prevention
 
 ## useful snippets
 
