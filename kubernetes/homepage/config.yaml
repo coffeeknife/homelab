@@ -103,7 +103,8 @@ data:
         - Home Assistant:
             icon: home-assistant
             description: Smarthome Hub
-            siteMonitor: https://home.wrenspace.dev/
+            namespace: hass
+            app: home-assistant
             href: https://home.wrenspace.dev/auth/oidc/redirect
         - Vaultwarden:
             icon: bitwarden
