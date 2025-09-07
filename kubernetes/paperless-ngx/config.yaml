@@ -29,3 +29,6 @@ data:
   # email sending
   PAPERLESS_EMAIL_HOST: send.smtp-relay.svc.cluster.local
   PAPERLESS_EMAIL_FROM: Paperless <admin@wrenspace.dev>
+  # consume
+  PAPERLESS_CONSUMPTION_DIR: ../consume/
+  PAPERLESS_CONSUMER_POLLING: "30"
