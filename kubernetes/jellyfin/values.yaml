@@ -9,6 +9,9 @@ persistence:
       server: 192.168.1.69
       path: "/mnt/birdpool/jellyfin/media"
 
+nodeSelector:
+  gpu-node: "true"
+
 ingress:
   enabled: true
   className: traefik
