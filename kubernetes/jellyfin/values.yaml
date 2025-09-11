@@ -1,0 +1,25 @@
+persistence:
+  config:
+    pvc:
+      enabled: true
+      claimName: jellyfin-config
+  media:
+    readOnly: true
+    nfs:
+      server: 192.168.1.69
+      path: "/mnt/birdpool/jellyfin/media"
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+  hosts:
+    - host: stream.wrenspace.dev
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: jellyfin-tls
+      hosts:
+        - stream.wrenspace.dev
