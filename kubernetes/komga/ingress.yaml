@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: komga
+  namespace: komga
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+spec:
+  rules:
+  - host: manga.wrenspace.dev
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: komga
+            port: 
+              name: http
+  tls:
+    - secretName: komga-tls
+      hosts:
+        - manga.wrenspace.dev

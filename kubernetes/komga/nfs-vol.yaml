@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: komga-pv
+  namespace: komga
+spec:
+  storageClassName: komga-nfs
+  capacity:
+    storage: 300Gi
+  accessModes:
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/birdpool/kavita/data
+    server: 192.168.1.69
+    readOnly: true
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: komga-nfs
+  namespace: komga
+spec:
+  storageClassName: komga-nfs
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 300Gi

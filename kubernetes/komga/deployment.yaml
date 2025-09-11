@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: komga
+  namespace: komga
+spec:
+  selector:
+    matchLabels:
+      app: komga
+  template:
+    metadata:
+      labels:
+        app: komga
+    spec:
+      volumes:
+      - name: config
+        persistentVolumeClaim:
+          claimName: komga-config
+      - name: data
+        persistentVolumeClaim:
+          claimName: komga-nfs
+      containers:
+      - name: komga
+        image: gotson/komga:1.23.4
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 25600
+          name: http
+        volumeMounts:
+          - mountPath: /config
+            name: config
+          - mountPath: /data
+            name: data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: komga-config
+  namespace: komga
+spec:
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: longhorn
+  accessModes:
+    - ReadWriteOnce
