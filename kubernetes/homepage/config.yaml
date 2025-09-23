@@ -147,6 +147,7 @@ data:
         - Etheirys:
             icon: proxmox
             description: VM Host
+            weight: 10
             siteMonitor: https://pve.wrenspace.dev/
             href: https://pve.wrenspace.dev/
             widget:
@@ -154,25 +155,17 @@ data:
                 url: https://pve.wrenspace.dev/
                 username: {{HOMEPAGE_VAR_PVE_USER}}
                 password: {{HOMEPAGE_VAR_PVE_PASS}}
-        - ArgoCD:
-            icon: argo-cd
-            description: Kubernetes Continuous Delivery
-            href: https://argocd.wrenspace.dev/
-            namespace: argocd
-            app: argocd-server
-            widget:
-                type: argocd
-                url: https://argocd.wrenspace.dev/
-                key: {{HOMEPAGE_VAR_ARGO_KEY}}
         - Cockpit:
             icon: cockpit
             description: Unix web UI
+            weight: 30
             siteMonitor: https://nix.wrenspace.dev/
             href: https://nix.wrenspace.dev/
         - Semaphore:
             icon: ansible
             description: Automation
             siteMonitor: https://ansible.wrenspace.dev/
+            weight: 40
             href: https://ansible.wrenspace.dev
 
     - Monitoring:
