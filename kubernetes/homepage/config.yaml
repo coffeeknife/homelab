@@ -169,19 +169,11 @@ data:
             href: https://ansible.wrenspace.dev
 
     - Monitoring:
-        - Uptime Kuma:
-            icon: uptime-kuma
-            description: Monitoring and alerts
-            siteMonitor: https://ping.wrenspace.dev/
-            href: https://ping.wrenspace.dev/
-            widget:
-                type: uptimekuma
-                url: https://ping.wrenspace.dev/
-                slug: gen
         - Traefik:
             icon: traefik
             description: Web and TCP routing
             namespace: traefik
+            weight: 10
             app: traefik
             href: https://traefik.wrenspace.dev/dashboard/
         - Longhorn:
@@ -189,6 +181,7 @@ data:
             description: Distributed Kubernetes storage
             namespace: longhorn-system
             app: longhorn
+            weight: 20
             href: https://longhorn.wrenspace.dev/
 
   widgets.yaml: |
