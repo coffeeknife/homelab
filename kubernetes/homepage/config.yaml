@@ -68,12 +68,6 @@ data:
     # https://gethomepage.dev/configs/services/
 
     - Services:
-        - Authelia:
-            icon: authelia
-            description: Enroll in 2FA
-            href: https://auth.wrenspace.dev/
-            namespace: authelia
-            app: authelia
         - Nextcloud:
             icon: nextcloud
             description: Dropbox clone
