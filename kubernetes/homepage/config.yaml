@@ -73,11 +73,13 @@ data:
             description: Password manager
             siteMonitor: https://vault.wrenspace.dev/
             href: https://vault.wrenspace.dev/
+            weight: '50'
         - Immich:
             icon: immich
             description: Camera roll backup
             siteMonitor: https://photo.wrenspace.dev/
             href: https://photo.wrenspace.dev/
+            weight: '60'
 
     - Media:
         - Jellyfin:
