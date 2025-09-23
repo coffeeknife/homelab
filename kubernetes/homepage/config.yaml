@@ -68,12 +68,6 @@ data:
     # https://gethomepage.dev/configs/services/
 
     - Services:
-        - Home Assistant:
-            icon: home-assistant
-            description: Smarthome Hub
-            namespace: hass
-            app: home-assistant
-            href: https://home.wrenspace.dev/auth/oidc/redirect
         - Vaultwarden:
             icon: bitwarden
             description: Password manager
