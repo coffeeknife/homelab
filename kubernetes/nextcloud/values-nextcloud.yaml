@@ -20,6 +20,12 @@ nextcloud:
       mountPath: /var/www/html/config/oidc.secret.config.php
       subPath: oidc.secret.config.php
   configs:
+    url.config.php: |-
+      <?php
+      $CONFIG = array(
+        'overwrite.cli.url' => 'https://drive.wrenspace.dev',
+        'overwriteprotocol' => 'https'
+      );
     maintenance.config.php: |-
       <?php 
       $CONFIG = array(
