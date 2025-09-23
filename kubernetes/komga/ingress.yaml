@@ -5,6 +5,16 @@ metadata:
   namespace: komga
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
+    # homepage
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: "Media"
+    gethomepage.dev/name: "Komga"
+    gethomepage.dev/icon: komga
+    gethomepage.dev/description: "Manga Server"
+    gethomepage.dev/widget.type: komga
+    gethomepage.dev/widget.url: "https://manga.wrenspace.dev/"
+    gethomepage.dev/widget.key: '{{HOMEPAGE_VAR_KOMGA_KEY}}'
+    gethomepage.dev/weight: "20"
 spec:
   rules:
   - host: manga.wrenspace.dev

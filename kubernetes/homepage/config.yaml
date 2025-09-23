@@ -91,15 +91,6 @@ data:
                 type: jellyseerr
                 url: https://req.stream.wrenspace.dev/
                 key: {{HOMEPAGE_VAR_JELLYSEERR_KEY}}
-        - Komga:
-            icon: komga
-            description: Manga Server
-            href: https://manga.wrenspace.dev/
-            siteMonitor: https://manga.wrenspace.dev/
-            widget:
-                type: komga
-                url: https://manga.wrenspace.dev/
-                key: {{HOMEPAGE_VAR_KOMGA_KEY}}
         - Audiobookshelf:
             icon: audiobookshelf
             description: eBook, Audiobook & Podcast Server
