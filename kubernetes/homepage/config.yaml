@@ -68,16 +68,6 @@ data:
     # https://gethomepage.dev/configs/services/
 
     - Services:
-        - Paperless:
-            icon: paperless-ngx
-            description: Filing cabinet
-            namespace: paperless
-            app: paperless
-            href: https://file.wrenspace.dev/
-            widget:
-                type: paperlessngx
-                url: https://file.wrenspace.dev/
-                key: {{HOMEPAGE_VAR_PAPERLESS_KEY}}
         - Home Assistant:
             icon: home-assistant
             description: Smarthome Hub

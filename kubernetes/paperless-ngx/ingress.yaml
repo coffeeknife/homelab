@@ -5,6 +5,17 @@ metadata:
   namespace: paperless
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
+    # homepage
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: "Services"
+    gethomepage.dev/weight: '30'
+    gethomepage.dev/name: Paperless
+    gethomepage.dev/icon: paperless-ngx
+    gethomepage.dev/description: Filing cabinet
+    gethomepage.dev/href: https://file.wrenspace.dev/
+    gethomepage.dev/widget.type: paperlessngx
+    gethomepage.dev/widget.url: https://file.wrenspace.dev/
+    gethomepage.dev/widget.key: '{{HOMEPAGE_VAR_PAPERLESS_KEY}}'
 spec:
   rules:
     - host: file.wrenspace.dev
