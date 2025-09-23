@@ -68,16 +68,6 @@ data:
     # https://gethomepage.dev/configs/services/
 
     - Services:
-        - Nextcloud:
-            icon: nextcloud
-            description: Dropbox clone
-            href: https://drive.wrenspace.dev
-            namespace: nextcloud
-            app: nextcloud
-            widget:
-                type: nextcloud
-                url: https://drive.wrenspace.dev
-                key: {{HOMEPAGE_VAR_NEXTCLOUD_KEY}}
         - Paperless:
             icon: paperless-ngx
             description: Filing cabinet

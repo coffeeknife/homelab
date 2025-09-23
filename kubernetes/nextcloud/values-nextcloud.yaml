@@ -116,6 +116,17 @@ ingress:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd
+    # homepage
+    gethomepage.dev/enabled: 'true'
+    gethomepage.dev/icon: nextcloud
+    gethomepage.dev/name: Nextcloud
+    gethomepage.dev/description: Google drive clone
+    gethomepage.dev/group: Services
+    gethomepage.dev/weight: '20'
+    gethomepage.dev/widget.type: nextcloud
+    gethomepage.dev/widget.url: https://drive.wrenspace.dev
+    gethomepage.dev/widget.key: '{{HOMEPAGE_VAR_NEXTCLOUD_KEY}}'
+
   hosts:
     - host: drive.wrenspace.dev
       paths:
