@@ -1,0 +1,33 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ns.yaml
+
+helmCharts:
+  - name: prometheus
+    repo: https://prometheus-community.github.io/helm-charts
+    releaseName: prometheus
+    version: 27.39.0
+    namespace: monitoring
+    valuesInline:
+      server:
+        ingress:
+          enabled: true
+          ingressClassName: traefik
+          annotations:
+            cert-manager.io/cluster-issuer: cert-issuer
+            # homepage
+            gethomepage.dev/enabled: 'true'
+            gethomepage.dev/group: Monitoring
+            gethomepage.dev/name: Prometheus
+            gethomepage.dev/icon: prometheus
+            gethomepage.dev/description: Metrics Database
+          hosts:
+            - prom.stats.wrenspace.dev
+          tls:
+            - secretName: prom-tls
+              hosts:
+                - prom.stats.wrenspace.dev
+      
