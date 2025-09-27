@@ -6,6 +6,30 @@ resources:
   - ns.yaml
 
 helmCharts:
+  - name: grafana
+    repo: https://grafana.github.io/helm-charts
+    releaseName: grafana
+    version: 10.0.0
+    namespace: monitoring
+    valuesInline:
+      ingress:
+        enabled: true
+        ingressClassName: traefik
+        annotations:
+          cert-manager.io/cluster-issuer: cert-issuer
+          # homepage
+          gethomepage.dev/enabled: 'true'
+          gethomepage.dev/group: Monitoring
+          gethomepage.dev/name: Grafana
+          gethomepage.dev/icon: grafana
+          gethomepage.dev/description: Status Dashboard
+        hosts:
+          - stats.wrenspace.dev
+        tls:
+          - secretName: grafana-tls
+            hosts:
+              - stats.wrenspace.dev
+
   - name: prometheus
     repo: https://prometheus-community.github.io/helm-charts
     releaseName: prometheus
