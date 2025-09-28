@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - ns.yaml
+  - secrets.yaml
 
 helmCharts:
   - name: grafana
@@ -29,6 +30,10 @@ helmCharts:
           - secretName: grafana-tls
             hosts:
               - stats.wrenspace.dev
+      persistence:
+        enabled: true
+      admin:
+        existingSecret: grafana-admin
 
   - name: prometheus
     repo: https://prometheus-community.github.io/helm-charts
