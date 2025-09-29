@@ -1,0 +1,21 @@
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    # homepage
+    gethomepage.dev/enabled: 'true'
+    gethomepage.dev/group: Monitoring
+    gethomepage.dev/name: Grafana
+    gethomepage.dev/icon: grafana
+    gethomepage.dev/description: Status Dashboard
+  hosts:
+    - stats.wrenspace.dev
+  tls:
+    - secretName: grafana-tls
+      hosts:
+        - stats.wrenspace.dev
+persistence:
+  enabled: true
+admin:
+  existingSecret: grafana-admin
