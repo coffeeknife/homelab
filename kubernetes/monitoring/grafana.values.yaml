@@ -19,3 +19,12 @@ persistence:
   enabled: true
 admin:
   existingSecret: grafana-admin
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: https://prom.stats.wrenspace.dev/
+        access: proxy
+        isDefault: true
