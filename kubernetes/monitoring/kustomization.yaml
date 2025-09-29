@@ -20,3 +20,4 @@ helmCharts:
     version: 27.39.0
     namespace: monitoring
     valuesFile: prometheus.values.yaml
+    includeCRDs: true
