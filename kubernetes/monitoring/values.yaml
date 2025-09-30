@@ -50,6 +50,8 @@ prometheus:
       gethomepage.dev/description: Performance metrics
       gethomepage.dev/icon: prometheus
       gethomepage.dev/group: Monitoring
+      gethomepage.dev/widget.type: prometheus
+      gethomepage.dev/widget.url: https://stats.wrenspace.dev
     hosts:
       - stats.wrenspace.dev
     tls:
