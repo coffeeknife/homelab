@@ -1,0 +1,47 @@
+alertmanager:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: cert-issuer
+      # homepage
+      gethomepage.dev/enabled: 'true'
+      gethomepage.dev/group: Monitoring
+    hosts:
+      - alerts.wrenspace.dev
+    tls:
+      - secretName: alertmanager-tls
+        hosts:
+          - alerts.wrenspace.dev
+
+grafana:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: cert-issuer
+      # homepage
+      gethomepage.dev/enabled: 'true'
+      gethomepage.dev/group: Monitoring
+    hosts:
+      - dash.wrenspace.dev
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - dash.wrenspace.dev
+
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: cert-issuer
+      # homepage
+      gethomepage.dev/enabled: 'true'
+      gethomepage.dev/group: Monitoring
+    hosts:
+      - stats.wrenspace.dev
+    tls:
+      - secretName: prom-tls
+        hosts:
+          - stats.wrenspace.dev
