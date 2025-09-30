@@ -1,4 +1,12 @@
 alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          resources:
+            requests:
+              storage: 10Gi
   ingress:
     enabled: true
     ingressClassName: traefik
