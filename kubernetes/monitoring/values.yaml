@@ -30,6 +30,10 @@ grafana:
       # homepage
       gethomepage.dev/enabled: 'true'
       gethomepage.dev/group: Monitoring
+      gethomepage.dev/app: grafana
+      gethomepage.dev/name: Grafana
+      gethomepage.dev/icon: grafana
+      gethomepage.dev/description: Dashboard
     hosts:
       - dash.wrenspace.dev
     tls:
