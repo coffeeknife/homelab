@@ -45,6 +45,10 @@ prometheus:
       cert-manager.io/cluster-issuer: cert-issuer
       # homepage
       gethomepage.dev/enabled: 'true'
+      gethomepage.dev/app: prometheus
+      gethomepage.dev/name: Prometheus
+      gethomepage.dev/description: Performance metrics
+      gethomepage.dev/icon: prometheus
       gethomepage.dev/group: Monitoring
     hosts:
       - stats.wrenspace.dev
