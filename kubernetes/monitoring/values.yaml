@@ -15,6 +15,13 @@ alertmanager:
           - alerts.wrenspace.dev
 
 grafana:
+  sidecar:
+    datasources:
+      enabled: true
+      defaultDatasourceEnabled: true
+      isDefaultDatasource: true
+      url: https://stats.wrenspace.dev
+
   ingress:
     enabled: true
     ingressClassName: traefik
