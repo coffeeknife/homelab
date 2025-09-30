@@ -46,6 +46,14 @@ grafana:
           - dash.wrenspace.dev
 
 prometheus:
+  prometheusSpec:
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          resources:
+            requests:
+              storage: 10Gi
   ingress:
     enabled: true
     ingressClassName: traefik
