@@ -27,6 +27,7 @@ alertmanager:
           - alerts.wrenspace.dev
 
 grafana:
+  forceDeployDatasources: true
   sidecar:
     datasources:
       enabled: true
