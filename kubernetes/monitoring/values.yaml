@@ -7,6 +7,10 @@ alertmanager:
       # homepage
       gethomepage.dev/enabled: 'true'
       gethomepage.dev/group: Monitoring
+      gethomepage.dev/app: alertmanager
+      gethomepage.dev/name: AlertManager
+      gethomepage.dev/description: Prometheus alerts
+      gethomepage.dev/icon: alertmanager
     hosts:
       - alerts.wrenspace.dev
     tls:
