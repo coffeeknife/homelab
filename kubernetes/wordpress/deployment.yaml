@@ -6,11 +6,11 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: wordpress
+      app.kubernetes.io/name: wordpress
   template:
     metadata:
       labels:
-        app: wordpress
+        app.kubernetes.io/name: wordpress
     spec:
       volumes:
         - name: wordpress
