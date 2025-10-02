@@ -4,13 +4,4 @@ kind: Kustomization
 
 resources:
   - namespace.yaml
-  - secrets.yaml
-  - database.yaml
-
-helmCharts:
-  - name: wordpress
-    repo: oci://registry-1.docker.io/bitnamicharts/
-    releaseName: wordpress
-    version: 26.0.0
-    namespace: wordpress
-    valuesFile: wordpress.values.yaml
+  - deployment.yaml
