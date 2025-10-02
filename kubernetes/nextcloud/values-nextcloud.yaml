@@ -1,5 +1,7 @@
 nextcloud:
   host: drive.wrenspace.dev
+  defaultConfigs:
+    redis.config.php: false
   existingSecret:
     enabled: true
     secretName: admin-secret
@@ -8,6 +10,11 @@ nextcloud:
   extraEnv:
     - name: TRUSTED_PROXIES
       value: "10.0.0.0/8"
+    - name: REDIS_PASS
+      valueFrom:
+        secretKeyRef:
+          name: redis-secret
+          key: password
   extraVolumes:
     - name: oauth-secret
       secret:
@@ -35,6 +42,15 @@ nextcloud:
       <?php
       $CONFIG = array(
         'default_phone_region' => 'US',
+      );
+    redis.config.php: |-
+      <?php
+      $CONFIG = array(
+        'redis' => array(
+          'host' => 'redis-ha-haproxy',
+          'port' => '6379',
+          'password' => getenv('REDIS_PASS')
+        ),
       );
     oidc.config.php: |-
       <?php
@@ -73,11 +89,7 @@ externalDatabase:
     databaseKey: database
 
 redis:
-  enabled: true
-  auth:
-    enabled: true
-    existingSecret: redis-secret
-    existingSecretPasswordKey: password
+  enabled: false
 
 imaginary:
   enabled: true

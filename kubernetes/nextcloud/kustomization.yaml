@@ -9,6 +9,18 @@ resources:
   - middlewares.yaml
 
 helmCharts:
+  - name: redis-ha
+    repo: https://dandydeveloper.github.io/charts
+    releaseName: redis-ha
+    version: 4.34.13
+    namespace: nextcloud
+    valuesInline:
+      haproxy:
+        enabled: true
+      auth: true
+      existingSecret: redis-secret
+      authKey: password
+
   - name: nextcloud
     repo: https://nextcloud.github.io/helm/
     version: 7.0.2
