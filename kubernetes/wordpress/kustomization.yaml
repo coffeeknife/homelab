@@ -8,3 +8,4 @@ resources:
   - ingress.yaml
   - config.yaml
   - database.yaml
+  - pvc.yaml

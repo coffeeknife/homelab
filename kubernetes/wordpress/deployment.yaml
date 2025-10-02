@@ -12,9 +12,16 @@ spec:
       labels:
         app: wordpress
     spec:
+      volumes:
+        - name: wordpress
+          persistentVolumeClaim:
+            claimName: wordpress
       containers:
       - name: wordpress
         image: wordpress:6.8.3-php8.4
+        volumeMounts:
+          - name: wordpress
+            mountPath: /var/www/html
         resources:
           requests:
             memory: "128Mi"
