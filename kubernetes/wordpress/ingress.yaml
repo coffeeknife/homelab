@@ -11,6 +11,7 @@ spec:
   tls:
     - hosts:
       - wp.wrenspace.dev
+      secretName: wp.wrenspace.dev-tls
   rules:
   - host: wp.wrenspace.dev
     http:
