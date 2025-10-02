@@ -1,0 +1,23 @@
+wordpressUsername: admin
+existingSecret: wordpress-secret
+wordpressEmail: admin@wrenspace.dev
+wordpressFirstName: Admin
+wordpressLastName: Account
+wordpressBlogName: Wrenspace
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  hostname: wp.wrenspace.dev
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+  tls: true
+
+mariadb:
+  enabled: false
+
+externalDatabase:
+  host: mariadb-port.mariadb-sys.svc.cluster.local
+  user: wordpress
+  database: wordpress-db
+  existingSecret: mariadb-secret
