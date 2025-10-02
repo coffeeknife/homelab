@@ -5,12 +5,12 @@ metadata:
   namespace: wordpress
   labels:
     app.kubernetes.io/name: wordpress
+  annotations:
     gethomepage.dev/enabled: 'true'
     gethomepage.dev/icon: wordpress
     gethomepage.dev/name: Wordpress
     gethomepage.dev/description: 'Robin and Erika site'
     gethomepage.dev/group: Media
-  annotations:
     cert-manager.io/cluster-issuer: cert-issuer
 spec:
   tls:
