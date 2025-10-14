@@ -1,0 +1,13 @@
+apiVersion: networking.cfargotunnel.com/v1alpha2
+kind: ClusterTunnel
+metadata:
+  name: cluster-tunnel
+  namespace: cloudflare
+spec:
+  newTunnel:
+    name: cluster-tunnel
+  cloudflare:
+    email: coffeeknife@proton.me
+    domain: wrenspace.dev
+    secret: cloudflare-secret
+    accountId: ef8ecca28e80c7cdf1cb68c0a778fe08
