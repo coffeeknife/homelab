@@ -7,7 +7,7 @@ subjects:
   - kind: Service # Default
     name: nextcloud
     spec:
-      fqdn: auth.wrenspace.dev
+      fqdn: drive.wrenspace.dev
       protocol: https
       target: http://nextcloud.nextcloud.svc.cluster.local:8080
 tunnelRef:
