@@ -8,6 +8,7 @@ resources:
   - creds.yaml
   - database.yaml
   - client-secrets.yaml
+  - tunnelbinding.yaml
 
 helmCharts:
   - name: authelia
