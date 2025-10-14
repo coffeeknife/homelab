@@ -11,6 +11,6 @@ subjects:
       protocol: https
       target: http://authelia.authelia.svc.cluster.local:80
 tunnelRef:
-  kind: Tunnel # Or ClusterTunnel
+  kind: ClusterTunnel # Or ClusterTunnel
   name: cluster-tunnel
   disableDNSUpdates: false
