@@ -55,6 +55,7 @@ nextcloud:
     oidc.config.php: |-
       <?php
       $CONFIG = array(
+        'social_login_auto_redirect' => true,
         'allow_user_to_change_display_name' => false,
         'oidc_login_provider_url' => 'https://auth.wrenspace.dev',
         'oidc_login_client_id' => 'nextcloud',
