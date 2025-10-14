@@ -14,3 +14,20 @@ tunnelRef:
   kind: ClusterTunnel # Or ClusterTunnel
   name: cluster-tunnel
   disableDNSUpdates: false
+---
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  name: nextcloud-collabora-binding
+  namespace: nextcloud
+subjects:
+  - kind: Service # Default
+    name: nextcloud
+    spec:
+      fqdn: docs.wrenspace.dev
+      protocol: https
+      target: http://nextcloud-collabora.nextcloud.svc.cluster.local:9980
+tunnelRef:
+  kind: ClusterTunnel # Or ClusterTunnel
+  name: cluster-tunnel
+  disableDNSUpdates: false
