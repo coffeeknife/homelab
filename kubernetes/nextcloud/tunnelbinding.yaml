@@ -1,0 +1,16 @@
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  name: nextcloud-binding
+  namespace: nextcloud
+subjects:
+  - kind: Service # Default
+    name: nextcloud
+    spec:
+      fqdn: auth.wrenspace.dev
+      protocol: https
+      target: http://nextcloud.nextcloud.svc.cluster.local:8080
+tunnelRef:
+  kind: ClusterTunnel # Or ClusterTunnel
+  name: cluster-tunnel
+  disableDNSUpdates: false
