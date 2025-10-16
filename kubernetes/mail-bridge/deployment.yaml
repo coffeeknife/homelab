@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: protonmail-bridge
+  namespace: mail-bridge
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: protonmail-bridge
+  template:
+    metadata:
+      labels:
+        app: protonmail-bridge
+    spec:
+      volumes: 
+        - name: protonmail-data
+          persistentVolumeClaim: 
+            claimName: protonmail-bridge-pv-claim
+      containers:
+      - name: protonmail-bridge-container
+        volumeMounts:
+          - mountPath: "/root/"
+            name: protonmail-data
+        image: shenxn/protonmail-bridge:3.19.0-build
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "1024Mi"
+          limits:
+            cpu: "500m"
+            memory: "2048Mi"
+        ports:
+        - containerPort: 25
