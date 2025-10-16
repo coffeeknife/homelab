@@ -7,5 +7,5 @@ spec:
   selector:
     app: protonmail-bridge
   ports:
-  - port: 1143
-    targetPort: 1143
+  - port: 143
+    targetPort: 143
