@@ -41,6 +41,7 @@ nextcloud:
     phone-region.config.php: |-
       <?php
       $CONFIG = array(
+        'default_locale' => 'en_US',
         'default_phone_region' => 'US',
       );
     redis.config.php: |-
