@@ -37,7 +37,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: protonmail-bridge-pv-claim
-  namespace: default
+  namespace: mail-bridge
   labels:
     app: protonmail-bridge
 spec:
