@@ -137,11 +137,6 @@ data:
             description: Low-Frequency Radio IoT Bridge
             href: https://iot.wrenspace.dev/
             siteMonitor: https://iot.wrenspace.dev/
-        - VSCode:
-            icon: vscode
-            description: Development environment
-            siteMonitor: https://vs.wrenspace.dev/
-            href: https://vs.wrenspace.dev/
 
     - Infrastructure:
         - Etheirys:
