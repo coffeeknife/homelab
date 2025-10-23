@@ -81,6 +81,7 @@ data:
             href: https://photo.wrenspace.dev/
             weight: '60'
     - Media:
+    
     - Dev/Admin:
         - Gitea:
             icon: gitea
