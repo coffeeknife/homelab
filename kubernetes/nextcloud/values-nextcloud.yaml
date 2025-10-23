@@ -135,7 +135,7 @@ ingress:
     gethomepage.dev/icon: nextcloud
     gethomepage.dev/name: Nextcloud
     gethomepage.dev/description: Google drive clone
-    gethomepage.dev/group: Services
+    gethomepage.dev/group: Media
     gethomepage.dev/weight: '20'
     gethomepage.dev/widget.type: nextcloud
     gethomepage.dev/widget.url: https://drive.wrenspace.dev

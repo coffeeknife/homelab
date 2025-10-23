@@ -82,34 +82,6 @@ data:
             weight: '60'
 
     - Media:
-        - Jellyseerr:
-            icon: jellyseerr
-            description: Jellyfin media requests
-            href: https://req.stream.wrenspace.dev/
-            siteMonitor: https://req.stream.wrenspace.dev/
-            widget:
-                type: jellyseerr
-                url: https://req.stream.wrenspace.dev/
-                key: {{HOMEPAGE_VAR_JELLYSEERR_KEY}}
-        - Audiobookshelf:
-            icon: audiobookshelf
-            description: eBook, Audiobook & Podcast Server
-            siteMonitor: https://audio.wrenspace.dev/
-            href: https://audio.wrenspace.dev/
-            widget:
-                type: audiobookshelf
-                url: https://audio.wrenspace.dev
-                key: {{HOMEPAGE_VAR_ABSHELF_KEY}}
-        - Linkwarden:
-            icon: linkwarden
-            description: Pocket-style Bookmarks/Web Archive
-            siteMonitor: https://links.wrenspace.dev/
-            href: https://links.wrenspace.dev/
-        - CommaFeed:
-            icon: commafeed
-            description: News & RSS Feed Aggregator
-            siteMonitor: https://feed.wrenspace.dev/
-            href: https://feed.wrenspace.dev/
 
     - Dev/Admin:
         - Gitea:
