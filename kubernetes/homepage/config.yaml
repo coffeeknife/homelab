@@ -14,7 +14,7 @@ data:
     description: robin homelab homepage
     useEqualHeights: false
 
-    background: https://c1.wallpaperflare.com/preview/4/366/364/milkyway-stars-astro-photography-brown-black-contrast.jpg
+    background: https://images.unsplash.com/photo-1643653186431-1e7b4c6ef7b5?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1469
     headerStyle: clean
     statusStyle: dot
 
