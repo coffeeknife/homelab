@@ -27,6 +27,17 @@ nextcloud:
       mountPath: /var/www/html/config/oidc.secret.config.php
       subPath: oidc.secret.config.php
   configs:
+    mail-app.config.php: |-
+      <?php
+      $CONFIG = array(
+        'mail_smtpstreamoptions' => array (
+          'ssl' => array (
+            'allow_self_signed' => true,
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+          ),
+        ),
+      );
     url.config.php: |-
       <?php
       $CONFIG = array(
