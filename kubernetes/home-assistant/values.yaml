@@ -1,6 +1,10 @@
 configuration:
   enabled: true
   forceInit: true
+  logger:
+    default: warning
+    logs:
+      custom_components.mail_and_packages: debug
   trusted_proxies:
     - 10.0.0.0/8
 
