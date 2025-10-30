@@ -21,6 +21,10 @@ dashboards:
     #cert-manager:
      # url: https://grafana.com/api/dashboards/11001/revisions/1/download # will use once i properly gitify my cert-manager
 
+persistence:
+  enabled: true
+  type: pvc
+
 datasources:
   datasources.yaml:
     apiVersion: 1
