@@ -8,6 +8,7 @@ server:
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: "Monitoring"
       gethomepage.dev/name: "Prometheus"
+      gethomepage.dev/app: "prometheus"
       gethomepage.dev/icon: prometheus
       gethomepage.dev/description: "Cluster monitoring"
     hosts:
