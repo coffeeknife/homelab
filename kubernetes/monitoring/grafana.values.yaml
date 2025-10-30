@@ -18,8 +18,8 @@ dashboards:
       url: https://grafana.com/api/dashboards/16888/revisions/9/download
     traefik:
       url: https://grafana.com/api/dashboards/17347/revisions/9/download
-    cert-manager:
-      url: https://grafana.com/api/dashboards/11001/revisions/1/download
+    #cert-manager:
+     # url: https://grafana.com/api/dashboards/11001/revisions/1/download # will use once i properly gitify my cert-manager
 
 datasources:
   datasources.yaml:
