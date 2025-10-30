@@ -10,6 +10,16 @@ admin:
   userKey: username
   passwordKey: password
 
+datasources:
+  datasources.yaml:
+    apiVersion: v1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: https://prom.wrenspace.dev/
+        access: proxy
+        isDefault: true
+
 ingress:
   enabled: true
   ingressClassName: traefik
