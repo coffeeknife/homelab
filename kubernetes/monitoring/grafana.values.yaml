@@ -16,6 +16,8 @@ dashboards:
       url: https://grafana.com/api/dashboards/15661/revisions/2/download
     longhorn:
       url: https://grafana.com/api/dashboards/16888/revisions/9/download
+    traefik:
+      url: https://grafana.com/api/dashboards/17347/revisions/9/download
 
 datasources:
   datasources.yaml:
