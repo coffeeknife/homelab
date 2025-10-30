@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - ns.yaml
+  - grafana.config.yaml
   - secrets.yaml
 
 helmCharts:
