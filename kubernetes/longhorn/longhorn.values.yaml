@@ -424,7 +424,10 @@ longhornManager:
   #  label-key1: "label-value1"
   #  label-key2: "label-value2"
   # -- Annotation for the Longhorn Manager service.
-  serviceAnnotations: {}
+  serviceAnnotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: manager
+    
   ## If you want to set annotations for the Longhorn Manager service, delete the `{}` in the line above
   ## and uncomment this example block
   #  annotation-key1: "annotation-value1"
