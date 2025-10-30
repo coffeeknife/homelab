@@ -2,7 +2,7 @@
 envFromSecrets: 
   - name: grafana-auth-secret
 
-envFromConfigs:
+envFromConfigMaps:
   - name: grafana-config
 
 ingress:
