@@ -10,6 +10,11 @@ admin:
   userKey: username
   passwordKey: password
 
+dashboards:
+  default:
+    longhorn:
+      url: https://grafana.com/api/dashboards/16888/revisions/9/download
+
 datasources:
   datasources.yaml:
     apiVersion: 1
