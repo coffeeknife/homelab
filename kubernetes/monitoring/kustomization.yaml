@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - ns.yaml
+  - secrets.yaml
 
 helmCharts:
   - name: prometheus
