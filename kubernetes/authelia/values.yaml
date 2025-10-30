@@ -146,7 +146,7 @@ configMap:
           require_pkce: true
           pkce_challenge_method: 'S256'
           redirect_uris:
-            - 'https://stats.example.com/login/generic_oauth'
+            - 'https://stats.wrenspace.dev/login/generic_oauth'
           scopes:
             - 'openid'
             - 'profile'
