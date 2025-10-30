@@ -12,3 +12,10 @@ helmCharts:
     version: 27.42.1
     namespace: monitoring
     valuesFile: prometheus.values.yaml
+
+  - name: grafana
+    repo: https://grafana.github.io/helm-charts
+    releaseName: grafana
+    version: 10.1.4
+    namespace: monitoring
+    valuesFile: grafana.values.yaml
