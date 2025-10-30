@@ -140,7 +140,7 @@ configMap:
         # grafana
         - client_id: 'grafana'
           client_name: 'Grafana'
-          client_secret: ''
+          client_secret: { path: /secrets/client-secrets/grafana.secret.txt }
           public: false
           authorization_policy: 'two_factor'
           require_pkce: true
@@ -158,7 +158,7 @@ configMap:
             - 'authorization_code'
           access_token_signed_response_alg: 'none'
           userinfo_signed_response_alg: 'none'
-          token_endpoint_auth_method: 'none' # test
+          token_endpoint_auth_method: 'client_secret_basic'
 
 secret:
   existingSecret: crypto
