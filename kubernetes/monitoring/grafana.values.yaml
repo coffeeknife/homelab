@@ -5,6 +5,11 @@ envFromSecrets:
 envFromConfigMaps:
   - name: grafana-config
 
+admin:
+  existingSecret: grafana-admin
+  userKey: username
+  passwordKey: password
+
 ingress:
   enabled: true
   ingressClassName: traefik
