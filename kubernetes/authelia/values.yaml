@@ -172,10 +172,6 @@ secret:
       items: [ { key: private.pem, path: private.pem } ]
     client-secrets: {}
 
-# temp
-pod:
-  kind: Deployment
-
 ingress:
   enabled: true
   className: traefik
