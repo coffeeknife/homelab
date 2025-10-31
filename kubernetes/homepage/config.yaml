@@ -27,6 +27,10 @@ data:
       Dev/Admin:
       Infrastructure:
       Monitoring:
+      Arr:
+        header: false
+        style: row
+        columns: 4
 
     cardBlur: xl
 
