@@ -3,6 +3,10 @@ kind: Service
 metadata:
   name: homepage
   namespace: homepage
+  annotations:
+    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: cookie
+    traefik.ingress.kubernetes.io/service.sticky.cookie.secure: "true"
   labels:
     app.kubernetes.io/name: homepage
 spec:
