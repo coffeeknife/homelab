@@ -1,3 +1,6 @@
+pod:
+  kind: Deployment
+
 configMap:
   session:
     cookies: [ { domain: wrenspace.dev, subdomain: auth } ]
