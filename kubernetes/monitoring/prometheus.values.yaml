@@ -1,4 +1,6 @@
 server:
+  persistentVolume:
+    size: 16Gi
   ingress:
     enabled: true
     ingressClassName: traefik
@@ -17,3 +19,4 @@ server:
       - secretName: prom-tls
         hosts:
           - prom.wrenspace.dev 
+
