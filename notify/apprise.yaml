@@ -1,0 +1,132 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: apprise-config-pvc
+  namespace: notify
+  labels:
+    app: apprise
+    app.kubernetes.io/name: apprise
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: apprise-attachments-pvc
+  namespace: notify
+  labels:
+    app: apprise
+    app.kubernetes.io/name: apprise
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apprise-deployment
+  namespace: notify
+  labels:
+    app: apprise
+    app.kubernetes.io/name: apprise
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apprise
+      app.kubernetes.io/name: apprise
+  template:
+    metadata:
+      labels:
+        app: apprise
+        app.kubernetes.io/name: apprise
+    spec:
+      containers:
+        - name: apprise-api
+          image: lscr.io/linuxserver/apprise-api:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: TZ
+              value: "America/Chicago"
+            - name: APPRISE_ATTACH_SIZE
+              value: "0"
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /config
+            - name: attachments-volume
+              mountPath: /attachments
+      volumes:
+        - name: config-volume
+          persistentVolumeClaim:
+            claimName: apprise-config-pvc
+        - name: attachments-volume
+          persistentVolumeClaim:
+            claimName: apprise-attachments-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apprise-service
+  namespace: notify
+  labels:
+    app.kubernetes.io/name: apprise
+spec:
+  selector:
+    app: apprise
+    app.kubernetes.io/name: apprise
+  ports:
+    - protocol: TCP
+      port: 8000
+      targetPort: 8000
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apprise-ingress
+  namespace: notify
+  labels:
+    app.kubernetes.io/name: apprise
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    cert-manager.io/cluster-issuer: "cert-issuer"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: "Monitoring"
+    gethomepage.dev/name: "Apprise"
+    gethomepage.dev/icon: "apprise.png"
+    gethomepage.dev/description: "Push Notifications API"
+spec:
+  tls:
+    - hosts:
+        - apprise.wrenspace.dev
+      secretName: apprise-tls
+  rules:
+    - host: apprise.wrenspace.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: apprise-service
+                port:
+                  number: 8000
