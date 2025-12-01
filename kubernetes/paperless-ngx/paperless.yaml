@@ -17,8 +17,6 @@ spec:
         app.kubernetes.io/name: paperless
     spec:
       securityContext:
-        runAsUser: 33
-        runAsGroup: 33
         fsGroup: 33
       volumes:
         - name: paperless-pvc
