@@ -17,3 +17,16 @@ helmCharts:
     version: 0.10.49
     namespace: authelia
     valuesFile: values.yaml
+
+  - name: redis
+    repo: https://charts.bitnami.com/bitnami
+    releaseName: redis
+    version: 24.0.0
+    namespace: authelia
+    valuesInline:
+      architecture: standalone
+      auth:
+        existingSecret: redis-creds
+        existingSecretPasswordKey: password
+      master:
+        priorityClassName: high-priority

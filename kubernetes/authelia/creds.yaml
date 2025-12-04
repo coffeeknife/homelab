@@ -15,3 +15,11 @@ metadata:
 spec:
   encryptedData:
     password: AgBjzm0EkId9gWXwatpoYpFhr3MB8rxT+zXOuLBDqSZUY01lvzls8z5RYUCkb533jm+Q+1T/QQURLIrw2UIgjK0p8CFqKd2VnCXzTYuIv/2xqvyPzHn+ZXLavz7JMj4jN4A16G4UWaGHZlzIScyEVGO3v2YiYjcuprV3FY9Te70CfQx/PeN3F8yynVUkpSaTC1CZA84z6ax6LypyXTwjFoyBNX9suIiPHjLx5QhodLNG/vDHNP3cOkV5mJhmAeKbFgU8rZ/+OzOVmuGhkW/HfuYCs2/vL90UIv3TQ4CLCZ2qQRoDd86UYs8W1Miut/SRAd8rhjzS2JtNGa+12Z1S0A25nUyLxLrW/tfu9+opa4GWy4hXplct4gcN5UNi+v/jRyMZSqbnnD6s65OQTcSOTz13QLtGsji4UC+N41bvFAsZx+eaytjmZKmSNG3vExB1r8plMZNMXaL/qq8uk1kagSAznyLCbm7tnFxjY4x58GYl86avxnTy0Pjrn8c73YWw6dp5XbLwDoyw6ZxD8aojuAQG0B9JYl76Ax7nYVYUdvPrj9M0f0ocIQ3BYzy/mRc0e68PovtfCvUw9FnW8afoQYID0tjXU2mLuYFA4wQxVif5eKnjwJfE3laWAkgM0lHJM62Pq4SHWzOg0Hid6Jz44UgeVUKS4xNyTtISzRyY+WK8t8igmNEM/HzN6LKQjzUhD6C8Qr2ibWDLuvjsw1SUdFP8
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: redis-creds
+  namespace: authelia
+  annotations:
+    secret-generator.v1.mittwald.de/autogenerate: password

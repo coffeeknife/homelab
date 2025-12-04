@@ -175,6 +175,8 @@ secret:
       items: [ { key: password, path: authentication.ldap.password.txt } ]
     db-auth:
       items: [ { key: password, path: storage.mysql.password.txt } ]
+    redis-auth:
+      items: [ { key: password, path: session.redis.password.txt } ]
     jwk-rsa:
       items: [ { key: private.pem, path: private.pem } ]
     client-secrets: {}
