@@ -14,7 +14,7 @@ helmCharts:
     repo: https://charts.bitnami.com/bitnami
     releaseName: redis
     version: 24.0.0
-    namespace: paperless
+    namespace: nextcloud
     valuesInline:
       architecture: standalone
       auth:
