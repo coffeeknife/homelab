@@ -13,6 +13,7 @@ spec:
       labels:
         app: vsftpd
     spec:
+      priorityClassName: high-priority
       securityContext:
         fsGroup: 1000
       volumes:
