@@ -1,5 +1,6 @@
 pod:
   kind: Deployment
+  priorityClassName: high-priority
 
 configMap:
   session:

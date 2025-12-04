@@ -21,6 +21,7 @@ spec:
         app: lldap
         app.kubernetes.io/name: lldap
     spec:
+      priorityClassName: high-priority
       volumes:
       - name: certificate
         secret:
