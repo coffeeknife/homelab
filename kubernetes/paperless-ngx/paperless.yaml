@@ -16,6 +16,7 @@ spec:
         app: paperless
         app.kubernetes.io/name: paperless
     spec:
+      priorityClassName: key-service
       securityContext:
         fsGroup: 33
       volumes:
