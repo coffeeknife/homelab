@@ -20,7 +20,7 @@ spec:
       labels:
         app.kubernetes.io/name: homepage
     spec:
-      priorityClass: high-priority
+      priorityClassName: high-priority
       serviceAccountName: homepage
       automountServiceAccountToken: true
       dnsPolicy: ClusterFirst
