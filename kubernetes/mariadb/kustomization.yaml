@@ -24,4 +24,4 @@ helmCharts:
     version: 25.8.3
     valuesInline:
       currentNamespaceOnly: false
-      priorityClassName: high-priority
+      priorityClassName: system-cluster-critical
