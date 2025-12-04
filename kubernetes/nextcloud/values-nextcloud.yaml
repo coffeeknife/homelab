@@ -60,7 +60,7 @@ nextcloud:
       <?php
       $CONFIG = array(
         'redis' => array(
-          'host' => 'redis-ha-haproxy',
+          'host' => 'redis-headless',
           'port' => '6379',
           'password' => getenv('REDIS_PASS')
         ),
