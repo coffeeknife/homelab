@@ -5,6 +5,9 @@ pod:
 configMap:
   session:
     cookies: [ { domain: wrenspace.dev, subdomain: auth } ]
+    redis:
+      enabled: true
+      deploy: true
 
   access_control:
     default_policy: deny
