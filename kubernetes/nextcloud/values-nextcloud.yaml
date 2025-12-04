@@ -1,5 +1,5 @@
-priorityClassName: high-priority
 nextcloud:
+  priorityClassName: high-priority
   host: drive.wrenspace.dev
   defaultConfigs:
     redis.config.php: false
