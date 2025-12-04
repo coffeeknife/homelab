@@ -94,4 +94,4 @@ spec:
                 name: redis-creds
                 key: password
           - name: PAPERLESS_REDIS
-            value: "redis://default:$(REDIS_PASS)@redis-ha-haproxy.paperless.svc.cluster.local:6379"
+            value: "redis://default:$(REDIS_PASS)@redis-headless.paperless.svc.cluster.local:6379"
