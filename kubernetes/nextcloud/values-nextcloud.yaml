@@ -1,3 +1,4 @@
+priorityClassName: high-priority
 nextcloud:
   host: drive.wrenspace.dev
   defaultConfigs:
