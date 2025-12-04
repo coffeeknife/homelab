@@ -8,6 +8,8 @@ spec:
     name: mariadb-secret
     key: password
 
+  priorityClassName: high-priority
+
   replicas: 1
 
   port: 3306
