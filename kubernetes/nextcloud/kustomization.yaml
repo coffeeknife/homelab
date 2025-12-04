@@ -10,17 +10,18 @@ resources:
   - tunnelbinding.yaml
 
 helmCharts:
-  - name: redis-ha
-    repo: https://dandydeveloper.github.io/charts
-    releaseName: redis-ha
-    version: 4.34.13
-    namespace: nextcloud
+  - name: redis
+    repo: https://charts.bitnami.com/bitnami
+    releaseName: redis
+    version: 24.0.0
+    namespace: paperless
     valuesInline:
-      haproxy:
-        enabled: true
-      auth: true
-      existingSecret: redis-secret
-      authKey: password
+      architecture: standalone
+      auth:
+        existingSecret: redis-secret
+        existingSecretPasswordKey: password
+      master:
+        priorityClassName: high-priority
 
   - name: nextcloud
     repo: https://nextcloud.github.io/helm/
