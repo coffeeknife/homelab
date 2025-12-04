@@ -2,16 +2,12 @@ pod:
   kind: Deployment
   priorityClassName: high-priority
 
-redis:
-  master:
-    priorityClassName: high-priority
-
 configMap:
   session:
     cookies: [ { domain: wrenspace.dev, subdomain: auth } ]
     redis:
       enabled: true
-      deploy: true
+      deploy: false
 
   access_control:
     default_policy: deny
