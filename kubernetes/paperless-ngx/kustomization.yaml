@@ -24,3 +24,5 @@ helmCharts:
       auth:
         existingSecret: redis-creds
         existingSecretPasswordKey: password
+      master:
+        priorityClassName: high-priority
