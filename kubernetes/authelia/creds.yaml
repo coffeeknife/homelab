@@ -19,7 +19,7 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: session.redis.password.txt
+  name: redis-creds
   namespace: authelia
   annotations:
-    secret-generator.v1.mittwald.de/autogenerate: password
+    secret-generator.v1.mittwald.de/autogenerate: session.redis.password.txt
