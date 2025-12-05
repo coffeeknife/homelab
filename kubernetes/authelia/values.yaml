@@ -176,7 +176,7 @@ secret:
     db-auth:
       items: [ { key: password, path: storage.mysql.password.txt } ]
     redis-creds:
-      items: [ { key: password, path: session.redis.password.txt } ]
+      items: [ { key: session.redis.password.txt, path: session.redis.password.txt } ]
     jwk-rsa:
       items: [ { key: private.pem, path: private.pem } ]
     client-secrets: {}

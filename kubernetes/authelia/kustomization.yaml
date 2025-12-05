@@ -26,7 +26,7 @@ helmCharts:
     valuesInline:
       architecture: standalone
       auth:
-        existingSecret: redis-creds
+        existingSecret: session.redis.password.txt
         existingSecretPasswordKey: password
       master:
         priorityClassName: high-priority
