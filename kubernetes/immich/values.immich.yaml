@@ -2,6 +2,15 @@ immich:
   persistence:
     library:
       existingClaim: immich-pvc
+  env:
+    - name: DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: immich-creds
+          key: postgres
+  envFrom:
+    - configMapRef:
+        name: immich-env
 
 valkey:
   enabled: true
