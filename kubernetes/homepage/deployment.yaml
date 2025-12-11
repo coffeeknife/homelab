@@ -31,11 +31,11 @@ spec:
           imagePullPolicy: Always
           resources:
             limits:
-              memory: 1Gi
-              cpu: "1"
-            requests:
               memory: 512Mi
-              cpu: "0.2"
+              cpu: "200m"
+            requests:
+              memory: 256Mi
+              cpu: "50m"
           env:
             - name: HOMEPAGE_ALLOWED_HOSTS
               value: "*" # TODO define once ingress is fixed
