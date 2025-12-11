@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ns.yaml
   - nfs-vol.yaml
+  - secrets.yaml
 
 helmCharts:
   - repo: https://immich-app.github.io/immich-charts
@@ -13,3 +14,16 @@ helmCharts:
     version: 0.10.3
     namespace: immich
     valuesFile: values.immich.yaml
+  
+  - repo: https://charts.bitnami.com/bitnami
+    name: postgresql
+    releaseName: immich-postgres
+    version: 18.1.13
+    namespace: immich
+    valuesInline:
+      auth:
+        username: immich
+        database: immich
+        existingSecret: immich-creds
+        secretKeys:
+          userPasswordKey: postgres
