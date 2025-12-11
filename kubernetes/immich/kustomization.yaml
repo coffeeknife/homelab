@@ -21,6 +21,8 @@ helmCharts:
     version: 18.1.13
     namespace: immich
     valuesInline:
+      primary:
+        priorityClassName: high-priority
       auth:
         username: immich
         database: immich
