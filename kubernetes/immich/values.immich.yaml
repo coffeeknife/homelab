@@ -1,6 +1,6 @@
 controllers:
   main:
-    controllers:
+    containers:
       main:
         env:
           - name: DB_PASSWORD
