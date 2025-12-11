@@ -49,8 +49,15 @@ spec:
             secretKeyRef:
               name: immich-creds
               key: postgres
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "1Gi"
+          limits:
+            cpu: "1000m"
+            memory: "2Gi"
         volumeMounts:
-        - mountPath: /var/lib/postgresql/data
+        - mountPath: /var/lib/postgresql
           name: postgres-data
   volumeClaimTemplates:
   - metadata:
