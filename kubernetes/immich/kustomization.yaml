@@ -4,6 +4,7 @@ kind: Kustomization
 
 resources:
   - ns.yaml
+  - nfs-vol.yaml
 
 helmCharts:
   - repo: https://immich-app.github.io/immich-charts
