@@ -1,0 +1,25 @@
+immich:
+  persistence:
+    library:
+      existingClaim: immich-pvc
+
+valkey:
+  enabled: true
+
+server:
+  ingress:
+    main:
+      enabled: true
+      annotations:
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        cert-manager.io/cluster-issuer: cert-issuer
+      hosts:
+        - host: photo.wrenspace.dev
+          paths:
+            - path: "/"
+              service:
+                identifier: main
+      tls:
+        - hosts:
+            - photo.wrenspace.dev
+          secretName: immich-tls
