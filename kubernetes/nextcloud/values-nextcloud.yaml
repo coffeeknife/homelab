@@ -176,10 +176,10 @@ persistence:
 resources:
   requests:
     memory: "1Gi"
-    cpu: "250m"
+    cpu: "100m"
   limits:
     memory: "2Gi"
-    cpu: "1"
+    cpu: "500m"
 
 # prevent probes from interrupting startup
 livenessProbe:
