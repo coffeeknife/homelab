@@ -8,6 +8,9 @@ configMap:
     redis:
       enabled: true
       deploy: false
+      host: redis-master.authelia.svc.cluster.local
+      password:
+        secret_name: redis-creds
 
   access_control:
     default_policy: deny
