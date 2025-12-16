@@ -182,7 +182,7 @@ configMap:
           redirect_uris:
             - 'https://photo.wrenspace.dev/auth/login'
             - 'https://photo.wrenspace.dev/user-settings'
-            - 'app.immich://oauth-callback'
+            - 'https://photo.wrenspace.dev/api/oauth/mobile-redirect'
           scopes:
             - 'openid'
             - 'profile'
