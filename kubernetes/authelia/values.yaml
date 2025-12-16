@@ -212,6 +212,7 @@ ingress:
   certManager: true
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd
     cert-manager.io/cluster-issuer: cert-issuer
     # homepage
     gethomepage.dev/name: Authelia
