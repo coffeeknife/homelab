@@ -23,6 +23,10 @@ configMap:
         policy: two_factor
         subject:
           - ['group:paperless']
+      - domain: 'grocy.wrenspace.dev'
+        policy: two_factor
+        subject:
+          - ['group:grocy']
 
   storage:
     mysql:

@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grocy
+  namespace: grocy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grocy
+  template:
+    metadata:
+      labels:
+        app: grocy
+    spec:
+      containers:
+      - name: grocy
+        image: lscr.io/linuxserver/grocy:4.5.0
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "250m"
+        env:
+          - name: TZ
+            value: "America/Chicago"
+          - name: PUID
+            value: "1000"
+          - name: PGID
+            value: "1000"
+        ports:
+          - containerPort: 80
+            name: http
+        volumeMounts:
+          - name: data
+            mountPath: /config
+          - name: config
+            mountPath: /config/data/config.php
+            subPath: config.php
+          - name: ldap-password
+            mountPath: /run/secrets/ldap-password
+            subPath: bind-password
+            readOnly: true
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: grocy-data
+        - name: config
+          configMap:
+            name: grocy-config
+        - name: ldap-password
+          secret:
+            secretName: grocy-ldap

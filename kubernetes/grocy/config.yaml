@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grocy-config
+  namespace: grocy
+data:
+  config.php: |
+    <?php
+    Setting('AUTH_CLASS', 'Grocy\Middleware\ReverseProxyAuthMiddleware');
+    Setting('REVERSE_PROXY_AUTH_HEADER', 'Remote-User');
+    Setting('REVERSE_PROXY_AUTH_USE_ENV', false);
+    
+    Setting('LDAP_ENABLED', true);
+    Setting('LDAP_ADDRESS', 'ldaps://lldap.lldap.svc.cluster.local:6360');
+    Setting('LDAP_BASE_DN', 'ou=people,dc=wrenspace,dc=dev');
+    Setting('LDAP_BIND_DN', 'uid=search,ou=people,dc=wrenspace,dc=dev');
+    Setting('LDAP_BIND_PASSWORD', file_get_contents('/run/secrets/ldap-password'));
+    Setting('LDAP_USER_FILTER', '(&(objectClass=person)(uid=%s)(memberOf=cn=grocy,ou=groups,dc=wrenspace,dc=dev))');
+    Setting('LDAP_UID_ATTR', 'uid');

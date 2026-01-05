@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grocy
+  namespace: grocy
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: grocy-authelia@kubernetescrd
+spec:
+  rules:
+  - host: grocy.wrenspace.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: grocy
+            port:
+              name: http
+  tls:
+  - hosts:
+    - grocy.wrenspace.dev
+    secretName: grocy-tls
