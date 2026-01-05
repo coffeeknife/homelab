@@ -23,33 +23,22 @@ spec:
           limits:
             memory: "256Mi"
             cpu: "250m"
+        envFrom:
+          - configMapRef:
+              name: grocy-config
         env:
-          - name: TZ
-            value: "America/Chicago"
-          - name: PUID
-            value: "1000"
-          - name: PGID
-            value: "1000"
+          - name: GROCY_LDAP_BIND_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: grocy-ldap
+                key: bind-password
         ports:
           - containerPort: 80
             name: http
         volumeMounts:
           - name: data
             mountPath: /config
-          - name: config
-            mountPath: /config/data/config.php
-            subPath: config.php
-          - name: ldap-password
-            mountPath: /run/secrets/ldap-password
-            subPath: bind-password
-            readOnly: true
       volumes:
         - name: data
           persistentVolumeClaim:
             claimName: grocy-data
-        - name: config
-          configMap:
-            name: grocy-config
-        - name: ldap-password
-          secret:
-            secretName: grocy-ldap
