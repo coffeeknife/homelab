@@ -22,7 +22,7 @@ metadata:
   namespace: kube-system
 spec:
   forwardAuth:
-    address: https://auth.wrenspace.dev/api/authz/forward-auth
+    address: http://authelia.authelia.svc.cluster.local/api/authz/forward-auth
     trustForwardHeader: true
     authResponseHeaders:
       - Remote-User
