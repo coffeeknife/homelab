@@ -21,12 +21,13 @@ metadata:
   name: forwardauth
   namespace: kube-system
 spec:
-  forwardAuth:
-    address: https://auth.wrenspace.dev/api/authz/forward-auth
-    trustForwardHeader: true
+  headers: 
     customRequestHeaders:
       X-Forwarded-Method: "GET"
       X-Forwarded-Proto: "https"
+  forwardAuth:
+    address: https://auth.wrenspace.dev/api/authz/forward-auth
+    trustForwardHeader: true
     authResponseHeaders:
       - Remote-User
       - Remote-Groups
