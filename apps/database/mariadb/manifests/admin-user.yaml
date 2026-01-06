@@ -2,6 +2,7 @@ apiVersion: k8s.mariadb.com/v1alpha1
 kind: User
 metadata:
   name: robin
+  namespace: mariadb-sys
 spec:
   mariaDbRef:
     name: mariadb
@@ -16,6 +17,7 @@ apiVersion: k8s.mariadb.com/v1alpha1
 kind: Grant
 metadata:
   name: grant-robin
+  namespace: mariadb-sys
 spec:
   mariaDbRef:
     name: mariadb
