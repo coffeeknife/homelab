@@ -30,8 +30,6 @@ spec:
       - Remote-Name
       - Remote-Email
     authRequestHeaders:
-      - X-Forwarded-Host
-      - X-Forwarded-Uri
-      - X-Forwarded-For
-      - X-Forwarded-Method
-      - X-Forwarded-Proto
+      - Accept
+      - Cookie
+      - Authorization
