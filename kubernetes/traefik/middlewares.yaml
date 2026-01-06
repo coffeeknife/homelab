@@ -24,14 +24,15 @@ spec:
   forwardAuth:
     address: https://auth.wrenspace.dev/api/authz/forward-auth
     trustForwardHeader: true
+    customRequestHeaders:
+      X-Forwarded-Method: "GET"
+      X-Forwarded-Proto: "https"
     authResponseHeaders:
       - Remote-User
       - Remote-Groups
       - Remote-Name
       - Remote-Email
     authRequestHeaders:
-      - X-Forwarded-Method
-      - X-Forwarded-Proto
       - X-Forwarded-Host
       - X-Forwarded-Uri
       - X-Forwarded-For
