@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: grocy
   namespace: grocy
+  annotations:
+    configmap.reloader.stakater.com/reload: "grocy-config"
 spec:
   replicas: 1
   selector:
