@@ -33,7 +33,7 @@ spec:
                 name: grocy-ldap
                 key: bind-password
         ports:
-          - containerPort: 9283
+          - containerPort: 80
             name: http
         volumeMounts:
           - name: data

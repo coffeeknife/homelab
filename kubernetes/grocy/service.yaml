@@ -9,5 +9,5 @@ spec:
     app: grocy
   ports:
   - port: 80
-    targetPort: 9283
+    targetPort: 80
     name: http
