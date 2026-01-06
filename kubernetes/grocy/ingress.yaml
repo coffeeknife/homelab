@@ -6,7 +6,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.middlewares: grocy-authelia@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: authelia@kubernetescrd
 spec:
   rules:
   - host: grocy.wrenspace.dev
