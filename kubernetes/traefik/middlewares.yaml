@@ -29,3 +29,9 @@ spec:
       - Remote-Groups
       - Remote-Name
       - Remote-Email
+    authRequestHeaders:
+      - X-Forwarded-Method
+      - X-Forwarded-Proto
+      - X-Forwarded-Host
+      - X-Forwarded-Uri
+      - X-Forwarded-For
