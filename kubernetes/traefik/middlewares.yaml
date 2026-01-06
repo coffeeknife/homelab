@@ -22,7 +22,7 @@ metadata:
   namespace: kube-system
 spec:
   forwardAuth:
-    address: https://auth.wrenspace.dev/api/verify?rd=https://grocy.wrenspace.dev/
+    address: https://auth.wrenspace.dev/api/authz/forward-auth
     trustForwardHeader: true
     authResponseHeaders:
       - Remote-User

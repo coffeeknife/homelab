@@ -3,6 +3,36 @@ pod:
   priorityClassName: high-priority
 
 configMap:
+  server:
+    endpoints:
+      authz:
+        forward-auth:
+          implementation: 'ForwardAuth'
+          authn_strategies:
+            - name: 'HeaderAuthorization'
+              schemes:
+                - 'Basic'
+              scheme_basic_cache_lifespan: 0
+            - name: 'CookieSession'
+        ext-authz:
+          implementation: 'ExtAuthz'
+          authn_strategies:
+            - name: 'HeaderAuthorization'
+              schemes:
+                - 'Basic'
+              scheme_basic_cache_lifespan: 0
+            - name: 'CookieSession'
+        auth-request:
+          implementation: 'AuthRequest'
+          authn_strategies:
+            - name: 'HeaderAuthorization'
+              schemes:
+                - 'Basic'
+              scheme_basic_cache_lifespan: 0
+            - name: 'CookieSession'
+        legacy:
+          implementation: 'Legacy'
+
   session:
     cookies: [ { domain: wrenspace.dev, subdomain: auth } ]
     redis:
