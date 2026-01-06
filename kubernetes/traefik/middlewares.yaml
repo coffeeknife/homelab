@@ -22,16 +22,10 @@ metadata:
   namespace: kube-system
 spec:
   forwardAuth:
-    address: https://auth.wrenspace.dev/api/authz/forward-auth
+    address: https://auth.wrenspace.dev/api/verify?rd=https://grocy.wrenspace.dev/
     trustForwardHeader: true
-    addAuthCookiesToResponse:
-      - authelia_session
     authResponseHeaders:
       - Remote-User
       - Remote-Groups
       - Remote-Name
       - Remote-Email
-    authRequestHeaders:
-      - Accept
-      - Cookie
-      - Proxy-Authorization
