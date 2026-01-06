@@ -7,7 +7,7 @@ spec:
   interval: 10m
   sourceRef:
     kind: GitRepository
-    name: homelab
+    name: flux-system
   path: ./apps/auth/lldap/manifests
   prune: true
   wait: true
