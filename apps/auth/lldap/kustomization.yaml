@@ -1,0 +1,15 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: lldap
+  namespace: flux-system
+spec:
+  interval: 10m
+  sourceRef:
+    kind: GitRepository
+    name: homelab
+  path: ./apps/auth/lldap/manifests
+  prune: true
+  wait: true
+  dependsOn:
+    - name: mariadb
