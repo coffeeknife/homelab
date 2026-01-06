@@ -1,8 +1,5 @@
 ports:
   websecure:
-    trustedIPs:
-      - "10.0.0.0/8"
-      - "192.168.0.0/16"
     port: 8443
     expose:
       default: true
@@ -15,6 +12,10 @@ ports:
       advertisedPort: 443
     tls:
       enabled: true
+    forwardedHeaders:
+      trustedIPs:
+        - "10.0.0.0/8"
+        - "192.168.0.0/16"
   ldaps:
     port: 6360
     expose:
