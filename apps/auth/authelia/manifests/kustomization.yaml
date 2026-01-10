@@ -15,3 +15,5 @@ configMapGenerator:
     namespace: authelia
     files:
       - values.yaml
+    options:
+      disableNameSuffixHash: true

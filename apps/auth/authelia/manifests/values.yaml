@@ -256,7 +256,7 @@ ingress:
     gethomepage.dev/href: 'https://auth.wrenspace.dev'
     gethomepage.dev/enabled: 'true'
     gethomepage.dev/icon: authelia
-    gethomepage.dev/weight: 10
+    gethomepage.dev/weight: "10"
     gethomepage.dev/group: Services
 
   tls:
