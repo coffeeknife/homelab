@@ -22,6 +22,11 @@ spec:
         env:
         - name: TZ
           value: "America/Chicago"
+        - name: SECRET_ENCRYPTION_KEY
+          valueFrom:
+            secretKeyRef:
+              name: homarr-secret
+              key: SECRET_ENCRYPTION_KEY
         resources:
           requests:
             memory: "256Mi"
