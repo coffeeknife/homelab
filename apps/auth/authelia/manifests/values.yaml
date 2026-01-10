@@ -1,6 +1,9 @@
 pod:
   kind: Deployment
   priorityClassName: high-priority
+  annotations:
+    secret.reloader.stakater.com/reload: "client-secrets,crypto,lldap-auth,db-auth"
+    configmap.reloader.stakater.com/reload: "authelia-values"
 
 configMap:
   server:
