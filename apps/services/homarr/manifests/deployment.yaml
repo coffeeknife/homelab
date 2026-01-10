@@ -17,7 +17,7 @@ spec:
       - name: homarr
         image: ghcr.io/homarr-labs/homarr:v1.50.0
         ports:
-        - containerPort: 7575
+        - containerPort: 3000
           name: http
         env:
         - name: TZ
