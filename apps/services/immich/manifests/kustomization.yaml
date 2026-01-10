@@ -13,6 +13,6 @@ configMapGenerator:
   - name: immich-values
     namespace: immich
     files:
-      - values.immich.yaml
+      - values.yaml
     options:
       disableNameSuffixHash: true
