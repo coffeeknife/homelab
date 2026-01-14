@@ -28,10 +28,10 @@ spec:
 
   resources:
     requests:
-      cpu: 100m
-      memory: 1Gi
+      cpu: 50m
+      memory: 512Mi
     limits:
-      cpu: 500m
+      cpu: 300m
       memory: 1Gi
 
   metrics:
