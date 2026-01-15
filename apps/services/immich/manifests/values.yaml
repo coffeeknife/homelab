@@ -22,6 +22,10 @@ immich:
   persistence:
     library:
       existingClaim: immich-pvc
+    config:
+      enabled: true
+      storageClass: longhorn
+      size: 5Gi
 
 valkey:
   enabled: true

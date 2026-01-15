@@ -2,28 +2,27 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: longhorn
+  name: nextcloud
   namespace: flux-system
 spec:
   interval: 24h
-  url: https://charts.longhorn.io
+  url: https://nextcloud.github.io/helm/
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: longhorn
-  namespace: longhorn-system
+  name: nextcloud
+  namespace: nextcloud
 spec:
   interval: 30m
-  timeout: 15m 
   chart:
     spec:
-      chart: longhorn
-      version: 1.9.1
+      chart: nextcloud
+      version: 7.0.2
       sourceRef:
         kind: HelmRepository
-        name: longhorn
+        name: nextcloud
         namespace: flux-system
   valuesFrom:
     - kind: ConfigMap
-      name: longhorn-values
+      name: nextcloud-values

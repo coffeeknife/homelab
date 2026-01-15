@@ -28,6 +28,14 @@ nextcloud:
       mountPath: /var/www/html/config/oidc.secret.config.php
       subPath: oidc.secret.config.php
   configs:
+    proxy.config.php: |-
+      <?php
+      $CONFIG = array (
+        'trusted_proxies' => array(
+          0 => '10.0.0.0/8',
+        ),
+        'overwriteprotocol' => 'https',
+      );
     mail-app.config.php: |-
       <?php
       $CONFIG = array(
