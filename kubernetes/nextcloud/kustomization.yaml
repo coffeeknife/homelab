@@ -21,6 +21,8 @@ helmCharts:
         existingSecret: redis-secret
         existingSecretPasswordKey: password
       master:
+        persistence:
+          size: 5Gi
         priorityClassName: high-priority
 
   - name: nextcloud
