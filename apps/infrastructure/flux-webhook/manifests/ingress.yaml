@@ -1,23 +1,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: portainer
-  namespace: portainer
+  name: flux-webhook
+  namespace: flux-system
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
 spec:
   rules:
-    - host: portainer.wrenspace.dev
+    - host: flux-webhook.wrenspace.dev
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: portainer
+                name: webhook-receiver
                 port:
-                  number: 9000
+                  number: 80
   tls:
     - hosts:
-        - portainer.wrenspace.dev
-      secretName: portainer-tls
+        - flux-webhook.wrenspace.dev
+      secretName: flux-webhook-tls
