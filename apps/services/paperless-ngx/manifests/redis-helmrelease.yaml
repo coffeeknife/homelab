@@ -2,9 +2,10 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: redis
-  namespace: nextcloud
+  namespace: paperless
 spec:
   interval: 30m
+  timeout: 10m
   chart:
     spec:
       chart: redis
@@ -16,9 +17,7 @@ spec:
   values:
     architecture: standalone
     auth:
-      existingSecret: redis-secret
+      existingSecret: redis-creds
       existingSecretPasswordKey: password
     master:
-      persistence:
-        size: 5Gi
       priorityClassName: high-priority
