@@ -1,12 +1,12 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: flux-webhook
+  name: flux-notify
   namespace: flux-system
 spec:
   interval: 10m
   sourceRef:
     kind: GitRepository
     name: homelab
-  path: ./apps/infrastructure/flux-webhook/manifests
+  path: ./flux-system/flux-webhook/manifests
   prune: true
