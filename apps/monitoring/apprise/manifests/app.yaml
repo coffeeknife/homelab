@@ -109,11 +109,6 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "traefik"
     cert-manager.io/cluster-issuer: "cert-issuer"
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: "Monitoring"
-    gethomepage.dev/name: "Apprise"
-    gethomepage.dev/icon: "apprise.png"
-    gethomepage.dev/description: "Push Notifications API"
 spec:
   tls:
     - hosts:

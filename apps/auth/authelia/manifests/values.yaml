@@ -250,14 +250,6 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     cert-manager.io/cluster-issuer: cert-issuer
-    # homepage
-    gethomepage.dev/name: Authelia
-    gethomepage.dev/description: Enroll in 2FA
-    gethomepage.dev/href: 'https://auth.wrenspace.dev'
-    gethomepage.dev/enabled: 'true'
-    gethomepage.dev/icon: authelia
-    gethomepage.dev/weight: "10"
-    gethomepage.dev/group: Services
 
   tls:
     enabled: true

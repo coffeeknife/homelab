@@ -31,14 +31,6 @@ kind: Ingress
 metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    # homepage entry
-    gethomepage.dev/href: 'https://id.wrenspace.dev/'
-    gethomepage.dev/enabled: 'true'
-    gethomepage.dev/name: 'Identity Server'
-    gethomepage.dev/description: 'Change your password/avatar here'
-    gethomepage.dev/icon: openldap
-    gethomepage.dev/group: Services
-    gethomepage.dev/weight: '0'
   name: lldap
   namespace: lldap
 spec:

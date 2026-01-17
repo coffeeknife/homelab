@@ -22,14 +22,6 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     cert-manager.io/cluster-issuer: cert-issuer
-    # homepage
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: "Services"
-    gethomepage.dev/icon: home-assistant
-    gethomepage.dev/description: Smarthome Hub
-    gethomepage.dev/href: https://home.wrenspace.dev/auth/oidc/redirect
-    gethomepage.dev/name: "Home Assistant"
-    gethomepage.dev/weight: "40"
   hosts:
     - host: home.wrenspace.dev
       paths:
