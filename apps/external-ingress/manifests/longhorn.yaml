@@ -5,6 +5,14 @@ metadata:
   namespace: longhorn-system
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Longhorn"
+    gethomepage.dev/group: "Infrastructure"
+    gethomepage.dev/icon: "longhorn"
+    gethomepage.dev/description: "Storage management"
+    gethomepage.dev/href: "https://longhorn.wrenspace.dev"
+    gethomepage.dev/weight: "20"
 spec:
   rules:
     - host: longhorn.wrenspace.dev

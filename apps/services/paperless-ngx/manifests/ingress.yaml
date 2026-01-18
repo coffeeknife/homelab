@@ -5,6 +5,14 @@ metadata:
   namespace: paperless
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Paperless"
+    gethomepage.dev/group: "Services"
+    gethomepage.dev/icon: "paperless-ngx"
+    gethomepage.dev/description: "Document management"
+    gethomepage.dev/href: "https://file.wrenspace.dev"
+    gethomepage.dev/weight: "10"
 spec:
   rules:
     - host: file.wrenspace.dev

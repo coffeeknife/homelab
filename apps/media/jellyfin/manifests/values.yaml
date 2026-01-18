@@ -17,6 +17,14 @@ ingress:
   className: traefik
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Jellyfin"
+    gethomepage.dev/group: "Media"
+    gethomepage.dev/icon: "jellyfin"
+    gethomepage.dev/description: "Media streaming"
+    gethomepage.dev/href: "https://stream.wrenspace.dev"
+    gethomepage.dev/weight: "20"
   hosts:
     - host: stream.wrenspace.dev
       paths:

@@ -109,6 +109,14 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "traefik"
     cert-manager.io/cluster-issuer: "cert-issuer"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Apprise"
+    gethomepage.dev/group: "Monitoring"
+    gethomepage.dev/icon: "apprise"
+    gethomepage.dev/description: "Notification aggregation"
+    gethomepage.dev/href: "https://apprise.wrenspace.dev"
+    gethomepage.dev/weight: "30"
 spec:
   tls:
     - hosts:

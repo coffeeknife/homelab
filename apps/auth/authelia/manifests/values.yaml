@@ -250,6 +250,14 @@ ingress:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     cert-manager.io/cluster-issuer: cert-issuer
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Authelia"
+    gethomepage.dev/group: "Services"
+    gethomepage.dev/icon: "authelia"
+    gethomepage.dev/description: "Authentication"
+    gethomepage.dev/weight: "50"
+
+    
 
   tls:
     enabled: true
