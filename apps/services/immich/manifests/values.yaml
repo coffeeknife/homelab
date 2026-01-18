@@ -1,5 +1,7 @@
 controllers:
   main:
+    labels:
+      app.kubernetes.io/name: immich
     containers:
       main:
         image:
@@ -34,6 +36,8 @@ server:
   ingress:
     main:
       enabled: true
+      labels:
+        app.kubernetes.io/name: immich
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         cert-manager.io/cluster-issuer: cert-issuer

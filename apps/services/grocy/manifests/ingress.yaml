@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   name: grocy
   namespace: grocy
+  labels:
+    app.kubernetes.io/name: grocy
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure

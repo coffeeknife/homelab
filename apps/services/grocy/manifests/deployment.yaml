@@ -14,6 +14,7 @@ spec:
     metadata:
       labels:
         app: grocy
+        app.kubernetes.io/name: grocy
     spec:
       containers:
       - name: grocy
