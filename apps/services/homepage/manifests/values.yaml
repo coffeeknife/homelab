@@ -49,17 +49,9 @@ config:
     headerStyle: boxed
     layout:
       Media:
-        style: column
-        columns: 1
       Services:
-        style: column
-        columns: 1
       Monitoring:
-        style: column
-        columns: 1
       Infrastructure:
-        style: column
-        columns: 1
   
   bookmarks:
     - Developer:
