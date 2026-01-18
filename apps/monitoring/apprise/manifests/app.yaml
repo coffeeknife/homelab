@@ -112,7 +112,7 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Apprise"
-    gethomepage.dev/group: "Monitoring"
+    gethomepage.dev/group: "Infrastructure"
     gethomepage.dev/icon: "apprise"
     gethomepage.dev/app: "apprise"
     gethomepage.dev/description: "Notification aggregation"

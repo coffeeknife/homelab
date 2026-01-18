@@ -152,7 +152,7 @@ ingress:
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Nextcloud"
-    gethomepage.dev/group: "Services"
+    gethomepage.dev/group: "Core"
     gethomepage.dev/icon: "nextcloud"
     gethomepage.dev/description: "File sync and collaboration"
     gethomepage.dev/href: "https://drive.wrenspace.dev"
