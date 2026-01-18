@@ -9,6 +9,14 @@ service:
       http:
         port: 3000
 
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 50m
+  limits:
+    memory: 512Mi
+    cpu: 200m
+
 env:
   - name: HOMEPAGE_ALLOWED_HOSTS
     value: wrenspace.dev
