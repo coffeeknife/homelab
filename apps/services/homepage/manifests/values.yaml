@@ -14,43 +14,8 @@ resources:
     memory: 256Mi
     cpu: 50m
   limits:
-    memory: 512Mi
+    memory: 1Gi
     cpu: 200m
-
-probes:
-  liveness:
-    enabled: true
-    custom: true
-    spec:
-      httpGet:
-        path: /
-        port: 3000
-      initialDelaySeconds: 30
-      periodSeconds: 10
-      timeoutSeconds: 5
-      failureThreshold: 3
-  readiness:
-    enabled: true
-    custom: true
-    spec:
-      httpGet:
-        path: /
-        port: 3000
-      initialDelaySeconds: 15
-      periodSeconds: 10
-      timeoutSeconds: 5
-      failureThreshold: 3
-  startup:
-    enabled: true
-    custom: true
-    spec:
-      httpGet:
-        path: /
-        port: 3000
-      initialDelaySeconds: 10
-      periodSeconds: 5
-      timeoutSeconds: 5
-      failureThreshold: 60
 
 env:
   - name: HOMEPAGE_ALLOWED_HOSTS
@@ -121,11 +86,3 @@ config:
         text_size: xl
         format:
           timeStyle: short
-
-resources:
-  requests:
-    memory: 128Mi
-    cpu: 50m
-  limits:
-    memory: 256Mi
-    cpu: 200m
