@@ -1,19 +1,3 @@
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: vaultwarden
-  namespace: external-ingress
-spec:
-  dnsNames:
-    - vault.wrenspace.dev
-  issuerRef:
-    group: cert-manager.io
-    kind: ClusterIssuer
-    name: cert-issuer
-  secretName: vaultwarden
-  usages:
-    - digital signature
-    - key encipherment
 ---
 apiVersion: v1
 kind: Service
@@ -42,19 +26,34 @@ subsets:
     port: 8000
     protocol: TCP
 ---
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: vaultwarden
   namespace: external-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Vaultwarden"
+    gethomepage.dev/group: "Services"
+    gethomepage.dev/icon: "vaultwarden"
+    gethomepage.dev/description: "Password manager"
+    gethomepage.dev/href: "https://vault.wrenspace.dev"
+    gethomepage.dev/weight: "60"
 spec:
-  entryPoints:
-    - websecure
-  routes:
-    - kind: Rule
-      match: Host(`vault.wrenspace.dev`)
-      services:
-        - name: vaultwarden
-          port: 80
   tls:
-    secretName: vaultwarden
+    - hosts:
+        - vault.wrenspace.dev
+      secretName: vaultwarden
+  rules:
+    - host: vault.wrenspace.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: vaultwarden
+                port:
+                  number: 80

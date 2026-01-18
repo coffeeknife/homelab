@@ -1,19 +1,3 @@
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: zigbee2mqtt
-  namespace: external-ingress
-spec:
-  dnsNames:
-    - iot.wrenspace.dev
-  issuerRef:
-    group: cert-manager.io
-    kind: ClusterIssuer
-    name: cert-issuer
-  secretName: zigbee2mqtt-tls
-  usages:
-    - digital signature
-    - key encipherment
 ---
 apiVersion: v1
 kind: Service
@@ -42,19 +26,34 @@ subsets:
     port: 80
     protocol: TCP
 ---
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: zigbee2mqtt
   namespace: external-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Zigbee2MQTT"
+    gethomepage.dev/group: "Services"
+    gethomepage.dev/icon: "zigbee2mqtt"
+    gethomepage.dev/description: "Zigbee bridge"
+    gethomepage.dev/href: "https://iot.wrenspace.dev"
+    gethomepage.dev/weight: "70"
 spec:
-  entryPoints:
-    - websecure
-  routes:
-    - kind: Rule
-      match: Host(`iot.wrenspace.dev`)
-      services:
-        - name: zigbee2mqtt
-          port: 80
   tls:
-    secretName: zigbee2mqtt-tls
+    - hosts:
+        - iot.wrenspace.dev
+      secretName: zigbee2mqtt-tls
+  rules:
+    - host: iot.wrenspace.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: zigbee2mqtt
+                port:
+                  number: 80
