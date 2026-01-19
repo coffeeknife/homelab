@@ -3,6 +3,10 @@ image:
 
 enableRbac: true
 
+defaultPodOptions:
+  annotations:
+    configmap.reloader.stakater.com/reload: "homepage"
+
 service:
   main:
     ports:
@@ -49,6 +53,7 @@ config:
     statusStyle: dot
     layout:
       - Core:
+          icon: mdi-home
       - Media:
           icon: plex
       - Services:
@@ -56,7 +61,7 @@ config:
       - Infrastructure:
           icon: mdi-server
       - Arr:
-          icon: plex
+          icon: radarr
           style: row
           columns: 4
   
