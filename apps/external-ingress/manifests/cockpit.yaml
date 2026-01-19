@@ -50,6 +50,7 @@ metadata:
     gethomepage.dev/description: "Server management"
     gethomepage.dev/href: "https://nix.wrenspace.dev"
     gethomepage.dev/weight: "10"
+    gethomepage.dev/siteMonitor: "https://nix.wrenspace.dev"
 spec:
   tls:
     - hosts:

@@ -41,6 +41,7 @@ metadata:
     gethomepage.dev/description: "Git repository"
     gethomepage.dev/href: "https://git.wrenspace.dev"
     gethomepage.dev/weight: "20"
+    gethomepage.dev/siteMonitor: "https://git.wrenspace.dev"
 spec:
   tls:
     - hosts:

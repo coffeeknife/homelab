@@ -50,6 +50,7 @@ metadata:
     gethomepage.dev/description: "Virtualization platform"
     gethomepage.dev/href: "https://pve.wrenspace.dev"
     gethomepage.dev/weight: "30"
+    gethomepage.dev/siteMonitor: "https://pve.wrenspace.dev"
 spec:
   tls:
     - hosts:
