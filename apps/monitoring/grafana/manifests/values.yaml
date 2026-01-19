@@ -1,0 +1,75 @@
+replicas: 1
+
+image:
+  repository: grafana/grafana
+  tag: 12.3.1
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3000
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+persistence:
+  enabled: true
+  storageClassName: longhorn
+  size: 10Gi
+
+ingress:
+  enabled: true
+  ingressClassName: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Grafana"
+    gethomepage.dev/group: "Infrastructure"
+    gethomepage.dev/icon: "grafana"
+    gethomepage.dev/description: "Monitoring & observability"
+    gethomepage.dev/weight: "40"
+  hosts:
+    - host: grafana.wrenspace.dev
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - grafana.wrenspace.dev
+      secretName: grafana-tls
+
+adminPassword: changeme
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-kube-prom-prometheus:9090
+        access: proxy
+        isDefault: true
+      - name: Loki
+        type: loki
+        url: http://loki:3100
+        access: proxy
+
+auth:
+  generic_oauth:
+    enabled: true
+    allow_sign_up: true
+    auto_login: false
+    client_id: grafana
+    client_secret: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
+    scopes: openid profile email
+    auth_url: https://authelia.wrenspace.dev/api/oidc/authorization
+    token_url: https://authelia.wrenspace.dev/api/oidc/token
+    api_url: https://authelia.wrenspace.dev/api/oidc/userinfo
+    name: Authelia
+    role_attribute_path: "contains(groups[*], 'admin') && 'Admin' || 'Viewer'"

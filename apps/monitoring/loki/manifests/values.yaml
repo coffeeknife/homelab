@@ -1,0 +1,18 @@
+loki:
+  enabled: true
+  persistence:
+    enabled: true
+    storageClassName: longhorn
+    size: 50Gi
+  config:
+    limits_config:
+      retention_period: 720h
+
+promtail:
+  enabled: true
+  config:
+    clients:
+      - url: http://loki:3100/loki/api/v1/push
+
+grafana:
+  enabled: false
