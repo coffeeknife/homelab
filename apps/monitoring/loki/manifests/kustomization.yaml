@@ -6,7 +6,12 @@ namespace: monitoring
 resources:
   - helmrelease.yaml
 
+commonLabels:
+  app: loki
+
 configMapGenerator:
   - name: loki-values
     files:
       - values.yaml
+    options:
+      disableNameSuffixHash: true

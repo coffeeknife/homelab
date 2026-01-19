@@ -7,7 +7,12 @@ resources:
   - helmrelease.yaml
   - oauth-secret.yaml
 
+commonLabels:
+  app: grafana
+
 configMapGenerator:
   - name: grafana-values
     files:
       - values.yaml
+    options:
+      disableNameSuffixHash: true

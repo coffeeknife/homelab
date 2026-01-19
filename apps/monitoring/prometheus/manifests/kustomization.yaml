@@ -7,7 +7,12 @@ resources:
   - namespace.yaml
   - helmrelease.yaml
 
+commonLabels:
+  app: prometheus
+
 configMapGenerator:
   - name: prometheus-values
     files:
       - values.yaml
+    options:
+      disableNameSuffixHash: true
