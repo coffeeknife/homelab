@@ -255,7 +255,7 @@ ingress:
     gethomepage.dev/group: "Core"
     gethomepage.dev/icon: "authelia"
     gethomepage.dev/description: "Authentication"
-    gethomepage.dev/weight: "50"
+    gethomepage.dev/weight: "10"
 
     
 

@@ -24,11 +24,11 @@ ingress:
     cert-manager.io/cluster-issuer: cert-issuer
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Home Assistant"
-    gethomepage.dev/group: "Services"
+    gethomepage.dev/group: "Core"
     gethomepage.dev/icon: "home-assistant"
     gethomepage.dev/description: "Home automation"
     gethomepage.dev/href: "https://home.wrenspace.dev"
-    gethomepage.dev/weight: "40"
+    gethomepage.dev/weight: "50"
   hosts:
     - host: home.wrenspace.dev
       paths:

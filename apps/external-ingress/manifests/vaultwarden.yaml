@@ -40,7 +40,7 @@ metadata:
     gethomepage.dev/icon: "vaultwarden"
     gethomepage.dev/description: "Password manager"
     gethomepage.dev/href: "https://vault.wrenspace.dev"
-    gethomepage.dev/weight: "60"
+    gethomepage.dev/weight: "70"
 spec:
   tls:
     - hosts:

@@ -156,7 +156,7 @@ ingress:
     gethomepage.dev/icon: "nextcloud"
     gethomepage.dev/description: "File sync and collaboration"
     gethomepage.dev/href: "https://drive.wrenspace.dev"
-    gethomepage.dev/weight: "30"
+    gethomepage.dev/weight: "20"
 
   hosts:
     - host: drive.wrenspace.dev
