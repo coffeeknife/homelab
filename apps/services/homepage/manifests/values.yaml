@@ -70,8 +70,41 @@ config:
         - Github:
             - abbr: GH
               href: https://github.com/
-  
-  services: {}
+
+  services:
+    - Infrastructure:
+        - Cockpit:
+            href: https://nix.wrenspace.dev
+            icon: cockpit
+            description: Server management
+            siteMonitor: https://nix.wrenspace.dev
+            weight: 10
+        - Gitea:
+            href: https://git.wrenspace.dev
+            icon: gitea
+            description: Git repository
+            siteMonitor: https://git.wrenspace.dev
+            weight: 20
+        - Proxmox:
+            href: https://pve.wrenspace.dev
+            icon: proxmox
+            description: Virtualization platform
+            siteMonitor: https://pve.wrenspace.dev
+            weight: 30
+    - Core:
+        - Vaultwarden:
+            href: https://vault.wrenspace.dev
+            icon: vaultwarden
+            description: Password manager
+            siteMonitor: https://vault.wrenspace.dev
+            weight: 70
+    - Services:
+        - Zigbee2MQTT:
+            href: https://iot.wrenspace.dev
+            icon: zigbee2mqtt
+            description: Zigbee bridge
+            siteMonitor: https://iot.wrenspace.dev
+            weight: 70
   
   widgets:
     - kubernetes:

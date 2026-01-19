@@ -43,14 +43,6 @@ metadata:
     cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/service.serverstransport: cockpit-transport@kubernetescrd
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/name: "Cockpit"
-    gethomepage.dev/group: "Infrastructure"
-    gethomepage.dev/icon: "cockpit"
-    gethomepage.dev/description: "Server management"
-    gethomepage.dev/href: "https://nix.wrenspace.dev"
-    gethomepage.dev/weight: "10"
-    gethomepage.dev/siteMonitor: "https://nix.wrenspace.dev"
 spec:
   tls:
     - hosts:

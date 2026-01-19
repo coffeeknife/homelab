@@ -34,14 +34,6 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/name: "Zigbee2MQTT"
-    gethomepage.dev/group: "Services"
-    gethomepage.dev/icon: "zigbee2mqtt"
-    gethomepage.dev/description: "Zigbee bridge"
-    gethomepage.dev/href: "https://iot.wrenspace.dev"
-    gethomepage.dev/weight: "70"
-    gethomepage.dev/siteMonitor: "https://iot.wrenspace.dev"
 spec:
   tls:
     - hosts:

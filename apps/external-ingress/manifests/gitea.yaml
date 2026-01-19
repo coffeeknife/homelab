@@ -34,14 +34,6 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/name: "Gitea"
-    gethomepage.dev/group: "Infrastructure"
-    gethomepage.dev/icon: "gitea"
-    gethomepage.dev/description: "Git repository"
-    gethomepage.dev/href: "https://git.wrenspace.dev"
-    gethomepage.dev/weight: "20"
-    gethomepage.dev/siteMonitor: "https://git.wrenspace.dev"
 spec:
   tls:
     - hosts:

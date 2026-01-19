@@ -34,14 +34,6 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    gethomepage.dev/enabled: "true"
-    gethomepage.dev/name: "Vaultwarden"
-    gethomepage.dev/group: "Core"
-    gethomepage.dev/icon: "vaultwarden"
-    gethomepage.dev/description: "Password manager"
-    gethomepage.dev/href: "https://vault.wrenspace.dev"
-    gethomepage.dev/weight: "70"
-    gethomepage.dev/siteMonitor: "https://vault.wrenspace.dev"
 spec:
   tls:
     - hosts:
