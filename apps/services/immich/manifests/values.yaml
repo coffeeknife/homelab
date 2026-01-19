@@ -45,6 +45,7 @@ server:
         gethomepage.dev/name: "Immich"
         gethomepage.dev/group: "Core"
         gethomepage.dev/app: "immich"
+        gethomepage.dev/pod-selector: "app.kubernetes.io/controller=main,app.kubernetes.io/instance=immich,app.kubernetes.io/name=server"
         gethomepage.dev/icon: "immich"
         gethomepage.dev/description: "Photo management"
         gethomepage.dev/href: "https://photo.wrenspace.dev"
