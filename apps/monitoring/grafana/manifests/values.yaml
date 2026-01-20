@@ -60,12 +60,11 @@ datasources:
         url: http://loki:3100
         access: proxy
 
-env:
-  - name: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
-    valueFrom:
-      secretKeyRef:
-        name: grafana-oauth
-        key: client-secret
+envValueFrom:
+  GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
+    secretKeyRef:
+      name: grafana-oauth
+      key: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
 
 auth:
   generic_oauth:
