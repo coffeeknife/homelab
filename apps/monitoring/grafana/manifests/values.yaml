@@ -65,6 +65,9 @@ envValueFrom:
       key: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
 
 grafana.ini:
+  log:
+    level: debug  # Add this temporarily
+    filters: oauth.generic_oauth:debug  # Focus on OAuth
   server:
     root_url: https://grafana.wrenspace.dev
   auth.generic_oauth:
