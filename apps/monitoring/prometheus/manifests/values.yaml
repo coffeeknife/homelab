@@ -21,16 +21,7 @@ grafana:
   enabled: false
 
 alertmanager:
-  enabled: true
-  alertmanagerSpec:
-    storage:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: longhorn
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 10Gi
+  enabled: false
 
 prometheus-node-exporter:
   enabled: true
