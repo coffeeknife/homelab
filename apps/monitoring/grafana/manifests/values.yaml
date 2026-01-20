@@ -87,5 +87,4 @@ grafana.ini:
     name_attribute_path: name
     use_pkce: true
     role_attribute_path: "contains(groups[*], 'admin') && 'Admin' || 'Viewer'"
-    allow_sign_up: false
-    auto_login: false
+    allow_sign_up: true
