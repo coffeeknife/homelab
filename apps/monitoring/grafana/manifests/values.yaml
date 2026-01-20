@@ -35,10 +35,8 @@ ingress:
     gethomepage.dev/description: "Monitoring & observability"
     gethomepage.dev/weight: "40"
   hosts:
-    - host: grafana.wrenspace.dev
-      paths:
-        - path: /
-          pathType: Prefix
+    - grafana.wrenspace.dev  
+  path: /  
   tls:
     - hosts:
         - grafana.wrenspace.dev
