@@ -44,6 +44,24 @@ ingress:
 
 adminPassword: changeme
 
+alerting:
+  contactpoints.yaml:
+    apiVersion: 1
+    contactPoints:
+      - orgId: 1
+        name: prometheus-alertmanager
+        receivers:
+          - uid: prometheus-am
+            type: prometheus-alertmanager
+            settings:
+              url: http://prometheus-kube-prometheus-alertmanager:9093
+  
+  policies.yaml:
+    apiVersion: 1
+    policies:
+      - orgId: 1
+        receiver: prometheus-alertmanager
+
 datasources:
   datasources.yaml:
     apiVersion: 1
@@ -59,6 +77,13 @@ datasources:
         url: http://loki:3100
         access: proxy
         uid: loki
+      - name: Alertmanager
+        type: alertmanager
+        url: http://prometheus-kube-prometheus-alertmanager:9093
+        access: proxy
+        uid: alertmanager
+        jsonData:
+          implementation: prometheus
 
 envValueFrom:
   GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
@@ -72,6 +97,10 @@ grafana.ini:
   auth:
     disable_login_form: true
     oauth_auto_login: true
+  unified_alerting:
+    enabled: true
+  alerting:
+    enabled: false
   auth.generic_oauth:
     enabled: true
     name: Authelia
