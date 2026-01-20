@@ -44,24 +44,6 @@ ingress:
 
 adminPassword: changeme
 
-alerting:
-  contactpoints.yaml:
-    apiVersion: 1
-    contactPoints:
-      - orgId: 1
-        name: prometheus-alertmanager
-        receivers:
-          - uid: prometheus-am
-            type: prometheus-alertmanager
-            settings:
-              url: http://prometheus-kube-prometheus-alertmanager:9093
-  
-  policies.yaml:
-    apiVersion: 1
-    policies:
-      - orgId: 1
-        receiver: prometheus-alertmanager
-
 datasources:
   datasources.yaml:
     apiVersion: 1
@@ -99,6 +81,9 @@ grafana.ini:
     oauth_auto_login: true
   unified_alerting:
     enabled: true
+    execute_alerts: false
+    admin_config_poll_interval: 60s
+    alertmanager_config_poll_interval: 60s
   alerting:
     enabled: false
   auth.generic_oauth:
