@@ -21,7 +21,29 @@ grafana:
   enabled: false
 
 alertmanager:
-  enabled: false
+  enabled: true
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: longhorn
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+  config:
+    route:
+      group_by: ['alertname']
+      receiver: 'apprise'
+    receivers:
+      - name: 'apprise'
+        webhook_configs:
+          - url: 'http://apprise-service.notify.svc.cluster.local:8000/notify/prometheus'
+
+defaultRules:
+  create: true
+  rules:
+    kubernetesApps: true
 
 prometheus-node-exporter:
   enabled: true

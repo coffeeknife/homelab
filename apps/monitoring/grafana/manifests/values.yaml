@@ -44,119 +44,18 @@ ingress:
 
 adminPassword: changeme
 
-alerting:
-  contactpoints.yaml:
-    apiVersion: 1
-    contactPoints:
-      - orgId: 1
-        name: apprise
-        receivers:
-          - uid: apprise-notifier
-            type: webhook
-            settings:
-              url: http://apprise-service.notify.svc.cluster.local:8000/notify/grafana
-              httpMethod: POST
-  
-  policies.yaml:
-    apiVersion: 1
-    policies:
-      - orgId: 1
-        receiver: apprise
-        group_by: ['alertname', 'cluster']
-        group_wait: 10s
-        group_interval: 10s
-        repeat_interval: 12h
-
-  rules.yaml:
-    apiVersion: 1
-    groups:
-      - orgId: 1
-        name: kubernetes-pods
-        folder: Kubernetes
-        interval: 1m
-        rules:
-          - uid: pod-not-ready
-            title: Pod Not Ready
-            condition: C
-            data:
-              - refId: A
-                relativeTimeRange:
-                  from: 300
-                  to: 0
-                datasourceUid: prometheus
-                model:
-                  expr: kube_pod_status_phase{phase!="Running"} == 1
-                  refId: A
-              - refId: C
-                relativeTimeRange:
-                  from: 300
-                  to: 0
-                datasourceUid: __expr__
-                model:
-                  type: threshold
-                  refId: C
-                  conditions:
-                    - evaluator:
-                        params: [0]
-                        type: gt
-                      query:
-                        params: [A]
-            noDataState: OK
-            execErrState: Alerting
-            for: 5m
-            annotations:
-              summary: 'Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} is not running'
-            labels:
-              severity: warning
-          
-          - uid: pod-crash-loop
-            title: Pod Crash Looping
-            condition: C
-            data:
-              - refId: A
-                relativeTimeRange:
-                  from: 600
-                  to: 0
-                datasourceUid: prometheus
-                model:
-                  expr: rate(kube_pod_container_status_restarts_total[15m]) > 0
-                  refId: A
-              - refId: C
-                relativeTimeRange:
-                  from: 600
-                  to: 0
-                datasourceUid: __expr__
-                model:
-                  type: threshold
-                  refId: C
-                  conditions:
-                    - evaluator:
-                        params: [0]
-                        type: gt
-                      query:
-                        params: [A]
-            noDataState: OK
-            execErrState: Alerting
-            for: 5m
-            annotations:
-              summary: 'Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} is crash looping'
-            labels:
-              severity: critical
-
 datasources:
-  datasources.yaml:
-    apiVersion: 1
-    datasources:
-      - name: Prometheus
-        type: prometheus
-        url: http://prometheus-kube-prom-prometheus:9090
-        access: proxy
-        isDefault: true
-        uid: prometheus
-      - name: Loki
-        type: loki
-        url: http://loki:3100
-        access: proxy
+  - name: Prometheus
+    type: prometheus
+    url: http://prometheus-kube-prom-prometheus:9090
+    access: proxy
+    isDefault: true
+    uid: prometheus
+  - name: Loki
+    type: loki
+    url: http://loki:3100
+    access: proxy
+    uid: loki
 
 envValueFrom:
   GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
