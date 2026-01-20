@@ -16,6 +16,7 @@ prometheus:
       limits:
         cpu: 1000m
         memory: 4Gi
+    ruleSelector: {}  
 
 grafana:
   enabled: false
@@ -33,12 +34,16 @@ alertmanager:
               storage: 10Gi
   config:
     route:
-      group_by: ['alertname']
+      group_by: ['alertname', 'namespace']
+      group_wait: 10s
+      group_interval: 10s
+      repeat_interval: 12h
       receiver: 'apprise'
     receivers:
       - name: 'apprise'
         webhook_configs:
           - url: 'http://apprise-service.notify.svc.cluster.local:8000/notify/prometheus'
+            send_resolved: true
 
 defaultRules:
   create: true
