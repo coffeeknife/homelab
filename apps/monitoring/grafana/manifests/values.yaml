@@ -105,7 +105,7 @@ alerting:
             execErrState: Alerting
             for: 5m
             annotations:
-              summary: Pod {{ $labels.namespace }}/{{ $labels.pod }} is not running
+              summary: 'Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} is not running'
             labels:
               severity: warning
           
@@ -139,7 +139,7 @@ alerting:
             execErrState: Alerting
             for: 5m
             annotations:
-              summary: Pod {{ $labels.namespace }}/{{ $labels.pod }} is crash looping
+              summary: 'Pod {{`{{ $labels.namespace }}`}}/{{`{{ $labels.pod }}`}} is crash looping'
             labels:
               severity: critical
 
