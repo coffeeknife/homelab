@@ -65,9 +65,6 @@ envValueFrom:
       key: GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET
 
 grafana.ini:
-  log:
-    level: debug  # Add this temporarily
-    filters: oauth.generic_oauth:debug  # Focus on OAuth
   server:
     root_url: https://grafana.wrenspace.dev
   auth.generic_oauth:
@@ -76,6 +73,7 @@ grafana.ini:
     auto_login: false
     client_id: grafana
     scopes: openid profile email
+    skip_org_role_sync: false
     auth_url: https://auth.wrenspace.dev/api/oidc/authorization
     token_url: https://auth.wrenspace.dev/api/oidc/token
     api_url: https://auth.wrenspace.dev/api/oidc/userinfo
