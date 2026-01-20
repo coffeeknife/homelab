@@ -45,17 +45,20 @@ ingress:
 adminPassword: changeme
 
 datasources:
-  - name: Prometheus
-    type: prometheus
-    url: http://prometheus-kube-prom-prometheus:9090
-    access: proxy
-    isDefault: true
-    uid: prometheus
-  - name: Loki
-    type: loki
-    url: http://loki:3100
-    access: proxy
-    uid: loki
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+      - name: Prometheus
+        type: prometheus
+        url: http://prometheus-kube-prom-prometheus:9090
+        access: proxy
+        isDefault: true
+        uid: prometheus
+      - name: Loki
+        type: loki
+        url: http://loki:3100
+        access: proxy
+        uid: loki
 
 envValueFrom:
   GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
