@@ -1,0 +1,272 @@
+jellyfin:
+  enabled: false
+
+sonarr:
+  enabled: true
+  env:
+    TZ: America/Chicago
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: cert-issuer
+      # homepage
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: "Arr"
+      gethomepage.dev/name: "Sonarr"
+      gethomepage.dev/app: sonarr
+      gethomepage.dev/icon: sonarr
+      gethomepage.dev/description: TV finder
+      gethomepage.dev/widget.type: sonarr
+      gethomepage.dev/widget.url: https://son.arr.wrenspace.dev/
+      gethomepage.dev/widget.key: '{{HOMEPAGE_VAR_SONARR_KEY}}'
+    hosts:
+      - host: son.arr.wrenspace.dev
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: sonarr-tls
+        hosts:
+          - son.arr.wrenspace.dev
+  persistence:
+    enabled: true 
+    additionalVolumes:
+      - name: jellyfin-nfs-pvc
+        nfs:
+          server: 192.168.1.69
+          path: "/mnt/birdpool/jellyfin/media"
+    additionalMounts:
+      - mountPath: /data
+        name: jellyfin-nfs-pvc
+
+qbittorrent:
+  enabled: false
+
+prowlarr:
+  enabled: true
+  env:
+    TZ: America/Chicago
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: cert-issuer
+      # homepage
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: "Arr"
+      gethomepage.dev/app: prowlarr
+      gethomepage.dev/name: "Prowlarr"
+      gethomepage.dev/icon: prowlarr
+      gethomepage.dev/description: Indexer manager
+      gethomepage.dev/widget.type: prowlarr
+      gethomepage.dev/widget.url: https://prowl.arr.wrenspace.dev
+      gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_PROWLARR_KEY}}"
+    hosts:
+      - host: prowl.arr.wrenspace.dev
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: prowlarr-tls
+        hosts:
+          - prowl.arr.wrenspace.dev
+  persistence:
+    enabled: true 
+    additionalVolumes:
+      - name: jellyfin-nfs-pvc
+        nfs:
+          server: 192.168.1.69
+          path: "/mnt/birdpool/jellyfin/media"
+    additionalMounts:
+      - mountPath: /data
+        name: jellyfin-nfs-pvc
+
+flaresolverr:
+  enabled: false
+
+jellyseerr:
+  enabled: true
+  env:
+    TZ: America/Chicago
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: cert-issuer
+      # homepage
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: "Media"
+      gethomepage.dev/name: "Jellyseerr"
+      gethomepage.dev/app: jellyseerr
+      gethomepage.dev/icon: jellyseerr
+      gethomepage.dev/description: TV/Movie Requests
+      gethomepage.dev/widget.type: jellyseerr
+      gethomepage.dev/widget.url: https://req.stream.wrenspace.dev
+      gethomepage.dev/widget.key: '{{HOMEPAGE_VAR_JELLYSEERR_KEY}}'
+    hosts:
+      - host: req.stream.wrenspace.dev
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: jellyseerr-tls
+        hosts:
+          - req.stream.wrenspace.dev
+  persistence:
+    enabled: true
+
+bazarr:
+  enabled: true
+  env:
+    TZ: America/Chicago
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: cert-issuer
+      # homepage
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: "Arr"
+      gethomepage.dev/name: "Bazarr"
+      gethomepage.dev/app: bazarr
+      gethomepage.dev/icon: bazarr
+      gethomepage.dev/description: Subtitle finder
+      gethomepage.dev/widget.type: bazarr
+      gethomepage.dev/widget.url: https://baz.arr.wrenspace.dev
+      gethomepage.dev/widget.key: '{{HOMEPAGE_VAR_BAZARR_KEY}}'
+    hosts:
+      - host: baz.arr.wrenspace.dev
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: bazarr-tls
+        hosts:
+          - baz.arr.wrenspace.dev
+  persistence:
+    enabled: true 
+    additionalVolumes:
+      - name: jellyfin-nfs-pvc
+        nfs:
+          server: 192.168.1.69
+          path: "/mnt/birdpool/jellyfin/media"
+    additionalMounts:
+      - mountPath: /data
+        name: jellyfin-nfs-pvc
+
+radarr:
+  enabled: true
+  env:
+    TZ: America/Chicago
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: cert-issuer
+      # homepage
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: "Arr"
+      gethomepage.dev/name: "Radarr"
+      gethomepage.dev/app: radarr
+      gethomepage.dev/icon: radarr
+      gethomepage.dev/description: Movie finder
+      gethomepage.dev/widget.type: radarr
+      gethomepage.dev/widget.url: https://rad.arr.wrenspace.dev
+      gethomepage.dev/widget.key: '{{HOMEPAGE_VAR_RADARR_KEY}}'
+    hosts:
+      - host: rad.arr.wrenspace.dev
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: radarr-tls
+        hosts:
+          - rad.arr.wrenspace.dev
+  persistence:
+    enabled: true 
+    additionalVolumes:
+      - name: jellyfin-nfs-pvc
+        nfs:
+          server: 192.168.1.69
+          path: "/mnt/birdpool/jellyfin/media"
+    additionalMounts:
+      - mountPath: /data
+        name: jellyfin-nfs-pvc
+
+lidarr:
+  enabled: true
+  image:
+    tag: 3.0.1
+  env:
+    TZ: America/Chicago
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: cert-issuer
+      # homepage
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: "Arr"
+      gethomepage.dev/name: "Lidarr"
+      gethomepage.dev/app: lidarr
+      gethomepage.dev/icon: lidarr
+      gethomepage.dev/description: Music finder
+      gethomepage.dev/widget.type: lidarr
+      gethomepage.dev/widget.url: https://lid.arr.wrenspace.dev
+      gethomepage.dev/widget.key: '{{HOMEPAGE_VAR_LIDARR_KEY}}'
+    hosts:
+      - host: lid.arr.wrenspace.dev
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: lidarr-tls
+        hosts:
+          - lid.arr.wrenspace.dev
+  persistence:
+    enabled: true 
+    additionalVolumes:
+      - name: jellyfin-nfs-pvc
+        nfs:
+          server: 192.168.1.69
+          path: "/mnt/birdpool/jellyfin/media"
+    additionalMounts:
+      - mountPath: /data
+        name: jellyfin-nfs-pvc
+
+cleanuparr:
+  enabled: true
+  env:
+    TZ: America/Chicago
+  ingress:
+    enabled: true
+    className: traefik
+    annotations:
+      cert-manager.io/cluster-issuer: cert-issuer
+      # homepage
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: "Arr"
+      gethomepage.dev/name: "Cleanuparr"
+      gethomepage.dev/app: cleanuparr
+      gethomepage.dev/icon: servarr
+      gethomepage.dev/description: Cleaner for arr stack
+    hosts:
+      - host: cleanup.arr.wrenspace.dev
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: cleanuparr-tls
+        hosts:
+          - cleanup.arr.wrenspace.dev
+  persistence:
+    enabled: true 
+    additionalVolumes:
+      - name: jellyfin-nfs-pvc
+        nfs:
+          server: 192.168.1.69
+          path: "/mnt/birdpool/jellyfin/media"
+    additionalMounts:
+      - mountPath: /data
+        name: jellyfin-nfs-pvc

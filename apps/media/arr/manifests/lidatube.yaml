@@ -1,0 +1,111 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: lidatube-config-pvc
+  namespace: arr-stack
+  labels:
+    app: lidatube
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lidatube-deployment
+  namespace: arr-stack
+  labels:
+    app: lidatube
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lidatube
+  template:
+    metadata:
+      labels:
+        app: lidatube
+    spec:
+      containers:
+      - name: lidatube
+        image: thewicklowwolf/lidatube:0.2.40
+        ports:
+        - containerPort: 5000
+        env:
+        - name: "preferred_codec"
+          value: "flac"
+        - name: "attempt_lidarr_import"
+          value: "true"
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+        volumeMounts:
+        - name: config-storage
+          mountPath: /lidatube/config
+        - name: downloads-storage
+          mountPath: /lidatube/downloads
+      volumes:
+      - name: config-storage
+        persistentVolumeClaim:
+          claimName: lidatube-config-pvc
+      - name: downloads-storage
+        nfs:
+          server: 192.168.1.69
+          path: /mnt/birdpool/jellyfin/media/itunes
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lidatube-service
+  namespace: arr-stack
+  labels:
+    app: lidatube
+spec:
+  type: ClusterIP 
+  selector:
+    app: lidatube
+  ports:
+    - port: 5000
+      targetPort: 5000
+      protocol: TCP
+      name: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lidatube-ingress
+  namespace: arr-stack
+  labels:
+    app: lidatube
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    cert-manager.io/cluster-issuer: cert-issuer
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Lidatube"
+    gethomepage.dev/group: "Arr"
+    gethomepage.dev/icon: "youtube.png"
+    gethomepage.dev/description: "YouTube Media Downloader"
+spec:
+  tls:
+  - hosts:
+    - lidatube.wrenspace.dev
+    secretName: lidatube-tls-secret
+  rules:
+  - host: lidatube.wrenspace.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: lidatube-service
+            port:
+              number: 5000

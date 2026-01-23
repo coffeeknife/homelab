@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unpackerr
+  namespace: arr-stack
+  labels:
+    app: unpackerr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unpackerr
+  template:
+    metadata:
+      labels:
+        app: unpackerr
+    spec:
+      containers:
+      - name: unpackerr
+        image: ghcr.io/unpackerr/unpackerr:0.14.5
+        imagePullPolicy: IfNotPresent
+        
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+        
+        envFrom:
+        - secretRef:
+            name: unpackerr-api-keys
+        
+        env:
+        - name: UN_SONARR_0_URL
+          value: "https://son.arr.wrenspace.dev"
+        - name: UN_RADARR_0_URL
+          value: "https://rad.arr.wrenspace.dev"
+        - name: UN_LIDARR_0_URL
+          value: "https://lid.arr.wrenspace.dev"
+        - name: UN_INTERVAL
+          value: "1m"
+        - name: UN_FOLDER_0_PATH
+          value: "/data/downloads"
+        
+        volumeMounts:
+        - name: nfs-media-volume
+          mountPath: /data 
+          
+      volumes:
+      - name: nfs-media-volume
+        nfs:
+          server: 192.168.1.69
+          path: "/mnt/birdpool/jellyfin/media"
+          readOnly: false
