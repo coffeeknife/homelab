@@ -27,7 +27,7 @@ ingress:
     gethomepage.dev/group: "Core"
     gethomepage.dev/icon: "home-assistant"
     gethomepage.dev/description: "Home automation"
-    gethomepage.dev/href: "https://home.wrenspace.dev"
+    gethomepage.dev/href: "https://home.wrenspace.dev/auth/oidc/welcome"
     gethomepage.dev/weight: "50"
   hosts:
     - host: home.wrenspace.dev
