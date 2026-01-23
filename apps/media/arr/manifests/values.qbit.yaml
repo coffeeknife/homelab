@@ -1,0 +1,58 @@
+
+qbittorrent:
+  persistence:
+    downloads:
+      enabled: false
+  extraVolumeMounts:
+    - mountPath: /data
+      name: jellyfin-nfs
+
+extraVolumes:
+  - name: jellyfin-nfs
+    nfs:
+      server: 192.168.1.69
+      path: "/mnt/birdpool/jellyfin/media"
+
+gluetun:
+  settings:
+    PROTONVPN_TIER: '2'
+    PORT_FORWARD_ONLY: on
+    VPN_PORT_FORWARDING: on
+    VPN_PORT_FORWARDING_PROVIDER: protonvpn
+    FIREWALL_OUTBOUND_SUBNETS: 172.16.0.0/12,192.168.0.0/16,10.1.0.0/16,10.152.183.0/24
+  credentials:
+    create: false
+  vpn:
+    provider: protonvpn
+    type: wireguard
+    serverCountries: Sweden
+    wireguard:
+      privateKeyExistingSecret: protonvpn-key
+      privateKeyExistingSecretKey: private_key # made manually
+
+      
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    # homepage
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: "Arr"
+    gethomepage.dev/app: qbittorrent-vpn
+    gethomepage.dev/name: "qBittorrent"
+    gethomepage.dev/icon: qbittorrent
+    gethomepage.dev/description: Getting the goods.
+    gethomepage.dev/widget.type: qbittorrent
+    gethomepage.dev/widget.url: https://qbit.wrenspace.dev/
+    gethomepage.dev/widget.username: admin
+    gethomepage.dev/widget.password: EeveeReal69
+  hosts:
+    - host: qbit.wrenspace.dev
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: qbit-secret
+      hosts:
+        - qbit.wrenspace.dev
