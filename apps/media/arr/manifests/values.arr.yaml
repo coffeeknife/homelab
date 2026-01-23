@@ -87,6 +87,8 @@ flaresolverr:
 
 jellyseerr:
   enabled: true
+  image:
+    tag: preview-OIDC
   env:
     TZ: America/Chicago
   ingress:
