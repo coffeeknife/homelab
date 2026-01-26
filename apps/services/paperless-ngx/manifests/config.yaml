@@ -5,6 +5,8 @@ metadata:
   namespace: paperless
 data:
   PAPERLESS_URL: "https://file.wrenspace.dev"
+  PAPERLESS_CSRF_COOKIE_SAMESITE: "Lax"
+  PAPERLESS_SESSION_COOKIE_SAMESITE: "Lax"
   PAPERLESS_CSRF_TRUSTED_ORIGINS: "https://wrenspace.dev,https://auth.wrenspace.dev,https://file.wrenspace.dev"
   PAPERLESS_ENABLE_HTTP_REMOTE_USER: "true"
   PAPERLESS_PORT: "8000"
