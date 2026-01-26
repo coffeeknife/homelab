@@ -46,7 +46,7 @@ sidecars:
             PORT=$(cat /tmp/gluetun/forwarded_port)
             if [ -n "$PORT" ] && [ "$PORT" != "0" ] && [ "$PORT" != "$LAST_PORT" ]; then
               echo "[port-sync] Port changed: ${LAST_PORT:-none} -> ${PORT}"
-              until curl -sf http://localhost:8080/api/v2/app/version > /dev/null; do
+              until curl -so /dev/null http://localhost:8080/; do
                 sleep 5
               done
               curl -sf -c /tmp/cookies http://localhost:8080/api/v2/auth/login \
