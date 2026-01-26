@@ -133,6 +133,7 @@ configMap:
         # paperless
         - client_id: paperless
           client_name: Paperless-NGX
+          claims_policy: legacy
           client_secret: { path: /secrets/client-secrets/paperless.secret.txt }
           public: false
           authorization_policy: two_factor
