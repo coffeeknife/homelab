@@ -58,6 +58,8 @@ spec:
           - configMapRef:
               name: paperless-config
         env:
+          - name: PAPERLESS_TRUSTED_PROXIES
+            value: "10.0.0.0/8,192.168.0.0/16"
           - name: PAPERLESS_CSRF_TRUSTED_ORIGINS
             value: "https://file.wrenspace.dev"
           - name: PAPERLESS_ALLOWED_HOSTS
