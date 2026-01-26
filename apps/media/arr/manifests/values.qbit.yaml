@@ -29,9 +29,6 @@ gluetun:
     wireguard:
       privateKeyExistingSecret: protonvpn-key
       privateKeyExistingSecretKey: private_key # made manually
-  extraVolumeMounts:
-    - name: gluetun-shared-data
-      mountPath: /tmp/gluetun
 
 sidecars:
   - name: port-sync
