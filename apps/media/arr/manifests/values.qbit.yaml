@@ -12,6 +12,8 @@ extraVolumes:
     nfs:
       server: 192.168.1.69
       path: "/mnt/birdpool/jellyfin/media"
+  - name: gluetun-shared-data
+    emptyDir: {}
 
 gluetun:
   settings:
