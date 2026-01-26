@@ -58,6 +58,10 @@ spec:
           - configMapRef:
               name: paperless-config
         env:
+          - name: PAPERLESS_CSRF_TRUSTED_ORIGINS
+            value: "https://file.wrenspace.dev"
+          - name: PAPERLESS_ALLOWED_HOSTS
+            value: "file.wrenspace.dev"
           - name: AUTH_SECRET
             valueFrom:
               secretKeyRef:
