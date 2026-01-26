@@ -20,7 +20,7 @@ spec:
   passwordSecretKeyRef:
     name: authelia-pass
     key: password
-  maxUserConnections: 20
+  maxUserConnections: 100
   host: "%"
   cleanupPolicy: Delete  
 ---
