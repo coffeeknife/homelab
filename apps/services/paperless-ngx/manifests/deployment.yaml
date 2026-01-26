@@ -73,7 +73,7 @@ spec:
             value: |
               {
                 "openid_connect": {
-                  "SCOPE": ["openid", "profile", "email"],
+                  "SCOPE": ["openid", "profile", "email", "groups"],
                   "OAUTH_PKCE_ENABLED": true,
                   "APPS" : [
                     {
