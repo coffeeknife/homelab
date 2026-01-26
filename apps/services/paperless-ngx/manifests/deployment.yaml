@@ -58,8 +58,6 @@ spec:
           - configMapRef:
               name: paperless-config
         env:
-          - name: PAPERLESS_URL
-            value: "https://file.wrenspace.dev"
           - name: AUTH_SECRET
             valueFrom:
               secretKeyRef:
