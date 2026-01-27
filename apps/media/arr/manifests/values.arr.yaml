@@ -98,7 +98,6 @@ jellyseerr:
     className: traefik
     annotations:
       cert-manager.io/cluster-issuer: cert-issuer
-      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd
       # homepage
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: "Media"
