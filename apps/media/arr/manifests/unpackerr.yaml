@@ -34,11 +34,11 @@ spec:
         
         env:
         - name: UN_SONARR_0_URL
-          value: "https://son.arr.wrenspace.dev"
+          value: "http://arr-stack-sonarr:80"
         - name: UN_RADARR_0_URL
-          value: "https://rad.arr.wrenspace.dev"
+          value: "http://arr-stack-radarr:7878"
         - name: UN_LIDARR_0_URL
-          value: "https://lid.arr.wrenspace.dev"
+          value: "http://arr-stack-lidarr:8686"
         - name: UN_INTERVAL
           value: "1m"
         - name: UN_FOLDER_0_PATH
