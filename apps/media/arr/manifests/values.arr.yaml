@@ -215,7 +215,7 @@ radarr:
 lidarr:
   enabled: true
   image:
-    tag: 3.0.1
+    tag: 3.1.0
   env:
     TZ: America/Chicago
     LIDARR__AUTH__METHOD: External
