@@ -5,6 +5,8 @@ sonarr:
   enabled: true
   env:
     TZ: America/Chicago
+    SONARR__AUTH__METHOD: External
+    SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
   ingress:
     enabled: true
     className: traefik
@@ -48,6 +50,8 @@ prowlarr:
   enabled: true
   env:
     TZ: America/Chicago
+    PROWLARR__AUTH__METHOD: External
+    PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
   ingress:
     enabled: true
     className: traefik
@@ -164,6 +168,8 @@ radarr:
   enabled: true
   env:
     TZ: America/Chicago
+    RADARR__AUTH__METHOD: External
+    RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
   ingress:
     enabled: true
     className: traefik
@@ -206,6 +212,8 @@ lidarr:
     tag: 3.0.1
   env:
     TZ: America/Chicago
+    LIDARR__AUTH__METHOD: External
+    LIDARR__AUTH__REQUIRED: DisabledForLocalAddresses
   ingress:
     enabled: true
     className: traefik
