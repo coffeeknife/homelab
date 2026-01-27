@@ -9,6 +9,16 @@ sonarr:
     TZ: America/Chicago
     SONARR__AUTH__METHOD: External
     SONARR__AUTH__REQUIRED: Disabled
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                  - kube-1
   ingress:
     enabled: true
     className: traefik
@@ -56,6 +66,16 @@ prowlarr:
     TZ: America/Chicago
     PROWLARR__AUTH__METHOD: External
     PROWLARR__AUTH__REQUIRED: Disabled
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                  - kube-1
   ingress:
     enabled: true
     className: traefik
@@ -101,6 +121,16 @@ jellyseerr:
     tag: preview-OIDC
   env:
     TZ: America/Chicago
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                  - kube-1
   ingress:
     enabled: true
     className: traefik
@@ -134,6 +164,16 @@ bazarr:
     tag: 1.5.4
   env:
     TZ: America/Chicago
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                  - kube-1
   ingress:
     enabled: true
     className: traefik
@@ -178,6 +218,16 @@ radarr:
     TZ: America/Chicago
     RADARR__AUTH__METHOD: External
     RADARR__AUTH__REQUIRED: Disabled
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                  - kube-1
   ingress:
     enabled: true
     className: traefik
@@ -222,6 +272,16 @@ lidarr:
     TZ: America/Chicago
     LIDARR__AUTH__METHOD: External
     LIDARR__AUTH__REQUIRED: Disabled
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                  - kube-1
   ingress:
     enabled: true
     className: traefik
@@ -264,6 +324,16 @@ cleanuparr:
     tag: 2.5.1
   env:
     TZ: America/Chicago
+  affinity:
+    nodeAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 100
+          preference:
+            matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: NotIn
+                values:
+                  - kube-1
   ingress:
     enabled: true
     className: traefik

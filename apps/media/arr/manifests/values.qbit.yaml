@@ -89,6 +89,17 @@ sidecars:
         cpu: 50m
         memory: 64Mi
 
+affinity:
+  nodeAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        preference:
+          matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: NotIn
+              values:
+                - kube-1
+
 ingress:
   enabled: true
   className: traefik
