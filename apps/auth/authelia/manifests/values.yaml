@@ -64,6 +64,10 @@ configMap:
         policy: two_factor
         subject:
           - ['group:admin']
+      - domain: '*.arr.wrenspace.dev'
+        policy: two_factor
+        subject:
+          - ['group:admin']
 
   storage:
     mysql:
