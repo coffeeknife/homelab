@@ -8,6 +8,11 @@ ingress:
     annotations:
       cert-manager.io/cluster-issuer: cert-issuer
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/name: "Organizr"
+      gethomepage.dev/group: "Services"
+      gethomepage.dev/icon: "organizr"
+      gethomepage.dev/description: "Media App Organizer"
     hosts:
       - host: arr.wrenspace.dev
         paths:
