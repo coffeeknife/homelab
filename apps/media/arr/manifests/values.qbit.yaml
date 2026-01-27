@@ -94,6 +94,7 @@ ingress:
   className: traefik
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.middlewares: arr-stack-arr-frames@kubernetescrd
     # homepage
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: "Arr"
