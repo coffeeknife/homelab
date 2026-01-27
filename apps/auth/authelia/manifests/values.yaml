@@ -72,6 +72,10 @@ configMap:
         policy: two_factor
         subject:
           - ['group:admin']
+      - domain: 'qbit.wrenspace.dev'
+        policy: two_factor
+        subject:
+          - ['group:admin']
       - domain: 'iot.wrenspace.dev'
         policy: two_factor
         subject:
