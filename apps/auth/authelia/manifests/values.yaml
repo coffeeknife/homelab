@@ -68,6 +68,10 @@ configMap:
         policy: two_factor
         subject:
           - ['group:admin']
+      - domain: 'lidatube.wrenspace.dev'
+        policy: two_factor
+        subject:
+          - ['group:admin']
       - domain: 'iot.wrenspace.dev'
         policy: two_factor
         subject:
