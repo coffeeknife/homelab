@@ -88,6 +88,7 @@ metadata:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd,arr-stack-arr-frames@kubernetescrd
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Lidatube"
     gethomepage.dev/group: "Arr"

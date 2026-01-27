@@ -14,7 +14,7 @@ sonarr:
     className: traefik
     annotations:
       cert-manager.io/cluster-issuer: cert-issuer
-      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd,arr-stack-arr-frames@kubernetescrd
       # homepage
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: "Arr"
@@ -61,7 +61,7 @@ prowlarr:
     className: traefik
     annotations:
       cert-manager.io/cluster-issuer: cert-issuer
-      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd,arr-stack-arr-frames@kubernetescrd
       # homepage
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: "Arr"
@@ -139,7 +139,7 @@ bazarr:
     className: traefik
     annotations:
       cert-manager.io/cluster-issuer: cert-issuer
-      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd,arr-stack-arr-frames@kubernetescrd
       # homepage
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: "Arr"
@@ -183,7 +183,7 @@ radarr:
     className: traefik
     annotations:
       cert-manager.io/cluster-issuer: cert-issuer
-      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd,arr-stack-arr-frames@kubernetescrd
       # homepage
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: "Arr"
@@ -227,7 +227,7 @@ lidarr:
     className: traefik
     annotations:
       cert-manager.io/cluster-issuer: cert-issuer
-      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd,arr-stack-arr-frames@kubernetescrd
       # homepage
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: "Arr"
@@ -269,7 +269,7 @@ cleanuparr:
     className: traefik
     annotations:
       cert-manager.io/cluster-issuer: cert-issuer
-      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd
+      traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd,arr-stack-arr-frames@kubernetescrd
       # homepage
       gethomepage.dev/enabled: "true"
       gethomepage.dev/group: "Arr"
