@@ -48,6 +48,8 @@ qbittorrent:
 
 prowlarr:
   enabled: true
+  image:
+    tag: 2.3.0
   env:
     TZ: America/Chicago
     PROWLARR__AUTH__METHOD: External
