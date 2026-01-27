@@ -260,6 +260,8 @@ lidarr:
 
 cleanuparr:
   enabled: true
+  image:
+    tag: 2.5.1
   env:
     TZ: America/Chicago
   ingress:
