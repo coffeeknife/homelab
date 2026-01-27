@@ -130,6 +130,8 @@ jellyseerr:
 
 bazarr:
   enabled: true
+  image:
+    tag: 1.5.4
   env:
     TZ: America/Chicago
   ingress:
