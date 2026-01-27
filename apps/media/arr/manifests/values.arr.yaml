@@ -3,6 +3,8 @@ jellyfin:
 
 sonarr:
   enabled: true
+  image:
+    tag: 4.0.16
   env:
     TZ: America/Chicago
     SONARR__AUTH__METHOD: External
