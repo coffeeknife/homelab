@@ -5,14 +5,12 @@ metadata:
   name: hsts
 spec:
   headers:
-    frameDeny: true
     sslRedirect: true
     browserXssFilter: true
     contentTypeNosniff: true
     stsIncludeSubdomains: true
     stsPreload: true
     stsSeconds: 31536000
-    customFrameOptionsValue: SAMEORIGIN
     referrerPolicy: "strict-origin-when-cross-origin"
     customRequestHeaders:
       X-Forwarded-Proto: "https"
