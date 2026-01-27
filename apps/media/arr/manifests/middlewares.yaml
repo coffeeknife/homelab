@@ -1,0 +1,10 @@
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: arr-frames
+  namespace: arr-stack
+spec:
+  headers:
+    customResponseHeaders:
+      X-Frame-Options: ""
+    contentSecurityPolicy: "frame-ancestors 'self' https://arr.wrenspace.dev"
