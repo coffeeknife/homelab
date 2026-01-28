@@ -14,6 +14,9 @@ kind: HelmRelease
 metadata:
   name: authelia
   namespace: authelia
+  labels:
+    app.kubernetes.io/name: authelia
+    app.kubernetes.io/part-of: auth
 spec:
   interval: 30m
   chart:

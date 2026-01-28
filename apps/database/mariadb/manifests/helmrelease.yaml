@@ -13,6 +13,10 @@ kind: HelmRelease
 metadata:
   name: mariadb-operator-crds
   namespace: mariadb-sys
+  labels:
+    app.kubernetes.io/name: mariadb
+    app.kubernetes.io/part-of: database
+    app.kubernetes.io/component: crds
 spec:
   interval: 30m
   chart:
@@ -29,6 +33,10 @@ kind: HelmRelease
 metadata:
   name: mariadb-operator
   namespace: mariadb-sys
+  labels:
+    app.kubernetes.io/name: mariadb
+    app.kubernetes.io/part-of: database
+    app.kubernetes.io/component: operator
 spec:
   interval: 30m
   dependsOn:

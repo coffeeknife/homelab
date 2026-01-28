@@ -13,6 +13,9 @@ kind: HelmRelease
 metadata:
   name: cert-manager
   namespace: cert-manager
+  labels:
+    app.kubernetes.io/name: cert-manager
+    app.kubernetes.io/part-of: infrastructure
 spec:
   interval: 30m
   chart:

@@ -13,6 +13,9 @@ kind: HelmRelease
 metadata:
   name: home-assistant
   namespace: hass
+  labels:
+    app.kubernetes.io/name: home-assistant
+    app.kubernetes.io/part-of: services
 spec:
   interval: 30m
   chart:

@@ -13,6 +13,9 @@ kind: HelmRelease
 metadata:
   name: traefik
   namespace: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/part-of: infrastructure
 spec:
   interval: 30m
   chart:

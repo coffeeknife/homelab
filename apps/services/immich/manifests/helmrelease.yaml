@@ -13,6 +13,9 @@ kind: HelmRelease
 metadata:
   name: immich
   namespace: immich
+  labels:
+    app.kubernetes.io/name: immich
+    app.kubernetes.io/part-of: services
 spec:
   interval: 30m
   chart:
