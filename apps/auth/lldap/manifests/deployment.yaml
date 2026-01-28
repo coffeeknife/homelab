@@ -29,7 +29,7 @@ spec:
           secretName: lldap-tls-secret
       containers:
       - name: lldap
-        image: lldap/lldap:2025-08-21
+        image: lldap/lldap:2026-01-22
         resources:
           requests:
             memory: "128Mi"
