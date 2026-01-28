@@ -118,6 +118,7 @@ Common files inside `manifests/`:
 
 ## Conventions
 
+- Always push immediately after committing
 - Prefer small, single-purpose commits (one app or infra change) to simplify Flux troubleshooting
 - Namespace manifests are always colocated with the app to guarantee creation ordering
 - Values are externalized into ConfigMaps (loaded via `valuesFrom` in HelmRelease) rather than inlined
