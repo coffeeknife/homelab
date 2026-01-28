@@ -1,23 +1,47 @@
 # homelab
 
-infrastructure automation
+my self-hosted infrastructure for **wrenspace.dev**
 
-## ported-in services
+## what's here
 
-- [homepage](gethomepage.dev)
-- [lldap](https://github.com/lldap/lldap)
-- [authelia](https://www.authelia.com/)
-- [nextcloud](https://nextcloud.com/)
-- [paperless-ngx](https://docs.paperless-ngx.com/) with FTP server for network scanner
+a 3-node kubernetes cluster running on an old imac via proxmox. flux cd watches this repo and keeps everything in sync. most services run as helm releases.
 
-## services remaining stateful on proxmox
+## hardware
 
-- [gitea](https://about.gitea.com/) - git host. needs to be outside cluster for argo to pull them uninterrupted. repos are mirrored to public providers for data loss prevention
+- **etheirys** — imac running proxmox, hosts the k8s vms and a few lxcs
+- **vulcan** — raspberry pi 4 with a zfs pool, serves files over nfs/samba
+- **gunsmoke** — raspberry pi 3b running zigbee2mqtt and matter/thread for home automation
 
-## useful snippets
+## the stack
 
-generate authelia client secret pair:
+- microk8s (v1.33) with cilium
+- traefik for ingress, metallb for load balancing
+- longhorn for block storage, nfs for bulk data
+- lldap + authelia for sso/oidc
+- sealed secrets for keeping secrets in git
 
-```bash
-docker run --rm authelia/authelia:latest authelia crypto hash generate pbkdf2 --variant sha512 --random --random.length 72 --random.charset rfc3986
+## services
+
+**media:** jellyfin, the arr suite (radarr, sonarr, lidarr, prowlarr, bazarr), qbittorrent, komga
+
+**productivity:** nextcloud, paperless-ngx, grocy
+
+**home:** home assistant, immich
+
+**monitoring:** prometheus, grafana, loki
+
+**infra:** traefik, cert-manager, mariadb, postgres, vaultwarden
+
+## outside the cluster
+
+gitea runs on a proxmox lxc — it has to stay external so flux can pull from it without circular dependencies
+
+## repo layout
+
 ```
+apps/           # all the kubernetes manifests
+flux-system/    # flux bootstrap stuff
+proxmox/        # lxc provisioning configs
+```
+
+see [CLAUDE.md](CLAUDE.md) for the nitty-gritty details

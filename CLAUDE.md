@@ -6,6 +6,43 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 GitOps-first homelab infrastructure for the **wrenspace.dev** domain. Flux CD reconciles Kubernetes cluster state from this repo's `main` branch. The Flux source is an internal Gitea instance (`ssh://gitea@192.168.200.52/coffeeknife/homelab`).
 
+## Hardware
+
+| Host | Hardware | OS | Role | IP |
+|------|----------|-----|------|-----|
+| etheirys | iMac | Proxmox VE | Hypervisor — runs LXCs and Kubernetes VMs | 192.168.1.53 |
+| vulcan | Raspberry Pi 4 | Armbian | NAS — ZFS pool shared over NFS and Samba | 192.168.1.69 |
+| gunsmoke | Raspberry Pi 3B | DietPi | IoT hub — zigbee2mqtt + Matter/Thread servers (Docker) | 192.168.100.2 |
+
+### Proxmox VMs/LXCs on etheirys
+
+| ID | Type | Name | Resources | IP | Role |
+|----|------|------|-----------|-----|------|
+| 200 | VM | kube-1 | 2 CPU, 10GB | 192.168.200.2 | K8s control plane |
+| 201 | VM | kube-2 | 1 CPU, 10GB | 192.168.200.3 | K8s worker |
+| 202 | VM | kube-3 | 1 CPU, 10GB | 192.168.200.4 | K8s worker |
+| 101 | LXC | mqtt | 1 CPU, 512MB | 192.168.100.3 | MQTT broker (IoT network) |
+| 113 | LXC | vaultwarden | 1 CPU, 256MB | DHCP | Password manager |
+| 124 | LXC | gitea | 1 CPU, 1GB | 192.168.200.52 | Git server (Flux source) |
+
+## Kubernetes Cluster
+
+3-node MicroK8s cluster running on VMs hosted on etheirys (Proxmox). Control plane on kube-1.
+
+| Node | IP | Resources | Notes |
+|------|-----|-----------|-------|
+| kube-1 | 192.168.200.2 | 2 CPU, 10GB RAM | Control plane |
+| kube-2 | 192.168.200.3 | 1 CPU, 10GB RAM | Worker |
+| kube-3 | 192.168.200.4 | 1 CPU, 10GB RAM | Worker |
+
+- **Kubernetes version:** v1.33.7
+- **OS:** Ubuntu 24.04 LTS
+- **CNI:** Cilium
+- **Container runtime:** containerd 1.7.27
+- **MetalLB IP range:** 192.168.200.100–192.168.200.254
+- **Storage classes:** `longhorn` (default), `longhorn-static`
+- **Sealed Secrets:** Used for encrypting secrets in Git
+
 ## Key Commands
 
 ```bash
@@ -38,7 +75,7 @@ apps/                    # Flux-managed Kubernetes apps (HelmReleases + manifest
   external-ingress/      # External DNS/routing
   helm-repos.yaml        # All HelmRepository definitions
 flux-system/             # Flux CD bootstrap (gotk-sync.yaml, gotk-components.yaml)
-ansible/                 # Hardware provisioning playbooks + inventory
+ansible/                 # Legacy — inventory is outdated, leave as-is
 proxmox/                 # Proxmox VE helper script configs (LXC provisioning)
 ```
 
@@ -69,7 +106,7 @@ Common files inside `manifests/`:
 
 **Ingress:** Traefik as ingress controller with cert-manager for automated TLS. Apps use Traefik middleware for forward auth (Authelia) and security headers.
 
-**Storage:** Longhorn for distributed block storage; NFS volumes for large data (documents, photos, media).
+**Storage:** Longhorn for distributed block storage; NFS volumes from vulcan (ZFS) for large data (documents, photos, media).
 
 **Database:** Shared MariaDB instance with per-app databases. Database resources (PVC, Secret, ConfigMap) are defined per-app.
 
