@@ -3,6 +3,9 @@ kind: Ingress
 metadata:
   name: paperless
   namespace: paperless
+  labels:
+    app.kubernetes.io/name: paperless
+    app.kubernetes.io/part-of: services
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure

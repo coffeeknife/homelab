@@ -5,6 +5,7 @@ metadata:
   namespace: mariadb-sys
   labels:
     app.kubernetes.io/name: mariadb
+    app.kubernetes.io/part-of: database
 spec:
   type: NodePort
   ports:

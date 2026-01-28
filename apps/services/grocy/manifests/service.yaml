@@ -3,6 +3,9 @@ kind: Service
 metadata:
   name: grocy
   namespace: grocy
+  labels:
+    app.kubernetes.io/name: grocy
+    app.kubernetes.io/part-of: services
 spec:
   type: ClusterIP
   selector:

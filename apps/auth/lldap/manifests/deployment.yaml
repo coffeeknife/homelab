@@ -5,6 +5,7 @@ metadata:
   namespace: lldap
   labels:
     app.kubernetes.io/name: lldap
+    app.kubernetes.io/part-of: auth
 spec:
   replicas: 2
   strategy:

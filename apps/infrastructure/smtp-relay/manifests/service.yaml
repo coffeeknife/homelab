@@ -3,6 +3,9 @@ kind: Service
 metadata:
   name: send
   namespace: smtp-relay
+  labels:
+    app.kubernetes.io/name: smtp-relay
+    app.kubernetes.io/part-of: infrastructure
 spec:
   type: ClusterIP
   selector:
