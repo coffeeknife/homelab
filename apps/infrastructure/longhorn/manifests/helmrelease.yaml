@@ -13,6 +13,9 @@ kind: HelmRelease
 metadata:
   name: longhorn
   namespace: longhorn-system
+  labels:
+    app.kubernetes.io/name: longhorn
+    app.kubernetes.io/part-of: infrastructure
 spec:
   interval: 30m
   timeout: 15m 
