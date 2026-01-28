@@ -4,3 +4,5 @@ metadata:
   name:  jellyfin
   labels:
     name: jellyfin
+    app.kubernetes.io/name: jellyfin
+    app.kubernetes.io/part-of: media

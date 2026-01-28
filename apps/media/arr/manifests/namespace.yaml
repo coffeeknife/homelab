@@ -4,3 +4,5 @@ metadata:
   name: arr-stack
   labels:
     name: arr-stack
+    app.kubernetes.io/name: arr-stack
+    app.kubernetes.io/part-of: media

@@ -4,3 +4,5 @@ metadata:
   name: traefik
   labels:
     name: traefik
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/part-of: infrastructure

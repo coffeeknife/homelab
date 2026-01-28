@@ -4,3 +4,5 @@ metadata:
   name: homepage
   labels:
     name: homepage
+    app.kubernetes.io/name: homepage
+    app.kubernetes.io/part-of: services

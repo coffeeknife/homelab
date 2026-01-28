@@ -4,3 +4,5 @@ metadata:
   name: smtp-relay
   labels:
     name: smtp-relay
+    app.kubernetes.io/name: smtp-relay
+    app.kubernetes.io/part-of: infrastructure

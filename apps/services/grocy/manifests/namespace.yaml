@@ -4,3 +4,5 @@ metadata:
   name: grocy
   labels:
     name: grocy
+    app.kubernetes.io/name: grocy
+    app.kubernetes.io/part-of: services

@@ -4,3 +4,5 @@ metadata:
   name: paperless
   labels:
     name: paperless
+    app.kubernetes.io/name: paperless
+    app.kubernetes.io/part-of: services

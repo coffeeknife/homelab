@@ -4,3 +4,5 @@ metadata:
   name: metallb
   labels:
     name: metallb
+    app.kubernetes.io/name: metallb
+    app.kubernetes.io/part-of: infrastructure
