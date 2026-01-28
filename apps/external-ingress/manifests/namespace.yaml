@@ -4,3 +4,5 @@ metadata:
   name: external-ingress
   labels:
     name: external-ingress
+    app.kubernetes.io/name: external-ingress
+    app.kubernetes.io/part-of: infrastructure

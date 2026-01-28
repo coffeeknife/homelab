@@ -4,3 +4,5 @@ metadata:
   name: mariadb-sys
   labels:
     name: mariadb-sys
+    app.kubernetes.io/name: mariadb
+    app.kubernetes.io/part-of: database

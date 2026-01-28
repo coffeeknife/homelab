@@ -4,3 +4,5 @@ metadata:
   name: lldap
   labels:
     name: lldap
+    app.kubernetes.io/name: lldap
+    app.kubernetes.io/part-of: auth

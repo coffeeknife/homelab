@@ -4,3 +4,5 @@ metadata:
   name: authelia
   labels:
     name: authelia
+    app.kubernetes.io/name: authelia
+    app.kubernetes.io/part-of: auth
