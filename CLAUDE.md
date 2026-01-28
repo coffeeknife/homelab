@@ -93,6 +93,61 @@ Common files inside `manifests/`:
 - `tunnelbinding.yaml` — Cloudflare tunnel bindings (optional)
 - `nfs-volume.yaml` — NFS persistent storage (optional)
 
+## Labeling Standard
+
+All Kubernetes resources should include consistent labels for filtering, debugging, and tooling compatibility.
+
+### Required Labels
+
+| Label | Value | Applies To |
+|-------|-------|------------|
+| `app.kubernetes.io/name` | app name (e.g., `paperless`) | All resources |
+| `app.kubernetes.io/part-of` | category (e.g., `services`, `media`, `auth`) | All resources |
+
+### Optional Labels
+
+| Label | Value | When to Use |
+|-------|-------|-------------|
+| `app.kubernetes.io/component` | `server`, `database`, `cache`, etc. | Multi-component apps |
+| `app.kubernetes.io/instance` | instance name | Multiple instances of same app |
+
+### Label Placement
+
+```yaml
+# Namespace
+metadata:
+  name: paperless
+  labels:
+    name: paperless  # legacy, keep for compatibility
+    app.kubernetes.io/name: paperless
+    app.kubernetes.io/part-of: services
+
+# Deployment/Service/Ingress
+metadata:
+  labels:
+    app.kubernetes.io/name: paperless
+    app.kubernetes.io/part-of: services
+spec:
+  selector:
+    matchLabels:
+      app: paperless  # simple selector
+  template:
+    metadata:
+      labels:
+        app: paperless
+        app.kubernetes.io/name: paperless
+
+# HelmRelease
+metadata:
+  labels:
+    app.kubernetes.io/name: authelia
+    app.kubernetes.io/part-of: auth
+```
+
+### Current State
+
+Labels are partially implemented. When modifying existing resources, add missing labels. New resources must include all required labels.
+
 ## Editing Rules
 
 - **Config changes** → edit `manifests/values.yaml`
