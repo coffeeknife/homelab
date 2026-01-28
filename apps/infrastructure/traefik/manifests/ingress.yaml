@@ -3,6 +3,9 @@ kind: Certificate
 metadata:
   name: traefik-dashboard
   namespace: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/part-of: infrastructure
 spec:
   dnsNames:
     - traefik.wrenspace.dev
@@ -20,6 +23,9 @@ kind: IngressRoute
 metadata:
   name: traefik-dashboard
   namespace: traefik
+  labels:
+    app.kubernetes.io/name: traefik
+    app.kubernetes.io/part-of: infrastructure
 spec:
   entryPoints:
     - websecure

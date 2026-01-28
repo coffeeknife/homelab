@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: grocy
   namespace: grocy
+  labels:
+    app.kubernetes.io/name: grocy
+    app.kubernetes.io/part-of: services
   annotations:
     configmap.reloader.stakater.com/reload: "grocy-config"
 spec:

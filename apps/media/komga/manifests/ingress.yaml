@@ -3,6 +3,9 @@ kind: Ingress
 metadata:
   name: komga
   namespace: komga
+  labels:
+    app.kubernetes.io/name: komga
+    app.kubernetes.io/part-of: media
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure

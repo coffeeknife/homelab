@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: komga
   namespace: komga
+  labels:
+    app.kubernetes.io/name: komga
+    app.kubernetes.io/part-of: media
 spec:
   selector:
     matchLabels:

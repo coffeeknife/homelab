@@ -3,6 +3,9 @@ kind: Deployment
 metadata:
   name: paperless-ngx
   namespace: paperless
+  labels:
+    app.kubernetes.io/name: paperless
+    app.kubernetes.io/part-of: services
   annotations:
     configmap.reloader.stakater.com/reload: "paperless-config"
 spec:

@@ -3,7 +3,9 @@ kind: IngressRouteTCP
 metadata:
   name: mysql-in
   namespace: mariadb-sys
-
+  labels:
+    app.kubernetes.io/name: mariadb
+    app.kubernetes.io/part-of: database
 spec:
   entryPoints:
     - mysql

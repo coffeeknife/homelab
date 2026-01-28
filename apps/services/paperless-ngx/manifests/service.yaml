@@ -5,6 +5,7 @@ metadata:
   namespace: paperless
   labels:
     app.kubernetes.io/name: paperless
+    app.kubernetes.io/part-of: services
 spec:
   type: ClusterIP
   selector:
