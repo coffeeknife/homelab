@@ -41,7 +41,7 @@ spec:
                       - kube-1
       containers:
       - name: lidatube
-        image: thewicklowwolf/lidatube:0.2.40
+        image: thewicklowwolf/lidatube:0.2.42
         ports:
         - containerPort: 5000
         env:
