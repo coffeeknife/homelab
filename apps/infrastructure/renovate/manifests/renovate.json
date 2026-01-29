@@ -1,7 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "platform": "gitea",
-  "endpoint": "http://192.168.200.52/api/v1",
+  "endpoint": "https://git.wrenspace.dev/api/v1",
   "repositories": ["coffeeknife/homelab"],
   "gitAuthor": "Renovate Bot <renovate@wrenspace.dev>",
   "onboarding": false,
