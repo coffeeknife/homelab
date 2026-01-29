@@ -12,8 +12,9 @@
   "helm-values": {
     "fileMatch": ["apps/.+/manifests/.*values\\.yaml$"]
   },
-  "regexManagers": [
+  "customManagers": [
     {
+      "customType": "regex",
       "fileMatch": ["apps/.+/manifests/.*\\.yaml$"],
       "matchStrings": [
         "image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s\"']+)"
@@ -28,7 +29,7 @@
       "automerge": false
     },
     {
-      "matchManagers": ["regex"],
+      "matchManagers": ["custom.regex"],
       "matchUpdateTypes": ["minor", "patch"],
       "automerge": false
     }
