@@ -22,7 +22,7 @@ spec:
           restartPolicy: Never
           containers:
             - name: renovate
-              image: renovate/renovate:39
+              image: renovate/renovate:43
               resources:
                 requests:
                   cpu: 50m
