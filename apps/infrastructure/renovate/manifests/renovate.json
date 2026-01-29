@@ -1,0 +1,38 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "platform": "gitea",
+  "endpoint": "http://192.168.200.52/api/v1",
+  "repositories": ["coffeeknife/homelab"],
+  "gitAuthor": "Renovate Bot <renovate@wrenspace.dev>",
+  "onboarding": false,
+  "requireConfig": "ignored",
+  "flux": {
+    "fileMatch": ["apps/.+/manifests/.*helmrelease\\.yaml$"]
+  },
+  "helm-values": {
+    "fileMatch": ["apps/.+/manifests/.*values\\.yaml$"]
+  },
+  "regexManagers": [
+    {
+      "fileMatch": ["apps/.+/manifests/.*\\.yaml$"],
+      "matchStrings": [
+        "image:\\s*(?<depName>[^:]+):(?<currentValue>[^\\s\"']+)"
+      ],
+      "datasourceTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["flux"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": false
+    },
+    {
+      "matchManagers": ["regex"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": false
+    }
+  ],
+  "prHourlyLimit": 5,
+  "prConcurrentLimit": 10
+}
