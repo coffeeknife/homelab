@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/name: renovate
     app.kubernetes.io/part-of: infrastructure
 spec:
-  schedule: "0 4 * * *"
+  schedule: "0 10 * * *"  # 4 AM CST (UTC-6)
   concurrencyPolicy: Forbid
   successfulJobsHistoryLimit: 3
   failedJobsHistoryLimit: 3
