@@ -19,7 +19,7 @@ spec:
       priorityClassName: high-priority
       containers:
       - name: smtp-relay
-        image: djjudas21/smtp-relay:0.10.0
+        image: djjudas21/smtp-relay:0.11.0
         resources:
           requests:
             memory: "64Mi"
