@@ -1,5 +1,8 @@
 replicas: 1
 
+deploymentStrategy:
+  type: Recreate
+
 image:
   repository: grafana/grafana
   tag: 12.3.2
