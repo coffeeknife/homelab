@@ -18,7 +18,9 @@ metadata:
     app.kubernetes.io/part-of: infrastructure
 spec:
   interval: 30m
-  timeout: 15m 
+  timeout: 15m
+  upgrade:
+    disableHooks: true
   chart:
     spec:
       chart: longhorn
