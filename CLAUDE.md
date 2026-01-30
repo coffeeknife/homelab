@@ -14,6 +14,15 @@ GitOps-first homelab infrastructure for the **wrenspace.dev** domain. Flux CD re
 | vulcan | Raspberry Pi 4 | Armbian | NAS — ZFS pool shared over NFS and Samba | 192.168.1.69 |
 | gunsmoke | Raspberry Pi 3B | DietPi | IoT hub — zigbee2mqtt + Matter/Thread servers (Docker) | 192.168.100.2 |
 
+### Gunsmoke (IoT Hub) Access
+
+SSH: `ssh root@192.168.100.2` (hostname `gunsmoke` not in DNS)
+
+Common Docker commands:
+- `docker ps -a` — check container status
+- `usbreset '10c4:ea60'` — reset SONOFF Thread dongle if unresponsive
+- Watchtower requires `DOCKER_API_VERSION=1.44` env var due to ARM64 build bug
+
 ### Proxmox VMs/LXCs on etheirys
 
 | ID | Type | Name | Resources | IP | Role |
@@ -42,6 +51,13 @@ GitOps-first homelab infrastructure for the **wrenspace.dev** domain. Flux CD re
 - **MetalLB IP range:** 192.168.200.100–192.168.200.254
 - **Storage classes:** `longhorn` (default), `longhorn-static`
 - **Sealed Secrets:** Used for encrypting secrets in Git
+- **Resource constraints:** Cluster is CPU-constrained; use minimal requests for batch jobs (50m CPU, 256Mi memory)
+
+## Gitea Access
+
+- **SSH (Flux source):** `ssh://gitea@192.168.200.52/coffeeknife/homelab`
+- **HTTPS API:** `https://git.wrenspace.dev/api/v1` (use for tools like Renovate)
+- **Renovate token scopes:** `read:user`, `read:repository`, `write:repository`, `write:issue`
 
 ## Key Commands
 
