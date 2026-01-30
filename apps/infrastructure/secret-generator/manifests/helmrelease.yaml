@@ -1,0 +1,31 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: mittwald
+  namespace: flux-system
+spec:
+  interval: 24h
+  url: https://helm.mittwald.de
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: secret-generator
+  namespace: default
+  labels:
+    app.kubernetes.io/name: secret-generator
+    app.kubernetes.io/part-of: infrastructure
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: kubernetes-secret-generator
+      version: 3.4.1
+      sourceRef:
+        kind: HelmRepository
+        name: mittwald
+        namespace: flux-system
+  values:
+    secretLength: "40"
+    regenerateInsecure: true
