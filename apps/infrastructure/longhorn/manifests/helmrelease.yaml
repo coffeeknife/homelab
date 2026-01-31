@@ -19,6 +19,10 @@ metadata:
 spec:
   interval: 30m
   timeout: 15m
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
   chart:
     spec:
       chart: longhorn
