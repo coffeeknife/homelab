@@ -19,12 +19,10 @@ metadata:
 spec:
   interval: 30m
   timeout: 15m
-  upgrade:
-    disableHooks: true
   chart:
     spec:
       chart: longhorn
-      version: 1.10.2
+      version: 1.11.0
       sourceRef:
         kind: HelmRepository
         name: longhorn
