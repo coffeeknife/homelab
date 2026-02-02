@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yaml
+  - helmrelease.yaml
+  - secrets.yaml
+
+configMapGenerator:
+  - name: lubelogger-values
+    namespace: lubelogger
+    files:
+      - values.yaml
+    options:
+      disableNameSuffixHash: true
