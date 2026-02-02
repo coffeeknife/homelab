@@ -15,4 +15,3 @@ spec:
     substituteFrom:
       - kind: Secret
         name: lubelogger-oidc-secret
-        namespace: lubelogger
