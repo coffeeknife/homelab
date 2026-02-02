@@ -2,6 +2,14 @@ image:
   repository: ghcr.io/hargata/lubelogger
   tag: v1.5.7
 
+secret:
+  create: true
+  emailServer: send.smtp-relay.svc.cluster.local
+  emailFrom: lubelogger@wrenspace.dev
+  port: 25
+  username: ""
+  password: ""
+
 persistence:
   enabled: true
   storageClass: longhorn
