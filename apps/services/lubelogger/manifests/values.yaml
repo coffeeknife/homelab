@@ -20,7 +20,7 @@ oidc:
   create: true
   providerName: Authelia
   clientId: lubelogger
-  clientSecret: "${clientSecret}"
+  clientSecret: dummy
   authURL: https://auth.wrenspace.dev/api/oidc/authorization
   tokenURL: https://auth.wrenspace.dev/api/oidc/token
   redirectURL: https://car.wrenspace.dev/Login/RemoteAuth

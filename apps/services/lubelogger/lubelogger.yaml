@@ -11,7 +11,3 @@ spec:
   path: ./apps/services/lubelogger/manifests
   prune: true
   wait: true
-  postBuild:
-    substituteFrom:
-      - kind: Secret
-        name: lubelogger-oidc-secret
