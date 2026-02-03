@@ -5,6 +5,7 @@ resources:
   - namespace.yaml
   - helmrelease.yaml
   - secrets.yaml
+  - mail-secret.yaml
 
 configMapGenerator:
   - name: lubelogger-values
