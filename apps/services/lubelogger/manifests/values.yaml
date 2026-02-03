@@ -7,8 +7,8 @@ secret:
   emailServer: send.smtp-relay.svc.cluster.local
   emailFrom: lubelogger@wrenspace.dev
   port: 25
-  username: ""
-  password: ""
+  username: "noreply@wrenspace.dev"
+  password: "unused"
 
 persistence:
   enabled: true
