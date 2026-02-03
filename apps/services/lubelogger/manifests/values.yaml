@@ -3,12 +3,8 @@ image:
   tag: v1.5.8
 
 secret:
-  create: true
-  emailServer: send.smtp-relay.svc.cluster.local
-  emailFrom: lubelogger@wrenspace.dev
-  port: 25
-  username: "noreply@wrenspace.dev"
-  password: "unused"
+  create: false
+  name: lubelogger-mail
 
 persistence:
   enabled: true
