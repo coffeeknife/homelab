@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: protonmail-bridge
+  labels:
+    name: protonmail-bridge
+    app.kubernetes.io/name: protonmail-bridge
+    app.kubernetes.io/part-of: infrastructure

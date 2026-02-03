@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: protonmail-bridge
+  namespace: protonmail-bridge
+  labels:
+    app.kubernetes.io/name: protonmail-bridge
+    app.kubernetes.io/part-of: infrastructure
+spec:
+  type: ClusterIP
+  selector:
+    app: protonmail-bridge
+  ports:
+    - name: imap
+      port: 1143
+      targetPort: imap
+    - name: smtp
+      port: 1025
+      targetPort: smtp
