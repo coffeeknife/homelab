@@ -17,29 +17,13 @@ spec:
         app: protonmail-bridge
         app.kubernetes.io/name: protonmail-bridge
     spec:
-      initContainers:
-        - name: init-pass
-          image: shenxn/protonmail-bridge:latest
-          command: ["/bin/bash", "-c"]
-          args:
-            - |
-              if [ ! -f /root/.password-store/.gpg-id ]; then
-                echo "Initializing GPG key and pass store..."
-                gpg --generate-key --batch /protonmail/gpgparams
-                pass init pass-key
-              else
-                echo "Pass store already initialized, skipping."
-              fi
-          volumeMounts:
-            - name: data
-              mountPath: /root
       containers:
         - name: protonmail-bridge
-          image: shenxn/protonmail-bridge:latest
+          image: ghcr.io/videocurio/proton-mail-bridge:latest
           ports:
-            - containerPort: 1143
+            - containerPort: 143
               name: imap
-            - containerPort: 1025
+            - containerPort: 25
               name: smtp
           resources:
             requests:

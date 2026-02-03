@@ -12,8 +12,8 @@ spec:
     app: protonmail-bridge
   ports:
     - name: imap
-      port: 1143
+      port: 143
       targetPort: imap
     - name: smtp
-      port: 1025
+      port: 25
       targetPort: smtp
