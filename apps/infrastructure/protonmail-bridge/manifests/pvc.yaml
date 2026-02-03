@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: protonmail-bridge-data
+  namespace: protonmail-bridge
+  labels:
+    app.kubernetes.io/name: protonmail-bridge
+    app.kubernetes.io/part-of: infrastructure
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 1Gi
