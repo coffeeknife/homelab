@@ -62,6 +62,8 @@ Common Docker commands:
 ## Key Commands
 
 ```bash
+# kubectl and flux are configured on the local dev machine — no need to SSH into nodes
+
 # Check Flux kustomization status
 flux get kustomizations -n flux-system
 
