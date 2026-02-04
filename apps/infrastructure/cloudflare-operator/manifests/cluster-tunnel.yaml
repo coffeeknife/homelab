@@ -6,6 +6,19 @@ metadata:
 spec:
   newTunnel:
     name: cluster-tunnel
+  deployPatch: |
+    [
+      {
+        "op": "replace",
+        "path": "/spec/template/spec/containers/0/livenessProbe/failureThreshold",
+        "value": 5
+      },
+      {
+        "op": "replace",
+        "path": "/spec/template/spec/containers/0/livenessProbe/timeoutSeconds",
+        "value": 5
+      }
+    ]
   cloudflare:
     email: coffeeknife@proton.me
     domain: wrenspace.dev
