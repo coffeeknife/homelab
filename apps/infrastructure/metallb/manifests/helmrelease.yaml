@@ -26,3 +26,6 @@ spec:
         kind: HelmRepository
         name: metallb
         namespace: flux-system
+  valuesFrom:
+    - kind: ConfigMap
+      name: metallb-values
