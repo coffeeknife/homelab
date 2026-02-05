@@ -47,6 +47,8 @@ spec:
                   spec:
                     containers:
                       - name: jellyfin
+                        securityContext:
+                          privileged: true
                         volumeMounts:
                           - name: dri
                             mountPath: /dev/dri
