@@ -31,3 +31,26 @@ spec:
   valuesFrom:
     - kind: ConfigMap
       name: jellyfin-values
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: jellyfin
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: jellyfin
+              spec:
+                template:
+                  spec:
+                    containers:
+                      - name: jellyfin
+                        volumeMounts:
+                          - name: dri
+                            mountPath: /dev/dri
+                    volumes:
+                      - name: dri
+                        hostPath:
+                          path: /dev/dri
