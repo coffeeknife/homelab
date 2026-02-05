@@ -18,7 +18,7 @@ nodeSelector:
 # GPU passthrough for VAAPI hardware transcoding
 # Note: Volume mounts are handled via postRenderers in helmrelease.yaml
 # because the wrenix chart doesn't support extraVolumes
-securityContext:
+podSecurityContext:
   supplementalGroups:
     - 44  # video group
     - 110 # render group
