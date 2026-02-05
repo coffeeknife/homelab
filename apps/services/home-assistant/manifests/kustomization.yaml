@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - ns.yaml
   - helmrelease.yaml
+  - mdns-bridge.yaml
 
 configMapGenerator:
   - name: hass-values
