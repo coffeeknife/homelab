@@ -8,9 +8,27 @@ persistence:
     nfs:
       server: 192.168.1.69
       path: "/mnt/birdpool/jellyfin/media"
+  cache:
+    emptyDir:
+      sizeLimit: 10Gi
 
 nodeSelector:
-  gpu-node: "true"
+  gpu: amd
+
+# GPU passthrough for VAAPI hardware transcoding
+securityContext:
+  supplementalGroups:
+    - 44  # video group
+    - 110 # render group
+
+extraVolumes:
+  - name: dri
+    hostPath:
+      path: /dev/dri
+
+extraVolumeMounts:
+  - name: dri
+    mountPath: /dev/dri
 
 ingress:
   enabled: true
