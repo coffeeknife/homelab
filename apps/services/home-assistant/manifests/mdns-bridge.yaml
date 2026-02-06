@@ -124,7 +124,7 @@ spec:
         kubernetes.io/hostname: kube-3
       containers:
         - name: mdns-bridge
-          image: python:3.12-slim
+          image: python:3.14-slim
           command: ["python3", "/scripts/bridge.py"]
           env:
             - name: HA_MDNS_HOST
