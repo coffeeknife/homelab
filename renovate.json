@@ -5,22 +5,31 @@
     ":dependencyDashboard"
   ],
   "kubernetes": {
-    "fileMatch": ["\\.yaml$"]
+    "managerFilePatterns": [
+      "/\\.yaml$/"
+    ]
   },
   "packageRules": [
     {
       "description": "Automerge patch updates",
-      "matchUpdateTypes": ["patch", "digest"],
+      "matchUpdateTypes": [
+        "patch",
+        "digest"
+      ],
       "automerge": true
     },
     {
       "description": "Require approval for minor updates",
-      "matchUpdateTypes": ["minor"],
+      "matchUpdateTypes": [
+        "minor"
+      ],
       "automerge": false
     },
     {
       "description": "Require approval for major updates",
-      "matchUpdateTypes": ["major"],
+      "matchUpdateTypes": [
+        "major"
+      ],
       "automerge": false
     }
   ],
@@ -28,7 +37,9 @@
     {
       "customType": "regex",
       "description": "Helm values with image.repository and image.tag on separate lines",
-      "fileMatch": ["values.*\\.yaml$"],
+      "managerFilePatterns": [
+        "/values.*\\.yaml$/"
+      ],
       "matchStrings": [
         "image:\\s*\\n\\s*repository:\\s*(?<depName>[^\\s]+)\\s*\\n\\s*tag:\\s*[\"']?(?<currentValue>[^\"'\\s]+)[\"']?"
       ],
