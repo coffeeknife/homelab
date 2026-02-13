@@ -5,6 +5,8 @@ configuration:
     default: warning
     logs:
       custom_components.mail_and_packages: debug
+      custom_components.auth_oidc: debug
+      homeassistant.setup: debug
   trusted_proxies:
     - 10.0.0.0/8
 
