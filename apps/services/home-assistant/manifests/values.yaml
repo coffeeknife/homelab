@@ -16,19 +16,17 @@ persistence:
   size: 10Gi
   storageClass: longhorn
 
-probes:
-  liveness:
-    enabled: true
-    initialDelaySeconds: 180
-    periodSeconds: 30
-    timeoutSeconds: 10
-    failureThreshold: 5
-  readiness:
-    enabled: true
-    initialDelaySeconds: 180
-    periodSeconds: 20
-    timeoutSeconds: 10
-    failureThreshold: 5
+livenessProbe:
+  initialDelaySeconds: 180
+  periodSeconds: 30
+  timeoutSeconds: 10
+  failureThreshold: 5
+
+readinessProbe:
+  initialDelaySeconds: 180
+  periodSeconds: 20
+  timeoutSeconds: 10
+  failureThreshold: 5
 
 ingress:
   enabled: true
