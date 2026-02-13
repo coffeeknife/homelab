@@ -26,6 +26,10 @@ spec:
         kind: HelmRepository
         name: pajikos
         namespace: flux-system
+  timeout: 10m
+  upgrade:
+    remediation:
+      retries: 3
   valuesFrom:
     - kind: ConfigMap
       name: hass-values
