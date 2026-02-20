@@ -46,7 +46,7 @@ Common Docker commands:
 
 - **Kubernetes version:** v1.33.7
 - **OS:** Ubuntu 24.04 LTS
-- **CNI:** Cilium
+- **CNI:** Calico (MicroK8s default, VXLAN backend)
 - **Container runtime:** containerd 1.7.27
 - **MetalLB IP range:** 192.168.200.100–192.168.200.254
 - **Storage classes:** `longhorn` (default), `longhorn-static`
