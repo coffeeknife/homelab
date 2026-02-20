@@ -14,7 +14,7 @@ a 3-node kubernetes cluster running on an old imac via proxmox. flux cd watches 
 
 ## the stack
 
-- microk8s (v1.33) with cilium
+- microk8s (v1.33) with calico
 - traefik for ingress, metallb for load balancing
 - longhorn for block storage, nfs for bulk data
 - lldap + authelia for sso/oidc
