@@ -30,9 +30,9 @@ spec:
         gethomepage.dev/description: 3d printing spool manager
         gethomepage.dev/group: Services
       tls:
-        hosts:
-          - spools.3d.wrenspace.dev
-        secretName: spoolman-tls
+        - hosts:
+            - spools.3d.wrenspace.dev
+          secretName: spoolman-tls
       hosts:
         - host: spools.3d.wrenspace.dev
           paths:
