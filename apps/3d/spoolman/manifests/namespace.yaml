@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: spoolman
+  labels:
+    name: spoolman
+    app.kubernetes.io/name: spoolman
+    app.kubernetes.io/part-of: 3d
