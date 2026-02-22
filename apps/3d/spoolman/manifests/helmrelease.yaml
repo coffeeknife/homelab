@@ -20,7 +20,7 @@ spec:
   values:
     persistence:
       enabled: true
-    securityContext:
+    podSecurityContext:
       fsGroup: 1000
     ingress:
       enabled: true
