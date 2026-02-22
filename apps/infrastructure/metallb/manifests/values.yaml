@@ -1,4 +1,17 @@
 speaker:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      memory: 128Mi
+  frr:
+    resources:
+      requests:
+        cpu: 50m
+        memory: 64Mi
+      limits:
+        memory: 128Mi
   livenessProbe:
     enabled: true
     failureThreshold: 5
