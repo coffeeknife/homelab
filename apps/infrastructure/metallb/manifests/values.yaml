@@ -1,4 +1,5 @@
-speaker:
+speaker:  
+  priorityClassName: high-priority
   resources:
     requests:
       cpu: 50m
