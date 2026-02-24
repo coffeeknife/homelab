@@ -328,7 +328,7 @@ cleanuparr:
   enabled: true
   image:
     repository: ghcr.io/cleanuparr/cleanuparr
-    tag: 2.5.1
+    tag: 2.7.4
   env:
     TZ: America/Chicago
   affinity:
