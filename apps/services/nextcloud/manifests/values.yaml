@@ -118,6 +118,11 @@ imaginary:
 
 collabora:
   enabled: true
+  securityContext:
+    allowPrivilegeEscalation: true
+    capabilities:
+      add:
+        - SYS_ADMIN
   collabora:
     aliasgroups:
       - host: "https://drive.wrenspace.dev:443"
