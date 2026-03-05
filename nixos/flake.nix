@@ -7,9 +7,11 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     colmena.url     = "github:zhaofengli/colmena";
     colmena.inputs.nixpkgs.follows = "nixpkgs";
+    disko.url       = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, sops-nix, colmena, ... }:
+  outputs = { self, nixpkgs, sops-nix, colmena, disko, ... }:
     let
       system = "x86_64-linux";
 
@@ -18,6 +20,7 @@
           inherit system;
           modules = [
             sops-nix.nixosModules.sops
+            disko.nixosModules.disko
             ./hosts/${name}/default.nix
           ] ++ extraModules;
         };
@@ -47,6 +50,7 @@
           };
           imports = [
             sops-nix.nixosModules.sops
+            disko.nixosModules.disko
             ./hosts/kube-1/default.nix
           ];
         };
@@ -58,6 +62,7 @@
           };
           imports = [
             sops-nix.nixosModules.sops
+            disko.nixosModules.disko
             ./hosts/kube-2/default.nix
           ];
         };
@@ -69,6 +74,7 @@
           };
           imports = [
             sops-nix.nixosModules.sops
+            disko.nixosModules.disko
             ./hosts/kube-3/default.nix
           ];
         };

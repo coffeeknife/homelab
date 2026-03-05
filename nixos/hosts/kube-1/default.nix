@@ -4,6 +4,7 @@
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
     ../../modules/common.nix
+    ../../modules/disk.nix
     ../../modules/longhorn-prereqs.nix
     ../../modules/k3s-server.nix
   ];
@@ -23,8 +24,4 @@
     device = "/dev/sda";
   };
 
-  fileSystems."/" = {
-    device = "/dev/sda1";
-    fsType = "ext4";
-  };
 }
