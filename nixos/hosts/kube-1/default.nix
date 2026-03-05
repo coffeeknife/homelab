@@ -19,9 +19,4 @@
   # kube-1 bootstraps the embedded etcd cluster; kube-2 and kube-3 join via serverAddr
   services.k3s.clusterInit = true;
 
-  boot.loader.grub = {
-    enable = true;
-    device = "/dev/sda";
-  };
-
 }
