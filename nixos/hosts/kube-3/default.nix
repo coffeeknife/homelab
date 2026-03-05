@@ -19,9 +19,4 @@
   # Join the cluster bootstrapped by kube-1
   services.k3s.serverAddr = "https://192.168.200.2:6443";
 
-  boot.loader.grub = {
-    enable = true;
-    device = "/dev/sda";
-  };
-
 }
