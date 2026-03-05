@@ -33,6 +33,10 @@ valkey:
   enabled: true
 
 server:
+  probes:
+    startup:
+      spec:
+        failureThreshold: 60
   ingress:
     main:
       enabled: true
