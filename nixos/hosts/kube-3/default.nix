@@ -19,4 +19,7 @@
   # Join the cluster bootstrapped by kube-1
   services.k3s.serverAddr = "https://192.168.200.2:6443";
 
+  # AMD GPU passthrough — label this node so Jellyfin can schedule here
+  services.k3s.extraFlags = "--node-label gpu=amd";
+
 }
