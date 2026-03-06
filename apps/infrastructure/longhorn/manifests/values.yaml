@@ -1,9 +1,5 @@
 # Longhorn values - only customizations from defaults
 
-# MicroK8s-specific CSI configuration
-csi:
-  kubeletRootDir: /var/snap/microk8s/common/var/lib/kubelet
-
 # Storage class defaults
 persistence:
   defaultDataLocality: 'best-effort'
