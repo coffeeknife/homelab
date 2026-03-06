@@ -37,7 +37,9 @@
       #   colmena apply              -- deploy all nodes
       #   colmena apply --on kube-1  -- deploy single node
       #   colmena exec -- systemctl restart k3s
-      colmena = {
+      colmenaHive = {
+        __schema = "v0.5";
+
         meta = {
           nixpkgs = import nixpkgs { inherit system; };
           specialArgs = { inherit sops-nix; };
