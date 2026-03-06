@@ -1,6 +1,11 @@
 { config, ... }:
 
 {
+  # Custom resolv.conf for k3s so CoreDNS uses the home router as upstream.
+  # This lets wrenspace.dev subdomains resolve to internal MetalLB IPs,
+  # bypassing Cloudflare for in-cluster OIDC/service discovery.
+  environment.etc."k3s-resolv.conf".text = "nameserver 192.168.1.1\n";
+
   sops.secrets.k3s-token = {
     sopsFile = ../secrets/secrets.yaml;
     key      = "k3s_token";
@@ -22,6 +27,8 @@
       # Relax etcd timeouts for Proxmox VM disks which can have variable fsync latency
       "--etcd-arg=heartbeat-interval=500"
       "--etcd-arg=election-timeout=5000"
+      # Use home router DNS so wrenspace.dev subdomains resolve internally
+      "--resolv-conf=/etc/k3s-resolv.conf"
     ];
   };
 }
