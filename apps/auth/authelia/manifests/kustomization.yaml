@@ -8,6 +8,7 @@ resources:
   - database.yaml
   - client-secrets.yaml
   - helmrelease.yaml
+  - redis.yaml
   - tunnelbinding.yaml
 
 configMapGenerator:
