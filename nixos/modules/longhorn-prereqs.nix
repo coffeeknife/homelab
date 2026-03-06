@@ -7,13 +7,17 @@
     name = "iqn.2025-01.dev.wrenspace:node.${config.networking.hostName}";
   };
 
-  # Longhorn probes iscsiadm at /usr/bin/iscsiadm via nsenter into the host namespace.
-  # On NixOS the binary lives in the Nix store; create a compat symlink.
+  # Longhorn probes iscsiadm and mount via nsenter into the host namespace.
+  # On NixOS binaries live in the Nix store; create compat symlinks at standard FHS paths.
   system.activationScripts.longhorn-iscsi-compat = ''
-    mkdir -p /usr/bin /usr/sbin /usr/local/sbin
+    mkdir -p /usr/bin /usr/sbin /usr/local/sbin /sbin /bin
     ln -sf /run/current-system/sw/bin/iscsiadm /usr/bin/iscsiadm
     ln -sf /run/current-system/sw/bin/iscsiadm /usr/sbin/iscsiadm
     ln -sf /run/current-system/sw/sbin/multipathd /usr/sbin/multipathd
+    ln -sf /run/current-system/sw/bin/mount /usr/bin/mount
+    ln -sf /run/current-system/sw/bin/mount /bin/mount
+    ln -sf /run/current-system/sw/bin/umount /usr/bin/umount
+    ln -sf /run/current-system/sw/bin/umount /bin/umount
   '';
 
   # NFS client: needed for vulcan NFS volumes (documents, photos, media)
