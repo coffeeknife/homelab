@@ -1,0 +1,25 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: redis
+  namespace: authelia
+  labels:
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/part-of: auth
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: redis
+      version: "24.x"
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: flux-system
+  values:
+    architecture: standalone
+    auth:
+      existingSecret: redis-creds
+      existingSecretPasswordKey: session.redis.password.txt
+    master:
+      priorityClassName: high-priority
