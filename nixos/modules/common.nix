@@ -19,7 +19,7 @@
   networking.firewall.enable = false;
   # systemd-resolved conflicts with CoreDNS
   services.resolved.enable = false;
-  networking.nameservers = [ "8.8.8.8" "1.1.1.1" ];
+  networking.nameservers = [ "192.168.1.1" "8.8.8.8" ];
 
   # SSH
   services.openssh = {
