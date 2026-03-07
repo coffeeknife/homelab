@@ -1,0 +1,12 @@
+# Nix build outputs
+result
+result-*
+
+# Age private key — keep out of git
+secrets/age-key.txt
+
+# nix-direnv / devShell cache
+.direnv/
+
+# Temporary colmena assets
+/tmp/colmena-assets-*
