@@ -32,11 +32,11 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: paperless-data
+  name: paperless-data-rwo
   namespace: paperless
 spec:
   accessModes:
-    - ReadWriteMany 
+    - ReadWriteOnce
   storageClassName: longhorn
   resources:
     requests:
