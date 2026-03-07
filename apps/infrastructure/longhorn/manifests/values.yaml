@@ -3,6 +3,7 @@
 # Storage class defaults
 persistence:
   defaultDataLocality: 'best-effort'
+  defaultClassReplicaCount: 2
 
 # Prometheus integration
 longhornManager:
