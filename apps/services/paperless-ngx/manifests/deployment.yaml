@@ -28,7 +28,7 @@ spec:
             claimName: paperless-pvc
         - name: paperless-data
           persistentVolumeClaim:
-            claimName: paperless-data
+            claimName: paperless-data-rwo
         - name: paperless-consume
           persistentVolumeClaim:
             claimName: paperless-consume
