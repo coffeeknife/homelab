@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: unpackerr
-        image: ghcr.io/unpackerr/unpackerr:0.15.0
+        image: ghcr.io/unpackerr/unpackerr:0.15.2
         imagePullPolicy: IfNotPresent
         
         resources:
