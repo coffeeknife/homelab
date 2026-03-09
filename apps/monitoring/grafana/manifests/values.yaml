@@ -22,7 +22,7 @@ resources:
 
 persistence:
   enabled: true
-  storageClassName: longhorn
+  storageClassName: vulcan-nfs
   size: 10Gi
 
 ingress:

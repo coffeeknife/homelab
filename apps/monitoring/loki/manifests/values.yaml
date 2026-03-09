@@ -2,7 +2,7 @@ loki:
   enabled: true
   persistence:
     enabled: true
-    storageClassName: longhorn
+    storageClassName: vulcan-nfs
     size: 50Gi
   config:
     limits_config:

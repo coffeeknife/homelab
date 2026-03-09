@@ -9,7 +9,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn
+  storageClassName: vulcan-nfs
   resources:
     requests:
       storage: 1Gi

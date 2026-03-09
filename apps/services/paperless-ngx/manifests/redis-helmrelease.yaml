@@ -21,3 +21,5 @@ spec:
       existingSecretPasswordKey: password
     master:
       priorityClassName: high-priority
+      persistence:
+        storageClass: local-path

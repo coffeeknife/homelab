@@ -21,4 +21,5 @@ spec:
     master:
       persistence:
         size: 5Gi
+        storageClass: local-path
       priorityClassName: high-priority

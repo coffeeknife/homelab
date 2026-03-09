@@ -23,3 +23,5 @@ spec:
       existingSecretPasswordKey: session.redis.password.txt
     master:
       priorityClassName: high-priority
+      persistence:
+        storageClass: local-path
