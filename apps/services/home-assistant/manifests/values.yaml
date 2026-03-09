@@ -10,7 +10,7 @@ persistence:
   enabled: true
   accessMode: ReadWriteOnce
   size: 10Gi
-  storageClass: longhorn
+  storageClass: vulcan-nfs
 
 resources:
   requests:

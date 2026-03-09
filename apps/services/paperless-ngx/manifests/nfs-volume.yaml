@@ -37,7 +37,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn
+  storageClassName: local-path
   resources:
     requests:
       storage: 5Gi
@@ -48,7 +48,7 @@ metadata:
   name: paperless-consume
   namespace: paperless
 spec:
-  storageClassName: longhorn
+  storageClassName: vulcan-nfs
   resources:
     requests:
       storage: 10Gi

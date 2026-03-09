@@ -51,6 +51,6 @@ spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: longhorn
+  storageClassName: vulcan-nfs
   accessModes:
     - ReadWriteOnce

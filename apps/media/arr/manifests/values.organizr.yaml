@@ -26,3 +26,4 @@ ingress:
 persistence:
   config:
     enabled: true
+    storageClass: vulcan-nfs

@@ -9,6 +9,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: vulcan-nfs
   resources:
     requests:
       storage: 1Gi
@@ -24,6 +25,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  storageClassName: vulcan-nfs
   resources:
     requests:
       storage: 5Gi

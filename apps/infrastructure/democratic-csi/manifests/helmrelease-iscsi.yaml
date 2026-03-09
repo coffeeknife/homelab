@@ -1,0 +1,38 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: democratic-csi-iscsi
+  namespace: democratic-csi
+  labels:
+    app.kubernetes.io/name: democratic-csi-iscsi
+    app.kubernetes.io/part-of: infrastructure
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: democratic-csi
+      version: "0.15.1"
+      sourceRef:
+        kind: HelmRepository
+        name: democratic-csi
+        namespace: flux-system
+  values:
+    csiDriver:
+      # Must be globally unique within the cluster
+      name: "org.democratic-csi.iscsi"
+
+    driver:
+      # Secret must contain key: driver-config-file.yaml
+      # See secrets.template.yaml for format, then seal with kubeseal
+      existingConfigSecret: democratic-csi-iscsi-config
+
+    storageClasses:
+      - name: vulcan-iscsi
+        defaultClass: false
+        reclaimPolicy: Retain
+        volumeBindingMode: Immediate
+        allowVolumeExpansion: true
+        parameters:
+          fsType: ext4
+
+    volumeSnapshotClasses: []
