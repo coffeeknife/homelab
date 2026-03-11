@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-api-lb
+  namespace: kube-system
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 192.168.200.100
+  labels:
+    app.kubernetes.io/name: kubernetes-api-lb
+    app.kubernetes.io/part-of: infrastructure
+spec:
+  type: LoadBalancer
+  ports:
+    - name: https
+      port: 6443
+      targetPort: 6443
+      protocol: TCP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: kubernetes-api-lb
+  namespace: kube-system
+subsets:
+  - addresses:
+      - ip: 192.168.200.2
+      - ip: 192.168.200.3
+      - ip: 192.168.200.4
+    ports:
+      - name: https
+        port: 6443
+        protocol: TCP
