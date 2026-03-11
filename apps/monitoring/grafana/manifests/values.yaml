@@ -5,7 +5,7 @@ deploymentStrategy:
 
 image:
   repository: grafana/grafana
-  tag: 12.4.0
+  tag: 12.4.1
 
 service:
   type: ClusterIP
