@@ -6,6 +6,7 @@ resources:
   - priorityclass.yaml
   - helmrelease.yaml
   - ipaddresses.yaml
+  - kubernetes-api-lb.yaml
 
 configMapGenerator:
   - name: metallb-values
