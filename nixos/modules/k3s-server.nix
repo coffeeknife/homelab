@@ -30,7 +30,7 @@
       # Use home router DNS so wrenspace.dev subdomains resolve internally
       "--resolv-conf=/etc/k3s-resolv.conf"
       # Allow kubectl to connect via MetalLB VIP (192.168.200.100)
-      "--tls-san=192.168.200.100"
+      "--tls-san=192.168.200.102"
     ];
   };
 }
