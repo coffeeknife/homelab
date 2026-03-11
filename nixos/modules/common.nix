@@ -48,6 +48,8 @@
 
   sops.age.keyFile = "/root/.config/sops/age/keys.txt";
 
+  swapDevices = [{ device = "/swapfile"; size = 4096; }];
+
   time.timeZone = "America/Chicago";
   system.stateVersion = "25.05";
 }
