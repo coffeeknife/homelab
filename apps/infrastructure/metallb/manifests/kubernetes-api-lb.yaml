@@ -4,7 +4,7 @@ metadata:
   name: kubernetes-api-lb
   namespace: kube-system
   annotations:
-    metallb.universe.tf/loadBalancerIPs: 192.168.200.100
+    metallb.universe.tf/loadBalancerIPs: 192.168.200.102
   labels:
     app.kubernetes.io/name: kubernetes-api-lb
     app.kubernetes.io/part-of: infrastructure
