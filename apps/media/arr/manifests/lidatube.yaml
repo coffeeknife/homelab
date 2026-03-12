@@ -39,9 +39,9 @@ spec:
               preference:
                 matchExpressions:
                   - key: kubernetes.io/hostname
-                    operator: NotIn
+                    operator: In
                     values:
-                      - kube-1
+                      - kube-3
       containers:
       - name: lidatube
         image: thewicklowwolf/lidatube:0.2.49
