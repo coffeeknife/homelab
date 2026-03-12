@@ -47,7 +47,7 @@ sonarr:
           - son.arr.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: vulcan-nfs
+    storageClass: longhorn
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
@@ -106,7 +106,7 @@ prowlarr:
           - prowl.arr.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: vulcan-nfs
+    storageClass: longhorn
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
@@ -162,7 +162,7 @@ jellyseerr:
           - req.stream.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: vulcan-nfs
+    storageClass: longhorn
 
 bazarr:
   enabled: true
@@ -208,7 +208,7 @@ bazarr:
           - baz.arr.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: vulcan-nfs
+    storageClass: longhorn
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
@@ -264,7 +264,7 @@ radarr:
           - rad.arr.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: vulcan-nfs
+    storageClass: longhorn
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
@@ -320,7 +320,7 @@ lidarr:
           - lid.arr.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: vulcan-nfs
+    storageClass: longhorn
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
@@ -371,7 +371,7 @@ cleanuparr:
           - cleanup.arr.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: vulcan-nfs
+    storageClass: longhorn
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:

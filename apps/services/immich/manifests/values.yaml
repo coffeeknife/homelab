@@ -26,7 +26,7 @@ immich:
       existingClaim: immich-pvc
     config:
       enabled: true
-      storageClass: vulcan-nfs
+      storageClass: longhorn
       size: 5Gi
 
 valkey:
