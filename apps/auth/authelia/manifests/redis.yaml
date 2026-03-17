@@ -24,4 +24,4 @@ spec:
     master:
       priorityClassName: high-priority
       persistence:
-        storageClass: local-path
+        storageClass: longhorn
