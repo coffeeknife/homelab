@@ -1,5 +1,9 @@
 
 qbittorrent:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
   persistence:
     downloads:
       enabled: false

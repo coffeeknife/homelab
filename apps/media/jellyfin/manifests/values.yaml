@@ -12,6 +12,11 @@ persistence:
     emptyDir:
       sizeLimit: 10Gi
 
+resources:
+  requests:
+    cpu: 50m
+    memory: 512Mi
+
 nodeSelector:
   gpu: amd
 
