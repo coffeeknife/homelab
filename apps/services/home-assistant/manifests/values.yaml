@@ -21,6 +21,7 @@ resources:
     memory: 1Gi
 
 livenessProbe:
+  httpGet: null
   exec:
     command:
       - /bin/sh
@@ -32,6 +33,7 @@ livenessProbe:
   failureThreshold: 5
 
 readinessProbe:
+  httpGet: null
   exec:
     command:
       - /bin/sh
