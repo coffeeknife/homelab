@@ -21,24 +21,18 @@ resources:
     memory: 1Gi
 
 livenessProbe:
-  httpGet: null
-  exec:
-    command:
-      - /bin/sh
-      - -c
-      - "curl -s -o /dev/null -w '%{http_code}' http://localhost:8123/api/ | grep -q 401"
+  httpGet:
+    path: /auth/providers
+    port: 8123
   initialDelaySeconds: 180
   periodSeconds: 30
   timeoutSeconds: 10
   failureThreshold: 5
 
 readinessProbe:
-  httpGet: null
-  exec:
-    command:
-      - /bin/sh
-      - -c
-      - "curl -s -o /dev/null -w '%{http_code}' http://localhost:8123/api/ | grep -q 401"
+  httpGet:
+    path: /auth/providers
+    port: 8123
   initialDelaySeconds: 180
   periodSeconds: 20
   timeoutSeconds: 10
