@@ -21,12 +21,18 @@ resources:
     memory: 1Gi
 
 livenessProbe:
+  httpGet:
+    path: /api/
+    port: 8123
   initialDelaySeconds: 180
   periodSeconds: 30
   timeoutSeconds: 10
   failureThreshold: 5
 
 readinessProbe:
+  httpGet:
+    path: /api/
+    port: 8123
   initialDelaySeconds: 180
   periodSeconds: 20
   timeoutSeconds: 10
