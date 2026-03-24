@@ -12,6 +12,8 @@ persistence:
   size: 10Gi
   storageClass: longhorn
 
+priorityClassName: high-priority
+
 resources:
   requests:
     cpu: 200m
