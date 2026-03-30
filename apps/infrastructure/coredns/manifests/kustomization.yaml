@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - etcd-defrag.yaml
+
+# Patch the k3s-managed CoreDNS Deployment to run 2 replicas with pod anti-affinity.
+# This ensures one CoreDNS pod always runs on a healthy node — a single failing node
+# can't take out all cluster DNS, which would otherwise cascade into Longhorn CSI crashes,
+# etcd write storms, and node instability.
+patches:
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: coredns
+      namespace: kube-system
+    patch: |
+      - op: replace
+        path: /spec/replicas
+        value: 2
+      - op: add
+        path: /spec/template/spec/affinity
+        value:
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - labelSelector:
+                  matchExpressions:
+                    - key: k8s-app
+                      operator: In
+                      values:
+                        - kube-dns
+                topologyKey: kubernetes.io/hostname

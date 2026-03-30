@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: etcd-defrag
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/name: etcd-defrag
+    app.kubernetes.io/part-of: infrastructure
+spec:
+  # Weekly Sunday at 3:00 AM
+  schedule: "0 3 * * 0"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          # Pin to kube-1 so defrag runs from exactly one node.
+          # --cluster causes etcdctl to defrag all members regardless of where it runs.
+          nodeSelector:
+            kubernetes.io/hostname: kube-1
+          tolerations:
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+              effect: NoSchedule
+          # hostNetwork required so 127.0.0.1:2379 reaches the host's etcd process
+          hostNetwork: true
+          restartPolicy: OnFailure
+          containers:
+            - name: etcd-defrag
+              image: bitnami/etcd:3.6
+              command:
+                - etcdctl
+              args:
+                - defrag
+                - --cluster
+              env:
+                - name: ETCDCTL_ENDPOINTS
+                  value: "https://127.0.0.1:2379"
+                - name: ETCDCTL_CACERT
+                  value: /etc/etcd-certs/server-ca.crt
+                - name: ETCDCTL_CERT
+                  value: /etc/etcd-certs/client.crt
+                - name: ETCDCTL_KEY
+                  value: /etc/etcd-certs/client.key
+              volumeMounts:
+                - name: etcd-certs
+                  mountPath: /etc/etcd-certs
+                  readOnly: true
+          volumes:
+            - name: etcd-certs
+              hostPath:
+                path: /var/lib/rancher/k3s/server/tls/etcd
+                type: Directory
