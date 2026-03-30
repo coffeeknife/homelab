@@ -1,0 +1,22 @@
+# Partial Deployment applied via SSA to patch the k3s-managed CoreDNS.
+# Flux uses server-side apply, so only the fields listed here are managed by Flux;
+# all other fields remain under k3s's field manager.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coredns
+  namespace: kube-system
+spec:
+  replicas: 2
+  template:
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: k8s-app
+                    operator: In
+                    values:
+                      - kube-dns
+              topologyKey: kubernetes.io/hostname
