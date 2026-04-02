@@ -27,31 +27,42 @@ Common Docker commands:
 
 | ID | Type | Name | Resources | IP | Role |
 |----|------|------|-----------|-----|------|
-| 200 | VM | kube-1 | 2 CPU, 10GB | 192.168.200.2 | K8s control plane |
-| 201 | VM | kube-2 | 1 CPU, 10GB | 192.168.200.3 | K8s worker |
-| 202 | VM | kube-3 | 1 CPU, 10GB | 192.168.200.4 | K8s worker |
+| 200 | VM | kube-1 | 2 CPU, 10GB | 192.168.200.2 | k3s node (bootstrap) |
+| 201 | VM | kube-2 | 1 CPU, 10GB | 192.168.200.3 | k3s node |
+| 202 | VM | kube-3 | 1 CPU, 10GB | 192.168.200.4 | k3s node (AMD GPU passthrough) |
 | 101 | LXC | mqtt | 1 CPU, 512MB | 192.168.100.3 | MQTT broker (IoT network) |
 | 113 | LXC | vaultwarden | 1 CPU, 256MB | DHCP | Password manager |
 | 124 | LXC | gitea | 1 CPU, 1GB | 192.168.200.52 | Git server (Flux source) |
 
 ## Kubernetes Cluster
 
-3-node MicroK8s cluster running on VMs hosted on etheirys (Proxmox). Control plane on kube-1.
+3-node k3s HA cluster (embedded etcd) running on NixOS VMs hosted on etheirys (Proxmox). All three nodes are control-plane + etcd members. kube-1 bootstraps the cluster; kube-2 and kube-3 join via `serverAddr`.
 
 | Node | IP | Resources | Notes |
 |------|-----|-----------|-------|
-| kube-1 | 192.168.200.2 | 2 CPU, 10GB RAM | Control plane |
-| kube-2 | 192.168.200.3 | 1 CPU, 10GB RAM | Worker |
-| kube-3 | 192.168.200.4 | 1 CPU, 10GB RAM | Worker |
+| kube-1 | 192.168.200.2 | 2 CPU, 10GB RAM | Cluster bootstrap node |
+| kube-2 | 192.168.200.3 | 1 CPU, 10GB RAM | |
+| kube-3 | 192.168.200.4 | 1 CPU, 10GB RAM | AMD GPU passthrough (`gpu=amd` label) — Jellyfin schedules here |
 
-- **Kubernetes version:** v1.33.7
-- **OS:** Ubuntu 24.04 LTS
-- **CNI:** Calico (MicroK8s default, VXLAN backend)
-- **Container runtime:** containerd 1.7.27
+- **Kubernetes version:** v1.34.4+k3s1
+- **OS:** NixOS 26.05 (Yarara) — managed via colmena from `nixos/`
+- **CNI:** Flannel (k3s embedded, VXLAN backend, VNI 1)
+- **Container runtime:** containerd 2.1.5-k3s1
 - **MetalLB IP range:** 192.168.200.100–192.168.200.254
+- **Kubernetes API VIP:** 192.168.200.102 (MetalLB)
 - **Storage classes:** `longhorn` (default), `longhorn-static`
 - **Sealed Secrets:** Used for encrypting secrets in Git
 - **Resource constraints:** Cluster is CPU-constrained; use minimal requests for batch jobs (50m CPU, 256Mi memory)
+
+### Known NixOS/k3s quirk
+
+`/run/flannel/subnet.env` lives on tmpfs and must exist for pod sandbox creation. A `systemd.tmpfiles` rule in `nixos/modules/k3s-server.nix` creates `/run/flannel` at boot so k3s can write this file. If pods are stuck in `ContainerCreating` after a reboot, check this file exists on each node:
+
+```bash
+ssh kube-1 "ls /run/flannel/subnet.env"
+```
+
+If missing, restart k3s: `sudo systemctl restart k3s`
 
 ## Gitea Access
 
@@ -65,7 +76,7 @@ Common Docker commands:
 # kubectl and flux are configured on the local dev machine — no need to SSH into nodes
 
 # Check Flux kustomization status
-flux get kustomizations -n flux-system
+flux get kustomizations -A
 
 # Check all Helm releases
 flux get helmreleases -A
@@ -73,11 +84,19 @@ flux get helmreleases -A
 # Force reconciliation after pushing changes
 flux reconcile kustomization flux-system -n flux-system
 
+# Deploy NixOS changes to all cluster nodes
+colmena apply
+
+# Deploy NixOS changes to a single node
+colmena apply --on kube-3
+
 # Generate Authelia OIDC client secret pair
 docker run --rm authelia/authelia:latest authelia crypto hash generate pbkdf2 --variant sha512 --random --random.length 72 --random.charset rfc3986
 
-# Run Ansible playbooks (e.g., apt updates)
-ansible-playbook -i ansible/inventory/inventory.yaml ansible/playbooks/update-apt.yaml
+# SSH to cluster nodes (configured in ~/.ssh/config)
+ssh kube-1   # 192.168.200.2
+ssh kube-2   # 192.168.200.3
+ssh kube-3   # 192.168.200.4
 ```
 
 ## Repository Layout
@@ -93,6 +112,10 @@ apps/                    # Flux-managed Kubernetes apps (HelmReleases + manifest
   external-ingress/      # External DNS/routing
   helm-repos.yaml        # All HelmRepository definitions
 flux-system/             # Flux CD bootstrap (gotk-sync.yaml, gotk-components.yaml)
+nixos/                   # NixOS configuration for k3s cluster nodes (deployed via colmena)
+  hosts/                 # Per-node config (kube-1, kube-2, kube-3)
+  modules/               # Shared modules (k3s-server, longhorn-prereqs, disk, common)
+  secrets/               # sops-encrypted secrets
 ansible/                 # Legacy — inventory is outdated, leave as-is
 proxmox/                 # Proxmox VE helper script configs (LXC provisioning)
 ```
