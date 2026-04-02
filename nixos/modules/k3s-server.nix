@@ -14,6 +14,13 @@
     mode     = "0400";
   };
 
+  # Ensure /run/flannel exists at boot so k3s can write subnet.env.
+  # Without this, k3s silently fails to initialise flannel and no pod
+  # sandboxes can be created after a reboot.
+  systemd.tmpfiles.rules = [
+    "d /run/flannel 0755 root root -"
+  ];
+
   services.k3s = {
     enable    = true;
     role      = "server";
