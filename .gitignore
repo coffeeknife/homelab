@@ -83,4 +83,4 @@ http-client.private.env.json
 .idea/ApifoxUploaderProjectSetting.xml
 
 scratch/
-nixos/secrets/age-key.txt
+nixos/secrets/age-key.txt.claude/
