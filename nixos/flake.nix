@@ -5,11 +5,13 @@
     nixpkgs.url     = "github:nixos/nixpkgs/nixos-unstable";
     sops-nix.url    = "github:mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    colmena.url     = "github:zhaofengli/colmena?ref=refs/tags/v0.4.0";
+    colmena.inputs.nixpkgs.follows = "nixpkgs";
     disko.url       = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, sops-nix, disko, ... }:
+  outputs = { self, nixpkgs, sops-nix, colmena, disko, ... }:
     let
       system = "x86_64-linux";
       pkgs   = nixpkgs.legacyPackages.${system};
@@ -36,9 +38,7 @@
       #   colmena apply              -- deploy all nodes
       #   colmena apply --on kube-1  -- deploy single node
       #   colmena exec -- systemctl restart k3s
-      colmenaHive = {
-        __schema = "v0";
-
+      colmenaHive = colmena.lib.makeHive {
         meta = {
           nixpkgs = import nixpkgs { inherit system; };
           specialArgs = { inherit sops-nix; };
@@ -84,7 +84,7 @@
       # Dev shell with cluster management tools
       devShells.${system}.default = pkgs.mkShell {
         packages = [
-          pkgs.colmena
+          colmena.packages.${system}.colmena
           pkgs.kubectl
           pkgs.fluxcd
           pkgs.sops
