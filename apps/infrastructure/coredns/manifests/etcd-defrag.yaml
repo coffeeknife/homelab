@@ -29,7 +29,7 @@ spec:
           restartPolicy: OnFailure
           containers:
             - name: etcd-defrag
-              image: bitnami/etcd:3.6
+              image: bitnami/etcd:3.5
               command:
                 - etcdctl
               args:
