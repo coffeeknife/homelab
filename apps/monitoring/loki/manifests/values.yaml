@@ -4,6 +4,8 @@ loki:
     enabled: true
     storageClassName: longhorn
     size: 50Gi
+  podSecurityContext:
+    fsGroupChangePolicy: OnRootMismatch
   config:
     limits_config:
       retention_period: 720h
