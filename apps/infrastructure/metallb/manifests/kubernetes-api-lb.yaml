@@ -24,8 +24,6 @@ metadata:
 subsets:
   - addresses:
       - ip: 192.168.200.2
-      - ip: 192.168.200.3
-      - ip: 192.168.200.4
     ports:
       - name: https
         port: 6443

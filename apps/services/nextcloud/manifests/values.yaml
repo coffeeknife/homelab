@@ -195,16 +195,6 @@ persistence:
     enabled: true
     existingClaim: nextcloud-pvc
 
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - kube-1
-
 resources:
   requests:
     memory: "1Gi"

@@ -121,7 +121,7 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       nodeSelector:
-        kubernetes.io/hostname: kube-3
+        kubernetes.io/hostname: kube-vm
       containers:
         - name: mdns-bridge
           image: python:3.14-slim
