@@ -27,22 +27,18 @@ Common Docker commands:
 
 | ID | Type | Name | Resources | IP | Role |
 |----|------|------|-----------|-----|------|
-| 200 | VM | kube-1 | 2 CPU, 10GB | 192.168.200.2 | k3s node (bootstrap) |
-| 201 | VM | kube-2 | 1 CPU, 10GB | 192.168.200.3 | k3s node |
-| 202 | VM | kube-3 | 1 CPU, 10GB | 192.168.200.4 | k3s node (AMD GPU passthrough) |
+| 202 | VM | kube-vm | TBD | 192.168.200.2 | k3s single-node (AMD GPU passthrough) |
 | 101 | LXC | mqtt | 1 CPU, 512MB | 192.168.100.3 | MQTT broker (IoT network) |
 | 113 | LXC | vaultwarden | 1 CPU, 256MB | DHCP | Password manager |
 | 124 | LXC | gitea | 1 CPU, 1GB | 192.168.200.52 | Git server (Flux source) |
 
 ## Kubernetes Cluster
 
-3-node k3s HA cluster (embedded etcd) running on NixOS VMs hosted on etheirys (Proxmox). All three nodes are control-plane + etcd members. kube-1 bootstraps the cluster; kube-2 and kube-3 join via `serverAddr`.
+Single-node k3s cluster (embedded etcd) running on a NixOS VM hosted on etheirys (Proxmox). Embedded etcd is enabled so additional nodes can join from other machines in future.
 
 | Node | IP | Resources | Notes |
 |------|-----|-----------|-------|
-| kube-1 | 192.168.200.2 | 2 CPU, 10GB RAM | Cluster bootstrap node |
-| kube-2 | 192.168.200.3 | 1 CPU, 10GB RAM | |
-| kube-3 | 192.168.200.4 | 1 CPU, 10GB RAM | AMD GPU passthrough (`gpu=amd` label) — Jellyfin schedules here |
+| kube-vm | 192.168.200.2 | TBD | AMD GPU passthrough (`gpu=amd` label) — Jellyfin schedules here |
 
 - **Kubernetes version:** v1.34.4+k3s1
 - **OS:** NixOS 26.05 (Yarara) — managed via colmena from `nixos/`
@@ -59,7 +55,7 @@ Common Docker commands:
 `/run/flannel/subnet.env` lives on tmpfs and must exist for pod sandbox creation. A `systemd.tmpfiles` rule in `nixos/modules/k3s-server.nix` creates `/run/flannel` at boot so k3s can write this file. If pods are stuck in `ContainerCreating` after a reboot, check this file exists on each node:
 
 ```bash
-ssh kube-1 "ls /run/flannel/subnet.env"
+ssh kube-vm "ls /run/flannel/subnet.env"
 ```
 
 If missing, restart k3s: `sudo systemctl restart k3s`
@@ -94,9 +90,7 @@ colmena apply --on kube-3
 docker run --rm authelia/authelia:latest authelia crypto hash generate pbkdf2 --variant sha512 --random --random.length 72 --random.charset rfc3986
 
 # SSH to cluster nodes (configured in ~/.ssh/config)
-ssh kube-1   # 192.168.200.2
-ssh kube-2   # 192.168.200.3
-ssh kube-3   # 192.168.200.4
+ssh kube-vm  # 192.168.200.2
 ```
 
 ## Repository Layout

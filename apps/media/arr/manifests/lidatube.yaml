@@ -41,7 +41,7 @@ spec:
                   - key: kubernetes.io/hostname
                     operator: In
                     values:
-                      - kube-3
+                      - kube-vm
       containers:
       - name: lidatube
         image: thewicklowwolf/lidatube:0.2.49

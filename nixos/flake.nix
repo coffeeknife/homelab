@@ -28,15 +28,13 @@
     in
     {
       nixosConfigurations = {
-        kube-1 = mkHost { name = "kube-1"; };
-        kube-2 = mkHost { name = "kube-2"; };
-        kube-3 = mkHost { name = "kube-3"; };
+        kube-vm = mkHost { name = "kube-vm"; };
       };
 
       # colmena deployment configuration
       # Usage:
-      #   colmena apply              -- deploy all nodes
-      #   colmena apply --on kube-1  -- deploy single node
+      #   colmena apply               -- deploy all nodes
+      #   colmena apply --on kube-vm  -- deploy single node
       #   colmena exec -- systemctl restart k3s
       colmenaHive = colmena.lib.makeHive {
         meta = {
@@ -44,7 +42,7 @@
           specialArgs = { inherit sops-nix; };
         };
 
-        kube-1 = { ... }: {
+        kube-vm = { ... }: {
           deployment = {
             targetHost = "192.168.200.2";
             targetUser = "root";
@@ -52,31 +50,7 @@
           imports = [
             sops-nix.nixosModules.sops
             disko.nixosModules.disko
-            ./hosts/kube-1/default.nix
-          ];
-        };
-
-        kube-2 = { ... }: {
-          deployment = {
-            targetHost = "192.168.200.3";
-            targetUser = "root";
-          };
-          imports = [
-            sops-nix.nixosModules.sops
-            disko.nixosModules.disko
-            ./hosts/kube-2/default.nix
-          ];
-        };
-
-        kube-3 = { ... }: {
-          deployment = {
-            targetHost = "192.168.200.4";
-            targetUser = "root";
-          };
-          imports = [
-            sops-nix.nixosModules.sops
-            disko.nixosModules.disko
-            ./hosts/kube-3/default.nix
+            ./hosts/kube-vm/default.nix
           ];
         };
       };
