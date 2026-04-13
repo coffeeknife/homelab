@@ -4,7 +4,8 @@ metadata:
   name: cluster-tunnel
   namespace: cloudflare-operator-system
 spec:
-  newTunnel:
+  existingTunnel:
+    id: b1e4e785-0b30-49a4-8c5b-45698b5b2b53
     name: cluster-tunnel
   deployPatch: |
     {
