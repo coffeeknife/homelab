@@ -29,3 +29,14 @@ spec:
   values:
     crds:
       enabled: true
+    resources:
+      limits:
+        cpu: 500m
+    cainjector:
+      resources:
+        limits:
+          cpu: 500m
+    webhook:
+      resources:
+        limits:
+          cpu: 500m
