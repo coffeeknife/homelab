@@ -19,7 +19,7 @@ resources:
     cpu: 200m
     memory: 512Mi
   limits:
-    cpu: "1"
+    cpu: 500m
     memory: 1Gi
 
 livenessProbe:
