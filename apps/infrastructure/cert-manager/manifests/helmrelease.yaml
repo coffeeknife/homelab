@@ -30,13 +30,19 @@ spec:
     crds:
       enabled: true
     resources:
+      requests:
+        cpu: 10m
       limits:
         cpu: 500m
     cainjector:
       resources:
+        requests:
+          cpu: 10m
         limits:
           cpu: 500m
     webhook:
       resources:
+        requests:
+          cpu: 10m
         limits:
           cpu: 500m
