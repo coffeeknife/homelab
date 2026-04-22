@@ -1,0 +1,21 @@
+nfs:
+  server: 192.168.1.69
+  path: /mnt/birdpool/k8s-nfs
+  mountOptions:
+    - noatime
+    - nfsvers=4.1
+    - hard
+    - rsize=1048576
+    - wsize=1048576
+    - timeo=600
+    - retrans=2
+
+storageClass:
+  create: false
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+  limits:
+    memory: 64Mi
