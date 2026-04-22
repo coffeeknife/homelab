@@ -30,7 +30,6 @@
       # Disable components managed by Flux instead
       "--disable=traefik"
       "--disable=servicelb"
-      "--disable=local-storage"
       # Relax etcd timeouts for Proxmox VM disks which can have variable fsync latency
       "--etcd-arg=heartbeat-interval=500"
       "--etcd-arg=election-timeout=5000"
