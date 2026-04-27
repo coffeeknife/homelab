@@ -37,4 +37,4 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: protonmail-bridge-data
+            claimName: protonmail-bridge-data-nfs
