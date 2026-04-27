@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: apprise-config-pvc
+  name: apprise-config-pvc-nfs
   namespace: notify
   labels:
     app: apprise
@@ -9,7 +9,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn
+  storageClassName: vulcan-nfs
   resources:
     requests:
       storage: 1Gi
@@ -17,7 +17,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: apprise-attachments-pvc
+  name: apprise-attachments-pvc-nfs
   namespace: notify
   labels:
     app: apprise
@@ -25,7 +25,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: longhorn
+  storageClassName: vulcan-nfs
   resources:
     requests:
       storage: 5Gi
@@ -79,10 +79,10 @@ spec:
       volumes:
         - name: config-volume
           persistentVolumeClaim:
-            claimName: apprise-config-pvc
+            claimName: apprise-config-pvc-nfs
         - name: attachments-volume
           persistentVolumeClaim:
-            claimName: apprise-attachments-pvc
+            claimName: apprise-attachments-pvc-nfs
 ---
 apiVersion: v1
 kind: Service
