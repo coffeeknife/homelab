@@ -5,6 +5,8 @@ resources:
   - ns.yaml
   - helmrelease.yaml
   - mdns-bridge.yaml
+  - creds.yaml
+  - database.yaml
 
 configMapGenerator:
   - name: hass-values
