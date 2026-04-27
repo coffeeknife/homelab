@@ -22,8 +22,8 @@ resources:
 
 persistence:
   enabled: true
-  storageClassName: longhorn
-  size: 10Gi
+  type: pvc
+  existingClaim: grafana-nfs
 
 ingress:
   enabled: true
