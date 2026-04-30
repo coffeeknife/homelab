@@ -150,7 +150,7 @@ jellyseerr:
           - req.stream.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: longhorn
+    existingClaim: arr-stack-jellyseerr-nfs
 
 bazarr:
   enabled: true
@@ -343,7 +343,7 @@ cleanuparr:
           - cleanup.arr.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: longhorn
+    existingClaim: arr-stack-cleanuparr-nfs
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
