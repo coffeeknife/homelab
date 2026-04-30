@@ -33,4 +33,4 @@ ingress:
 persistence:
   config:
     enabled: true
-    storageClass: longhorn
+    existingClaim: organizr-config-nfs
