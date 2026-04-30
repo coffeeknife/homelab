@@ -15,6 +15,7 @@ metadata:
   namespace: arr-stack
 spec:
   interval: 30m
+  timeout: 15m
   chart:
     spec:
       chart: servarr
@@ -23,6 +24,11 @@ spec:
         kind: HelmRepository
         name: kubito
         namespace: flux-system
+  install:
+    disableWait: true
+  upgrade:
+    disableWait: true
+    cleanupOnFail: true
   valuesFrom:
     - kind: ConfigMap
       name: arr-stack-values
