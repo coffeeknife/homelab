@@ -1,0 +1,26 @@
+apiVersion: k8s.mariadb.com/v1alpha1
+kind: Backup
+metadata:
+  name: mariadb-daily
+  namespace: mariadb-sys
+  labels:
+    app.kubernetes.io/name: mariadb
+    app.kubernetes.io/part-of: database
+    app.kubernetes.io/component: backup
+spec:
+  mariaDbRef:
+    name: mariadb
+  # Initial cron: every 3 minutes to seed first backup quickly before the
+  # Phase 5.2 cutover. Bumped to real schedule (17 4 * * *) in next commit.
+  schedule:
+    cron: "*/3 * * * *"
+    suspend: false
+  maxRetention: 336h          # 14 days
+  compression: gzip
+  storage:
+    persistentVolumeClaim:
+      accessModes: [ReadWriteOnce]
+      resources:
+        requests:
+          storage: 20Gi
+      storageClassName: vulcan-nfs
