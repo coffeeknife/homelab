@@ -1,0 +1,13 @@
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: hass-recorder-creds
+  namespace: hass
+spec:
+  encryptedData:
+    db_url: AgAorKfB+Dlq0bmOD04sYUQcH/YtnBz0lE9yh2tscr15obpnxbuOOaQNN1Ysr3ug8lIYpTNIxwJIzeZiLd1g96saxMj23BVJvcghV0G6hbdh/1wX7geGdxFlBUyzI3YwXzQfsHmB1/OY7QojU3FAzSig6prxpcuxMOUtHuYG/b2cYqVxAEPeqym6IkGxsUnNYfD30pEmriwZnIP4o5aKE/OnjYPcUKcOTwsCZm7vxwMeCR8ymngPX2aMLA4hIVTqq4h2GXaFjVJ76Su0WGaN8o8kWXuPmEoeaqpuLRng3vXer7IFBCbWOzFgPgT8HX6BEek+iyu6oDjtl2F+G27ztusqs349bHfINDt3C5vKzdL3ikyORX7mhSGqZS1rNIwWeuBjeNh7E3u6wr3QPvl0fXB3s8D6HA4/yZnrO//NWcj0mZn21J3M9XdsN5xufjXmQ6hktEB5n6vE/WSURdbh10cXKVWeS+0EtREVvZr42BrldKS+gYeyP08IzBs6g8DPYe/v7FSGpnW7miux7j4bFkGYKbEVug54WrLcisrRszL4WSQ/Gurdx35QQR1ngZQpvUWwjpwuYEvqEQk78fluEwq7fDEnCnGm+flt5B8AWuLa8EeBxz8VCGdrCBg2T+C2/U1i5JilK5lT5ByBVR1PhII2kIn2oDRUENwPJxHGr8ux67keYrXFL7/8qWJR9c6z36yWXIpRvfrcKk/PKO+fR5Xzw8FDNKaiExGU4P0csAATgaLBPTmSlgf9CZYqFJN4i84YsbeWo0r9ErcPCoYrPqHZ9izAVYOLNevZXIPlkw4y2AJnbX5Q5F4OqCS8g6aMlchWDjopYXTUNPxMEBoxtTBCiZ1na8KQAXd6z8UGysN24pidm60uLBAl+kfpelvo
+  template:
+    metadata:
+      name: hass-recorder-creds
+      namespace: hass
