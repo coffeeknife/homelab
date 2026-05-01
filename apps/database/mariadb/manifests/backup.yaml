@@ -10,10 +10,9 @@ metadata:
 spec:
   mariaDbRef:
     name: mariadb
-  # Initial cron: every 3 minutes to seed first backup quickly before the
-  # Phase 5.2 cutover. Bumped to real schedule (17 4 * * *) in next commit.
+  # Daily at 04:17 UTC (off the :00/:30 stampede)
   schedule:
-    cron: "*/3 * * * *"
+    cron: "17 4 * * *"
     suspend: false
   maxRetention: 336h          # 14 days
   compression: gzip
