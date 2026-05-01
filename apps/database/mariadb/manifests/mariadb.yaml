@@ -21,10 +21,17 @@ spec:
   # bootstrapFrom is consulted only when the MariaDB CR is freshly created
   # (no RestoredBackup status condition). Stays in for DR: if the CR is
   # ever deleted + reapplied (e.g. cluster rebuild from git), the operator
-  # restores from the latest file in mariadb-daily's storage.
+  # restores from the latest file in mariadb-daily's PVC.
+  #
+  # Using volume source rather than backupRef to dodge the operator's
+  # Backup-status check, which can deadlock when a backup happens to be
+  # mid-fire during the Restore creation. Volume source reads the latest
+  # file in the PVC directly via targetRecoveryTime defaulting to "now".
   bootstrapFrom:
-    backupRef:
-      name: mariadb-daily
+    volume:
+      persistentVolumeClaim:
+        claimName: mariadb-daily
+        readOnly: true
 
   myCnf: |
     [mariadb]
