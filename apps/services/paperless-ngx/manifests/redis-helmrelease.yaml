@@ -22,4 +22,4 @@ spec:
     master:
       priorityClassName: high-priority
       persistence:
-        storageClass: longhorn
+        storageClass: vulcan-nfs-strict
