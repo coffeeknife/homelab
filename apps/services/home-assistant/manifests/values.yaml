@@ -3,8 +3,39 @@ configuration:
   forceInit: true
   trusted_proxies:
     - 10.0.0.0/8
+  templateConfig: |-
+    # Loads default set of integrations. Do not remove.
+    default_config:
+
+    {{- if or .Values.ingress.enabled .Values.ingress.external }}
+    http:
+      use_x_forwarded_for: true
+      trusted_proxies:
+        {{- range .Values.configuration.trusted_proxies }}
+        - {{ . }}
+        {{- end }}
+    {{- end }}
+    # Load frontend themes from the themes folder
+    frontend:
+      themes: !include_dir_merge_named themes
+
+    automation: !include automations.yaml
+    script: !include scripts.yaml
+    scene: !include scenes.yaml
+
+    recorder:
+      db_url: !env_var RECORDER_DB_URL
+      purge_keep_days: 30
+      commit_interval: 5
 
 addons.codeserver.enabled: true
+
+env:
+  - name: RECORDER_DB_URL
+    valueFrom:
+      secretKeyRef:
+        name: hass-recorder-creds
+        key: db_url
 
 persistence:
   enabled: true
