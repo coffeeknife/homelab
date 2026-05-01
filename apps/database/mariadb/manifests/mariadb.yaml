@@ -15,7 +15,7 @@ spec:
   port: 3306
 
   storage:
-    size: 1Gi
+    size: 5Gi
 
   myCnf: |
     [mariadb]
