@@ -45,12 +45,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: paperless-consume
+  name: paperless-consume-v2
   namespace: paperless
 spec:
-  storageClassName: longhorn
+  storageClassName: local-path
   resources:
     requests:
-      storage: 10Gi
+      storage: 2Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
