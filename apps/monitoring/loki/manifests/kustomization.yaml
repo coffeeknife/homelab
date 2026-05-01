@@ -5,6 +5,7 @@ namespace: monitoring
 
 resources:
   - helmrelease.yaml
+  - s3-credentials.yaml
 
 commonLabels:
   app: loki
