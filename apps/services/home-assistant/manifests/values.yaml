@@ -41,7 +41,9 @@ persistence:
   enabled: true
   accessMode: ReadWriteOnce
   size: 10Gi
-  storageClass: longhorn
+  storageClass: vulcan-nfs-strict
+  matchLabels:
+    hass-config-pv: "true"
 
 priorityClassName: high-priority
 
