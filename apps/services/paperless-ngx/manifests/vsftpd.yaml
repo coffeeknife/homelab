@@ -19,7 +19,7 @@ spec:
       volumes:
         - name: paperless-consume
           persistentVolumeClaim:
-            claimName: paperless-consume
+            claimName: paperless-consume-v2
       containers:
         - name: vsftpd
           image: forumi0721/alpine-vsftpd:x64
