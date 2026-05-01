@@ -16,6 +16,15 @@ spec:
 
   storage:
     size: 5Gi
+    storageClassName: local-path
+
+  # bootstrapFrom is consulted only when the MariaDB CR is freshly created
+  # (no RestoredBackup status condition). Stays in for DR: if the CR is
+  # ever deleted + reapplied (e.g. cluster rebuild from git), the operator
+  # restores from the latest file in mariadb-daily's storage.
+  bootstrapFrom:
+    backupRef:
+      name: mariadb-daily
 
   myCnf: |
     [mariadb]
