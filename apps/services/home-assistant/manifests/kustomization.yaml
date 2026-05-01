@@ -7,6 +7,7 @@ resources:
   - mdns-bridge.yaml
   - creds.yaml
   - database.yaml
+  - recorder-creds.yaml
 
 configMapGenerator:
   - name: hass-values
