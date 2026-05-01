@@ -10,9 +10,11 @@ metadata:
 spec:
   mariaDbRef:
     name: mariadb
-  # Daily at 04:17 UTC (off the :00/:30 stampede)
+  # Daily at 04:17 America/Chicago (= 09:17 UTC in CDT, 10:17 UTC in CST).
+  # Cron is UTC and doesn't shift with DST, so this lands at 03:17 Chicago
+  # for half the year — close enough; both windows are quiet for the homelab.
   schedule:
-    cron: "17 4 * * *"
+    cron: "17 9 * * *"
     suspend: false
   maxRetention: 336h          # 14 days
   compression: gzip
