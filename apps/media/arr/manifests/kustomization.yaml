@@ -5,6 +5,7 @@ resources:
   - namespace.yaml
   - secrets.yaml
   - middlewares.yaml
+  - pvcs.yaml
   - unpackerr.yaml
   - lidatube.yaml
   - qbittorrent-helmrelease.yaml
