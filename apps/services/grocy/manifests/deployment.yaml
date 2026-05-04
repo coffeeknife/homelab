@@ -47,4 +47,4 @@ spec:
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: grocy-data
+            claimName: grocy-data-v2

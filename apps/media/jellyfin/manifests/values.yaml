@@ -2,7 +2,7 @@ persistence:
   config:
     pvc:
       enabled: true
-      claimName: jellyfin-config
+      claimName: jellyfin-config-v2
   media:
     readOnly: true
     nfs:

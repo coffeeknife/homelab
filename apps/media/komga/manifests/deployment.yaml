@@ -19,7 +19,7 @@ spec:
       volumes:
       - name: config
         persistentVolumeClaim:
-          claimName: komga-config
+          claimName: komga-config-v2
       - name: data
         persistentVolumeClaim:
           claimName: komga-nfs
@@ -45,12 +45,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: komga-config
+  name: komga-config-v2
   namespace: komga
 spec:
   resources:
     requests:
       storage: 5Gi
-  storageClassName: longhorn
+  storageClassName: local-path
   accessModes:
     - ReadWriteOnce
