@@ -5,6 +5,8 @@ qbittorrent:
       cpu: 50m
       memory: 256Mi
   persistence:
+    config:
+      existingClaim: arr-stack-qbittorrent-config-nfs
     downloads:
       enabled: false
   extraVolumeMounts:
@@ -20,6 +22,8 @@ extraVolumes:
     emptyDir: {}
 
 gluetun:
+  persistence:
+    existingClaim: arr-stack-qbittorrent-gluetun-nfs
   settings:
     PROTONVPN_TIER: '2'
     PORT_FORWARD_ONLY: on

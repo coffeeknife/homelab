@@ -43,7 +43,7 @@ sonarr:
           - son.arr.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: longhorn
+    existingClaim: arr-stack-sonarr-nfs
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
@@ -98,7 +98,7 @@ prowlarr:
           - prowl.arr.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: longhorn
+    existingClaim: arr-stack-prowlarr-nfs
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
@@ -192,7 +192,7 @@ bazarr:
           - baz.arr.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: longhorn
+    existingClaim: arr-stack-bazarr-nfs
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
@@ -244,7 +244,7 @@ radarr:
           - rad.arr.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: longhorn
+    existingClaim: arr-stack-radarr-nfs
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
@@ -296,7 +296,7 @@ lidarr:
           - lid.arr.wrenspace.dev
   persistence:
     enabled: true
-    storageClass: longhorn
+    existingClaim: arr-stack-lidarr-nfs
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
