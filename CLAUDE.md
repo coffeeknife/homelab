@@ -40,15 +40,15 @@ Single-node k3s cluster (embedded etcd) running on a NixOS VM hosted on etheirys
 |------|-----|-----------|-------|
 | kube-vm | 192.168.200.2 | TBD | AMD GPU passthrough (`gpu=amd` label) — Jellyfin schedules here |
 
-- **Kubernetes version:** v1.34.4+k3s1
+- **Kubernetes version:** v1.35.2+k3s1
 - **OS:** NixOS 26.05 (Yarara) — managed via colmena from `nixos/`
 - **CNI:** Flannel (k3s embedded, VXLAN backend, VNI 1)
 - **Container runtime:** containerd 2.1.5-k3s1
 - **MetalLB IP range:** 192.168.200.100–192.168.200.254
 - **Kubernetes API VIP:** 192.168.200.102 (MetalLB)
-- **Storage classes:** `longhorn` (default), `longhorn-static`
+- **Storage classes:** `vulcan-nfs` (default), `vulcan-nfs-strict`, `local-path`
 - **Sealed Secrets:** Used for encrypting secrets in Git
-- **Resource constraints:** Cluster is CPU-constrained; use minimal requests for batch jobs (50m CPU, 256Mi memory)
+- **Resource constraints:** Use minimal requests for batch jobs (50m CPU, 256Mi memory)
 
 ### Known NixOS/k3s quirk
 
@@ -98,7 +98,7 @@ ssh kube-vm  # 192.168.200.2
 ```
 apps/                    # Flux-managed Kubernetes apps (HelmReleases + manifests)
   auth/                  # Authelia (SSO/OIDC) + LLDAP (LDAP directory)
-  infrastructure/        # cert-manager, traefik, metallb, longhorn, cloudflare-operator, smtp-relay
+  infrastructure/        # cert-manager, traefik, metallb, nfs-provisioner, cloudflare-operator, smtp-relay
   database/              # Shared MariaDB
   services/              # User-facing apps (nextcloud, paperless-ngx, home-assistant, immich, grocy, homepage)
   media/                 # jellyfin, arr suite (radarr, sonarr, etc.)
@@ -108,7 +108,7 @@ apps/                    # Flux-managed Kubernetes apps (HelmReleases + manifest
 flux-system/             # Flux CD bootstrap (gotk-sync.yaml, gotk-components.yaml)
 nixos/                   # NixOS configuration for k3s cluster nodes (deployed via colmena)
   hosts/                 # Per-node config (kube-1, kube-2, kube-3)
-  modules/               # Shared modules (k3s-server, longhorn-prereqs, disk, common)
+  modules/               # Shared modules (k3s-server, disk, common)
   secrets/               # sops-encrypted secrets
 ansible/                 # Legacy — inventory is outdated, leave as-is
 proxmox/                 # Proxmox VE helper script configs (LXC provisioning)
@@ -196,7 +196,12 @@ Labels are partially implemented. When modifying existing resources, add missing
 
 **Ingress:** Traefik as ingress controller with cert-manager for automated TLS. Apps use Traefik middleware for forward auth (Authelia) and security headers.
 
-**Storage:** Longhorn for distributed block storage; NFS volumes from vulcan (ZFS) for large data (documents, photos, media).
+**Storage:** NFS provisioner backed by vulcan (ZFS over NFS) is the default storage class (`vulcan-nfs`). Three storage classes are available:
+- `vulcan-nfs` (default) — general-purpose, retain-on-delete, noatime mount; use for app config/data
+- `vulcan-nfs-strict` — same as above but with cache disabled (`noac`, `sync`, `actimeo=0`); use for databases and anything requiring strong consistency (Redis, MariaDB backups)
+- `local-path` — node-local ephemeral storage via k3s provisioner; use for databases that need low-latency I/O (Prometheus, Loki, MariaDB data, Immich postgres)
+
+NFS PVC paths on vulcan follow `{namespace}/{pvc-name}` under the ZFS pool. Large read-only datasets (media, documents, photos) use static NFS PVs defined in `nfs-volume.yaml` per app.
 
 **Database:** Shared MariaDB instance with per-app databases. Database resources (PVC, Secret, ConfigMap) are defined per-app.
 
