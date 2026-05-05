@@ -1,5 +1,20 @@
 ---
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nextcloud-app-nfs
+  namespace: nextcloud
+  labels:
+    app.kubernetes.io/name: nextcloud
+    app.kubernetes.io/part-of: services
+spec:
+  storageClassName: vulcan-nfs
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 8Gi
+---
+apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: nextcloud-pv

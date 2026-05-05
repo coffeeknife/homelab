@@ -191,6 +191,7 @@ service:
 
 persistence:
   enabled: true
+  existingClaim: nextcloud-app-nfs
   nextcloudData:
     enabled: true
     existingClaim: nextcloud-pvc
