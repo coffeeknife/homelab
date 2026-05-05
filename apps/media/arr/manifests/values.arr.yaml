@@ -1,5 +1,8 @@
 jellyfin:
   enabled: false
+  persistence:
+    media:
+      enabled: false
 
 sonarr:
   enabled: true
