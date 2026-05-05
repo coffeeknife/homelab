@@ -4,6 +4,9 @@
     "config:recommended",
     ":dependencyDashboard"
   ],
+  "ignorePaths": [
+    "flux-system/flux-system/gotk-components.yaml"
+  ],
   "kubernetes": {
     "managerFilePatterns": [
       "/\\.yaml$/"
