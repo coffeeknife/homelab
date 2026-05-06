@@ -24,4 +24,8 @@
   # (e.g. Jellyfin) can schedule here via nodeAffinity/nodeSelector.
   services.k3s.extraFlags = [ "--node-label gpu=amd" ];
 
+  # Polaris 11 (RX 460) requires linux-firmware for polaris11_sdma.bin etc.
+  hardware.enableRedistributableFirmware = true;
+  hardware.graphics.enable = true;
+
 }
