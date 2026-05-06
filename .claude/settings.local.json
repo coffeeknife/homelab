@@ -3,7 +3,12 @@
     "allow": [
       "Bash(kubectl describe *)",
       "Bash(kubectl get *)",
-      "Bash(flux get *)"
+      "Bash(flux get *)",
+      "Bash(kubectl logs *)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:jellyfin.org)",
+      "WebFetch(domain:forum.jellyfin.org)"
     ]
   }
 }
