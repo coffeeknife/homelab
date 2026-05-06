@@ -86,6 +86,10 @@ configMap:
         policy: two_factor
         subject:
           - ['group:admin']
+      - domain: 'chat.wrenspace.dev'
+        policy: two_factor
+        subject:
+          - ['group:admin']
 
   storage:
     mysql:

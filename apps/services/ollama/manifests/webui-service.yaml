@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: open-webui
+  namespace: ollama
+  labels:
+    app.kubernetes.io/name: open-webui
+    app.kubernetes.io/part-of: services
+spec:
+  type: ClusterIP
+  selector:
+    app: open-webui
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
