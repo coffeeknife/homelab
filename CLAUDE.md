@@ -12,13 +12,17 @@ GitOps-first homelab infrastructure for the **wrenspace.dev** domain. Flux CD re
 |------|----------|-----|------|-----|
 | etheirys | iMac | Proxmox VE | Hypervisor — runs LXCs and Kubernetes VMs | 192.168.1.53 |
 | vulcan | Raspberry Pi 4 | Armbian | NAS — ZFS pool shared over NFS and Samba | 192.168.1.69 |
-| gunsmoke | Raspberry Pi 3B | DietPi | IoT hub — zigbee2mqtt + Matter/Thread servers (Docker) | 192.168.100.2 |
+| gunsmoke | Raspberry Pi 3B | DietPi | **Decommissioned** — was IoT hub; stacks moved to gallifrey | 192.168.100.2 |
+| gallifrey | Raspberry Pi 4 | NixOS | k3s arm64 worker + Docker compose stacks (zigbee/thread/diun/act-runner, formerly on gunsmoke) | 192.168.1.54 |
 
-### Gunsmoke (IoT Hub) Access
+### Gunsmoke (IoT Hub) — decommissioned
 
-SSH: `ssh root@192.168.100.2` (hostname `gunsmoke` not in DNS)
+Currently powered down / not running its stacks. The zigbee2mqtt and
+Matter/Thread compose stacks now run on **gallifrey** (see
+`nixos/hosts/gallifrey/compose/`).
 
-Common Docker commands:
+If gunsmoke comes back online for any reason:
+- SSH: `ssh root@192.168.100.2` (hostname `gunsmoke` not in DNS)
 - `docker ps -a` — check container status
 - `usbreset '10c4:ea60'` — reset SONOFF Thread dongle if unresponsive
 - Watchtower requires `DOCKER_API_VERSION=1.44` env var due to ARM64 build bug
@@ -40,7 +44,7 @@ Single-node k3s cluster (embedded etcd) running on a NixOS VM hosted on etheirys
 |------|-----|-----------|-------|
 | kube-vm | 192.168.200.2 | TBD | AMD GPU passthrough (`gpu=amd` label) — Jellyfin schedules here |
 
-- **Kubernetes version:** v1.35.2+k3s1
+- **Kubernetes version:** v1.35.4+k3s1
 - **OS:** NixOS 26.05 (Yarara) — managed via colmena from `nixos/`
 - **CNI:** Flannel (k3s embedded, VXLAN backend, VNI 1)
 - **Container runtime:** containerd 2.1.5-k3s1
