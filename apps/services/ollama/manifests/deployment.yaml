@@ -27,7 +27,10 @@ spec:
           - 110  # render
       containers:
         - name: ollama
-          image: ollama/ollama:0.23.1-rocm
+          # Community Vulkan-enabled ollama build (github.com/grinco/ollama-vulkan).
+          # Polaris/gfx803 is unsupported by upstream ROCm builds, so we use
+          # this fork to drive the GPU via Mesa RADV instead.
+          image: grinco/ollama-amd-apu:vulkan
           securityContext:
             privileged: true
           env:
