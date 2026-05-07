@@ -1,0 +1,95 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: containerd-gc-kube-vm
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/name: containerd-gc
+    app.kubernetes.io/part-of: infrastructure
+spec:
+  # Nightly at 4:00 AM (after etcd-defrag's weekly slot)
+  schedule: "0 4 * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          nodeSelector:
+            kubernetes.io/hostname: kube-vm
+          tolerations:
+            - key: node-role.kubernetes.io/control-plane
+              operator: Exists
+              effect: NoSchedule
+          hostNetwork: true
+          restartPolicy: OnFailure
+          containers:
+            - name: containerd-gc
+              image: rancher/k3s:v1.35.4-k3s1
+              securityContext:
+                privileged: true
+              env:
+                - name: CONTAINER_RUNTIME_ENDPOINT
+                  value: unix:///run/k3s/containerd/containerd.sock
+                - name: IMAGE_SERVICE_ENDPOINT
+                  value: unix:///run/k3s/containerd/containerd.sock
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  set -u
+
+                  CRICTL="/bin/k3s crictl"
+                  CTR="/bin/k3s ctr -n k8s.io"
+
+                  echo "=== exited containers ==="
+                  exited=$($CRICTL ps -aq --state exited 2>/dev/null || true)
+                  if [ -n "$exited" ]; then
+                    echo "$exited" | xargs -r $CRICTL rm 2>&1 | tail -5
+                  else
+                    echo "none"
+                  fi
+
+                  echo "=== notready pods ==="
+                  notready=$($CRICTL pods -q --state notready 2>/dev/null || true)
+                  if [ -n "$notready" ]; then
+                    echo "$notready" | xargs -r $CRICTL rmp 2>&1 | tail -5
+                  else
+                    echo "none"
+                  fi
+
+                  echo "=== prune unused images ==="
+                  $CRICTL rmi --prune 2>&1 | tail -5 || true
+
+                  echo "=== sweep orphan leases ==="
+                  # Active container IDs in the k8s.io namespace are the
+                  # whitelist; any lease whose ID is not one of these is
+                  # leaked (typically from interrupted pulls or pod churn)
+                  # and pins overlay snapshots that fill /var/lib/rancher.
+                  active=$($CTR containers ls -q 2>/dev/null | sort -u)
+                  leases=$($CTR leases ls -q 2>/dev/null)
+                  orphans=$(echo "$leases" | grep -vxF -f <(echo "$active") || true)
+                  if [ -n "$orphans" ]; then
+                    count=$(echo "$orphans" | wc -l)
+                    echo "removing $count orphan leases"
+                    echo "$orphans" | xargs -n 50 -r $CTR leases rm >/dev/null 2>&1 || true
+                  else
+                    echo "none"
+                  fi
+
+                  echo "=== done ==="
+                  df -h /var/lib/rancher 2>/dev/null | tail -1
+              volumeMounts:
+                - name: containerd-sock
+                  mountPath: /run/k3s/containerd
+                - name: rancher-data
+                  mountPath: /var/lib/rancher
+          volumes:
+            - name: containerd-sock
+              hostPath:
+                path: /run/k3s/containerd
+                type: Directory
+            - name: rancher-data
+              hostPath:
+                path: /var/lib/rancher
+                type: Directory
