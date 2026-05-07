@@ -67,7 +67,12 @@
         gallifrey = { ... }: {
           deployment = {
             targetHost = "192.168.1.54";
-            targetUser = "root";
+            targetUser = "robin";
+            # robin is in the wheel group; sudo asks for a password.
+            # Drive `colmena apply --on gallifrey` from a terminal so the
+            # prompt lands locally (or set NOPASSWD in a future deploy
+            # by toggling security.sudo.wheelNeedsPassword in common.nix).
+            privilegeEscalationCommand = [ "sudo" "-H" "--" ];
           };
           imports = [
             sops-nix.nixosModules.sops
