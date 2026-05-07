@@ -1,17 +1,17 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: coredns
+  name: kube-system
   namespace: flux-system
   labels:
-    app.kubernetes.io/name: coredns
+    app.kubernetes.io/name: kube-system
     app.kubernetes.io/part-of: infrastructure
 spec:
   interval: 10m
   sourceRef:
     kind: GitRepository
     name: homelab
-  path: ./apps/infrastructure/coredns/manifests
+  path: ./apps/infrastructure/kube-system/manifests
   # prune: false so Flux doesn't try to delete k3s-owned resources (CoreDNS Deployment)
   # if this kustomization is later removed.
   prune: false
