@@ -37,6 +37,21 @@
       "--resolv-conf=/etc/k3s-resolv.conf"
       # Allow kubectl to connect via MetalLB VIP (192.168.200.100)
       "--tls-san=192.168.200.102"
+      # Relax leader-election deadlines so controller-manager and
+      # scheduler don't lose their leases (and crash k3s) when the
+      # apiserver is briefly slow under cold-start pod-storm load.
+      # Defaults are 15s/10s/2s; this is a single-node cluster so
+      # slower failover doesn't matter.
+      "--kube-controller-manager-arg=leader-elect-lease-duration=45s"
+      "--kube-controller-manager-arg=leader-elect-renew-deadline=30s"
+      "--kube-controller-manager-arg=leader-elect-retry-period=10s"
+      "--kube-scheduler-arg=leader-elect-lease-duration=45s"
+      "--kube-scheduler-arg=leader-elect-renew-deadline=30s"
+      "--kube-scheduler-arg=leader-elect-retry-period=10s"
+      # Throttle concurrent image pulls so cold-boot doesn't spike
+      # CPU and saturate the apiserver with status updates.
+      "--kubelet-arg=registry-pull-qps=2"
+      "--kubelet-arg=registry-burst=4"
     ];
   };
 }
