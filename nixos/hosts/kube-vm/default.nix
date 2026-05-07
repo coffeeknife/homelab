@@ -28,4 +28,6 @@
   hardware.enableRedistributableFirmware = true;
   hardware.graphics.enable = true;
 
+  swapDevices = [{ device = "/swapfile"; size = 4096; }];
+  system.stateVersion = "25.05";
 }

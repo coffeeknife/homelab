@@ -9,36 +9,46 @@
     colmena.inputs.nixpkgs.follows = "nixpkgs";
     disko.url       = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
   };
 
-  outputs = { self, nixpkgs, sops-nix, colmena, disko, ... }:
+  outputs = { self, nixpkgs, sops-nix, colmena, disko, nixos-hardware, ... }:
     let
-      system = "x86_64-linux";
-      pkgs   = nixpkgs.legacyPackages.${system};
-
-      mkHost = { name, extraModules ? [] }:
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            sops-nix.nixosModules.sops
-            disko.nixosModules.disko
-            ./hosts/${name}/default.nix
-          ] ++ extraModules;
-        };
+      pkgs = nixpkgs.legacyPackages.x86_64-linux;
     in
     {
       nixosConfigurations = {
-        kube-vm = mkHost { name = "kube-vm"; };
+        kube-vm = nixpkgs.lib.nixosSystem {
+          system  = "x86_64-linux";
+          modules = [
+            sops-nix.nixosModules.sops
+            disko.nixosModules.disko
+            ./hosts/kube-vm/default.nix
+          ];
+        };
+
+        gallifrey = nixpkgs.lib.nixosSystem {
+          system  = "aarch64-linux";
+          modules = [
+            sops-nix.nixosModules.sops
+            nixos-hardware.nixosModules.raspberry-pi-4
+            ./hosts/gallifrey/default.nix
+          ];
+        };
       };
 
       # colmena deployment configuration
       # Usage:
-      #   colmena apply               -- deploy all nodes
-      #   colmena apply --on kube-vm  -- deploy single node
+      #   colmena apply                -- deploy all nodes
+      #   colmena apply --on kube-vm   -- deploy single node
+      #   colmena apply --on gallifrey -- deploy the Pi
       #   colmena exec -- systemctl restart k3s
       colmenaHive = colmena.lib.makeHive {
         meta = {
-          nixpkgs = import nixpkgs { inherit system; };
+          nixpkgs = import nixpkgs { system = "x86_64-linux"; };
+          nodeNixpkgs = {
+            gallifrey = import nixpkgs { system = "aarch64-linux"; };
+          };
           specialArgs = { inherit sops-nix; };
         };
 
@@ -53,12 +63,24 @@
             ./hosts/kube-vm/default.nix
           ];
         };
+
+        gallifrey = { ... }: {
+          deployment = {
+            targetHost = "192.168.1.54";
+            targetUser = "root";
+          };
+          imports = [
+            sops-nix.nixosModules.sops
+            nixos-hardware.nixosModules.raspberry-pi-4
+            ./hosts/gallifrey/default.nix
+          ];
+        };
       };
 
       # Dev shell with cluster management tools
-      devShells.${system}.default = pkgs.mkShell {
+      devShells.x86_64-linux.default = pkgs.mkShell {
         packages = [
-          colmena.packages.${system}.colmena
+          colmena.packages.x86_64-linux.colmena
           pkgs.kubectl
           pkgs.fluxcd
           pkgs.sops

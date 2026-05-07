@@ -34,6 +34,15 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIe2PZOs/3wRmVtkvYpuihuk+ywyoD+l82LbCKrqvX4p Robin"
   ];
 
+  users.users.robin = {
+    isNormalUser = true;
+    extraGroups  = [ "wheel" ];
+    initialPassword = "Eevee";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIe2PZOs/3wRmVtkvYpuihuk+ywyoD+l82LbCKrqvX4p Robin"
+    ];
+  };
+
   environment.systemPackages = with pkgs; [
     curl
     wget
@@ -48,8 +57,5 @@
 
   sops.age.keyFile = "/root/.config/sops/age/keys.txt";
 
-  swapDevices = [{ device = "/swapfile"; size = 4096; }];
-
   time.timeZone = "America/Chicago";
-  system.stateVersion = "25.05";
 }

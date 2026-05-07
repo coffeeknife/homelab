@@ -1,0 +1,39 @@
+services:
+  otbr:
+    container_name: thread
+    image: openthread/border-router:latest
+    privileged: true
+    restart: always
+    cap_add:
+      - NET_ADMIN
+    environment:
+      OT_RCP_DEVICE: "spinel+hdlc+uart:///dev/otbr-radio?uart-baudrate=460800&uart-flow-control=0"
+      OT_INFRA_IF: "end0"
+      OT_THREAD_IF: "wpan0"
+      OT_REST_LISTEN_ADDR: "0.0.0.0"
+      OT_REST_LISTEN_PORT: "8081"
+      OT_LOG_LEVEL: "7"
+    devices:
+      - /dev/serial/by-id/usb-SONOFF_SONOFF_Dongle_Lite_MG21_de35173eeea2ef11a1e0976661ce3355-if00-port0:/dev/otbr-radio
+      - /dev/net/tun
+    volumes:
+      - ./thread/:/data/
+      - ./no_crtscts.so:/data/no_crtscts.so:ro
+      - ./otbr-agent-run.sh:/etc/s6-overlay/s6-rc.d/otbr-agent/run:ro
+    network_mode: host
+
+  matter-server:
+    container_name: matter
+    image: ghcr.io/matter-js/python-matter-server:stable
+    restart: always
+    command: --storage-path /data --paa-root-cert-dir /data/credentials --bluetooth-adapter 0
+    depends_on:
+      - otbr
+    security_opt:
+      - apparmor=unconfined
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./matter/:/data/
+      - /run/dbus:/run/dbus:ro
+    network_mode: host
