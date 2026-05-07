@@ -27,7 +27,7 @@ spec:
           - 110  # render
       containers:
         - name: ollama
-          image: ollama/ollama:0.5.4-rocm
+          image: ollama/ollama:0.23.1-rocm
           securityContext:
             privileged: true
           env:
