@@ -193,6 +193,7 @@ Labels are partially implemented. When modifying existing resources, add missing
 - **Chart version bumps** → edit `manifests/helmrelease.yaml`
 - **New Helm repos** → add to `apps/helm-repos.yaml`
 - **Deploy** → commit and push to `main`; Flux auto-reconciles (homelab kustomization: 5m, flux-system: 10m)
+- **Image tag bumps** → before pinning a Docker image version, query the registry (Docker Hub `/v2/repositories/<image>/tags`, GHCR API, etc.) and pick a recent tag. Don't reuse what's currently in the manifest or guess from training data — both go stale.
 
 ## Architecture Details
 
