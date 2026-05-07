@@ -37,13 +37,11 @@ spec:
               value: /root/.ollama/models
             - name: OLLAMA_KEEP_ALIVE
               value: "30m"
-            # Polaris (gfx803) is not officially supported by current ROCm.
-            # This override coaxes ROCm into treating it as a supported
-            # gfx version. Inference may still fall back to CPU.
-            - name: HSA_OVERRIDE_GFX_VERSION
-              value: "8.0.3"
-            - name: HSA_ENABLE_SDMA
-              value: "0"
+            # Polaris (gfx803) is unsupported by current ROCm builds, so we
+            # use the Vulkan backend (Mesa RADV) instead. The ollama:rocm
+            # image bundles libvulkan + radeon_icd.json out of the box.
+            - name: OLLAMA_VULKAN
+              value: "true"
           ports:
             - name: http
               containerPort: 11434
