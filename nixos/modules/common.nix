@@ -43,6 +43,11 @@
     ];
   };
 
+  # Trusted homelab boxes — wheel users sudo without a password so
+  # colmena (and other automated deploys) don't need an interactive
+  # askpass setup. Robin is the only wheel member.
+  security.sudo.wheelNeedsPassword = false;
+
   environment.systemPackages = with pkgs; [
     curl
     wget
