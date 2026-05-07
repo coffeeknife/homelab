@@ -50,7 +50,7 @@
       "--kube-scheduler-arg=leader-elect-retry-period=10s"
       # Throttle concurrent image pulls so cold-boot doesn't spike
       # CPU and saturate the apiserver with status updates.
-      "--kubelet-arg=registry-pull-qps=2"
+      "--kubelet-arg=registry-qps=2"
       "--kubelet-arg=registry-burst=4"
     ];
   };
