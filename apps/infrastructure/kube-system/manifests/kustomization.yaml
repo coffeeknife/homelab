@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - coredns-deployment-patch.yaml
   - etcd-defrag.yaml
+  - containerd-gc.yaml
