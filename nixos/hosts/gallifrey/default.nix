@@ -32,28 +32,19 @@
   # Keep Docker for the existing compose stacks (zigbee, thread, diun,
   # act-runner) while k3s also runs containerd. Both share kernel resources
   # but use separate runtimes and sockets.
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    # Weekly Docker prune so the SD card doesn't fill up with stopped
+    # containers, dangling images, and orphan volumes from the compose
+    # stacks. Only keeps content used in the last 168h.
+    autoPrune = {
+      enable = true;
+      dates  = "Sun *-*-* 03:00:00";
+      flags  = [ "--all" "--volumes" "--filter" "until=168h" ];
+    };
+  };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Weekly Docker maintenance — prunes images, containers, networks,
-  # and dangling volumes not used by the running compose stacks. The
-  # Pi's SD card fills up fast otherwise.
-  systemd.services.docker-prune = {
-    description = "Prune unused Docker images, containers, networks, volumes";
-    serviceConfig = {
-      Type      = "oneshot";
-      ExecStart = "${pkgs.docker}/bin/docker system prune -af --volumes --filter until=168h";
-    };
-  };
-  systemd.timers.docker-prune = {
-    description = "Run docker-prune weekly";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "Sun *-*-* 03:00:00";
-      Persistent = true;
-    };
-  };
 
   environment.enableAllTerminfo = true;
 
