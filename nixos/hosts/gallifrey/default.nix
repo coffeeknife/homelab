@@ -34,15 +34,26 @@
   # but use separate runtimes and sockets.
   virtualisation.docker.enable = true;
 
-  # Nix store GC — match the previous standalone config.
-  nix.settings.auto-optimise-store = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  # Weekly Docker maintenance — prunes images, containers, networks,
+  # and dangling volumes not used by the running compose stacks. The
+  # Pi's SD card fills up fast otherwise.
+  systemd.services.docker-prune = {
+    description = "Prune unused Docker images, containers, networks, volumes";
+    serviceConfig = {
+      Type      = "oneshot";
+      ExecStart = "${pkgs.docker}/bin/docker system prune -af --volumes --filter until=168h";
+    };
+  };
+  systemd.timers.docker-prune = {
+    description = "Run docker-prune weekly";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnCalendar = "Sun *-*-* 03:00:00";
+      Persistent = true;
+    };
+  };
 
   environment.enableAllTerminfo = true;
 
