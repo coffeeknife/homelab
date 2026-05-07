@@ -98,7 +98,7 @@ ssh kube-vm  # 192.168.200.2
 ```
 apps/                    # Flux-managed Kubernetes apps (HelmReleases + manifests)
   auth/                  # Authelia (SSO/OIDC) + LLDAP (LDAP directory)
-  infrastructure/        # cert-manager, traefik, metallb, nfs-provisioner, cloudflare-operator, smtp-relay
+  infrastructure/        # cert-manager, traefik, metallb, nfs-provisioner, cloudflare-operator, smtp-relay, kube-system (system patches + node-maintenance CronJobs)
   database/              # Shared MariaDB
   services/              # User-facing apps (nextcloud, paperless-ngx, home-assistant, immich, grocy, homepage)
   media/                 # jellyfin, arr suite (radarr, sonarr, etc.)
