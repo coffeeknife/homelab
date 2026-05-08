@@ -73,10 +73,8 @@
             # prompt lands locally (or set NOPASSWD in a future deploy
             # by toggling security.sudo.wheelNeedsPassword in common.nix).
             privilegeEscalationCommand = [ "sudo" "-H" "--" ];
-            # The dev machine is x86_64 but gallifrey is aarch64. Have
-            # colmena push the derivation graph and let gallifrey build
-            # itself (no cross-compile / binfmt setup needed locally).
-            buildOnTarget = true;
+            # Build the aarch64 closure on the dev machine via binfmt/qemu-user-static,
+            # then push the pre-built result to gallifrey for activation only.
           };
           imports = [
             sops-nix.nixosModules.sops
