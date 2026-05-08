@@ -11,6 +11,10 @@
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
 
+  # nixos-hardware forces linuxPackages_rpi4 (not cached); override to the
+  # standard aarch64 kernel which is fully substitutable from cache.nixos.org.
+  boot.kernelPackages = pkgs.linuxPackages;
+
   networking.hostName = "gallifrey";
   networking.networkmanager.enable = true;
 
