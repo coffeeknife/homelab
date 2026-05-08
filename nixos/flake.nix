@@ -31,7 +31,6 @@
           system  = "aarch64-linux";
           modules = [
             sops-nix.nixosModules.sops
-            nixos-hardware.nixosModules.raspberry-pi-4
             ./hosts/gallifrey/default.nix
           ];
         };
@@ -78,7 +77,6 @@
           };
           imports = [
             sops-nix.nixosModules.sops
-            nixos-hardware.nixosModules.raspberry-pi-4
             ./hosts/gallifrey/default.nix
           ];
         };
