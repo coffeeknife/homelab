@@ -46,3 +46,6 @@ spec:
           cpu: 10m
         limits:
           cpu: 500m
+    prometheus:
+      servicemonitor:
+        enabled: true

@@ -6,6 +6,8 @@ namespace: monitoring
 resources:
   - namespace.yaml
   - helmrelease.yaml
+  - homelab-rules.yaml
+  - flux-podmonitor.yaml
 
 commonLabels:
   app: prometheus

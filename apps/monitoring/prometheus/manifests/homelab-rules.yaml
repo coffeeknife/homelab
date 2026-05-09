@@ -1,0 +1,53 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: homelab-alerts
+  namespace: monitoring
+  labels:
+    app.kubernetes.io/name: homelab-alerts
+    app.kubernetes.io/part-of: monitoring
+spec:
+  groups:
+    - name: homelab.certificates
+      rules:
+        - alert: CertificateExpiringSoon
+          expr: |
+            (certmanager_certificate_expiration_timestamp_seconds - time()) < (14 * 24 * 3600)
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: "Certificate {{ $labels.namespace }}/{{ $labels.name }} expires in < 14 days"
+            description: "Expires in {{ $value | humanizeDuration }}. Check cert-manager logs — ACME challenge may be failing."
+
+        - alert: CertificateExpiringCritical
+          expr: |
+            (certmanager_certificate_expiration_timestamp_seconds - time()) < (3 * 24 * 3600)
+          for: 1h
+          labels:
+            severity: critical
+          annotations:
+            summary: "Certificate {{ $labels.namespace }}/{{ $labels.name }} expires in < 3 days"
+            description: "Expires in {{ $value | humanizeDuration }}. Manual intervention likely required."
+
+    - name: homelab.flux
+      rules:
+        - alert: FluxKustomizationNotReady
+          expr: |
+            gotk_reconcile_condition{type="Ready",status="False",kind="Kustomization"} == 1
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Flux Kustomization {{ $labels.namespace }}/{{ $labels.name }} failing"
+            description: "Has been failing to reconcile for 15+ minutes. Run: flux get kustomizations -n {{ $labels.namespace }}"
+
+        - alert: FluxHelmReleaseNotReady
+          expr: |
+            gotk_reconcile_condition{type="Ready",status="False",kind="HelmRelease"} == 1
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Flux HelmRelease {{ $labels.namespace }}/{{ $labels.name }} failing"
+            description: "Has been failing for 15+ minutes. Run: flux get helmreleases -n {{ $labels.namespace }}"
