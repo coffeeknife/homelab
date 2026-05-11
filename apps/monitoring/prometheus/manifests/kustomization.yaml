@@ -8,6 +8,7 @@ resources:
   - helmrelease.yaml
   - homelab-rules.yaml
   - flux-podmonitor.yaml
+  - discord-webhook-secret.yaml
 
 commonLabels:
   app: prometheus

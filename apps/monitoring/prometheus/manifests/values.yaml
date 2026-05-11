@@ -32,18 +32,20 @@ alertmanager:
           resources:
             requests:
               storage: 10Gi
+    secrets:
+      - alertmanager-discord-webhook
   config:
     route:
       group_by: ['alertname', 'namespace']
       group_wait: 10s
       group_interval: 10s
       repeat_interval: 12h
-      receiver: 'apprise'
+      receiver: 'discord'
     receivers:
       - name: 'null'
-      - name: 'apprise'
-        webhook_configs:
-          - url: 'http://apprise-service.notify.svc.cluster.local:8000/notify/prometheus'
+      - name: 'discord'
+        discord_configs:
+          - webhook_url_file: '/etc/alertmanager/secrets/alertmanager-discord-webhook/url'
             send_resolved: true
 
 defaultRules:
