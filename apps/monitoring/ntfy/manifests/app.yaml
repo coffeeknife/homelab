@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/part-of: monitoring
 spec:
   accessModes: [ReadWriteOnce]
-  storageClassName: local-path
+  storageClassName: vulcan-nfs-strict
   resources:
     requests:
       storage: 2Gi
