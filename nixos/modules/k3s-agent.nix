@@ -31,6 +31,10 @@
     ];
   };
 
+  # NFS client support required to mount vulcan-nfs PVCs.
+  boot.supportedFilesystems = [ "nfs" ];
+  services.rpcbind.enable = true;
+
   # The k3s API server is on a different /24 than this node lives on
   # (cluster net 192.168.200.0/24 vs home net 192.168.1.0/24). The home
   # router routes between them; nothing else is needed for flannel's
