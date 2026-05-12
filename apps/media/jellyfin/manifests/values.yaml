@@ -25,8 +25,8 @@ nodeSelector:
 # because the wrenix chart doesn't support extraVolumes
 podSecurityContext:
   supplementalGroups:
-    - 44  # video group
-    - 110 # render group
+    - 26  # video group (GID on kube-vm)
+    - 303 # render group (GID on kube-vm)
 
 ingress:
   enabled: true
