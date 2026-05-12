@@ -11,7 +11,11 @@ sonarr:
       cpu: 50m
       memory: 256Mi
     limits:
-      cpu: 250m
+      cpu: 500m
+  livenessProbe:
+    timeoutSeconds: 5
+  startupProbe:
+    timeoutSeconds: 5
   image:
     repository: lscr.io/linuxserver/sonarr
     tag: 4.0.16
@@ -212,7 +216,11 @@ radarr:
       cpu: 50m
       memory: 256Mi
     limits:
-      cpu: 250m
+      cpu: 500m
+  livenessProbe:
+    timeoutSeconds: 5
+  startupProbe:
+    timeoutSeconds: 5
   image:
     repository: lscr.io/linuxserver/radarr
     tag: 6.0.4
