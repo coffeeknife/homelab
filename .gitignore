@@ -84,3 +84,4 @@ http-client.private.env.json
 
 scratch/
 nixos/secrets/age-key.txt.claude/
+.claude/
