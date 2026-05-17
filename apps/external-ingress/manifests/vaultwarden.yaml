@@ -26,6 +26,36 @@ subsets:
     port: 8000
     protocol: TCP
 ---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: vaultwarden-cors
+  namespace: external-ingress
+spec:
+  headers:
+    accessControlAllowOriginListRegex:
+      - "^moz-extension://.*$"
+      - "^chrome-extension://.*$"
+      - "^safari-web-extension://.*$"
+      - "^https://vault\\.wrenspace\\.dev$"
+    accessControlAllowMethods:
+      - GET
+      - POST
+      - PUT
+      - DELETE
+      - PATCH
+      - OPTIONS
+    accessControlAllowHeaders:
+      - Accept
+      - Authorization
+      - Content-Type
+      - Device-Type
+      - Bitwarden-Client-Name
+      - Bitwarden-Client-Version
+    accessControlAllowCredentials: true
+    accessControlMaxAge: 600
+    addVaryHeader: true
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -34,6 +64,7 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: external-ingress-vaultwarden-cors@kubernetescrd
 spec:
   tls:
     - hosts:
