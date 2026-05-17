@@ -33,8 +33,18 @@ If gunsmoke comes back online for any reason:
 |----|------|------|-----------|-----|------|
 | 202 | VM | kube-vm | TBD | 192.168.200.2 | k3s single-node (AMD GPU passthrough) |
 | 101 | LXC | mqtt | 1 CPU, 512MB | 192.168.100.3 | MQTT broker (IoT network) |
-| 113 | LXC | vaultwarden | 1 CPU, 256MB | DHCP | Password manager |
+| 113 | LXC | vaultwarden | 1 CPU, 256MB | 192.168.100.6 | Password manager |
 | 124 | LXC | gitea | 1 CPU, 1GB | 192.168.200.52 | Git server (Flux source) |
+
+### Vaultwarden LXC (113)
+
+Alpine Linux, OpenRC (no systemd). Fronted by Traefik via `apps/external-ingress/manifests/vaultwarden.yaml` (Endpoints hard-codes `192.168.100.6:8000`).
+
+- **Config:** `/etc/conf.d/vaultwarden` (env-style `export KEY=value`). `DOMAIN` **must** match the public hostname (`https://vault.wrenspace.dev`); built-in CORS only echoes back `Origin` when it equals `DOMAIN` or `file://`, and email/WebAuthn URLs are derived from it.
+- **Data:** `/var/lib/vaultwarden/db.sqlite3`. Service: `rc-service vaultwarden {start,stop,restart,status}`.
+- **Logs:** the OpenRC service doesn't set `output_log`, so stdout/stderr → `/dev/null`. `/var/log/vaultwarden/*.log` are stale (last write Dec 2024). To get live logs, edit the openrc service or run vaultwarden under a foreground supervisor.
+- **Pinned to Alpine edge:** `vaultwarden` and `vaultwarden-web-vault` are tagged `@edge` in `/etc/apk/world` (repo line `@edge http://dl-cdn.alpinelinux.org/alpine/edge/community` in `/etc/apk/repositories`). Alpine stable lags Bitwarden client releases — pre-1.36 missed `/identity/accounts/prelogin/password` and broke extension login. `apk upgrade` will only pull edge for those two tagged packages.
+- **Extension CORS:** Vaultwarden refuses to echo extension origins (`moz-extension://`, `chrome-extension://`) because they don't match `DOMAIN`. The `vaultwarden-cors` Traefik middleware in the Ingress manifest injects `Access-Control-Allow-Origin` for those — do not remove it.
 
 ## Kubernetes Cluster
 
