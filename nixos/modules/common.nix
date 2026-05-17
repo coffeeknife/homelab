@@ -64,19 +64,20 @@
 
   # Aggressive Nix store maintenance — homelab boxes don't have huge
   # disks and unattended Nix accumulation has bitten us before.
+  # Keep the 3 most recent system generations: enough to roll back if a
+  # deploy is bad, without letting the SD card / boot partition fill up.
   nix.settings.auto-optimise-store = true;
   nix.gc = {
     automatic = true;
     dates     = "daily";
-    options   = "--delete-older-than 14d";
+    options   = "--delete-generations +3";
   };
-  # Cap the number of NixOS system generations the boot loader keeps
-  # so old generations actually disappear after gc. Setting limits for
-  # all three loader types is harmless — only the active one consumes
+  # Cap the boot-menu entries to match the GC retention. Setting limits
+  # for all three loader types is harmless — only the active one consumes
   # the option. (kube-vm uses GRUB; gallifrey uses extlinux on the Pi.)
-  boot.loader.systemd-boot.configurationLimit         = 10;
-  boot.loader.grub.configurationLimit                 = 10;
-  boot.loader.generic-extlinux-compatible.configurationLimit = 10;
+  boot.loader.systemd-boot.configurationLimit         = 3;
+  boot.loader.grub.configurationLimit                 = 3;
+  boot.loader.generic-extlinux-compatible.configurationLimit = 3;
 
   time.timeZone = "America/Chicago";
 }
