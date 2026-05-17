@@ -7,6 +7,14 @@
     ../../modules/k3s-agent.nix
   ];
 
+  hardware = {
+    raspberry-pi."4".apply-overlays-dtmerge.enable = true;
+    deviceTree = {
+      enable = true;
+      filter = "*rpi-4-*.dtb";
+    };
+  };
+
   # extlinux instead of GRUB for Pi boot
   boot.loader.grub.enable = false;
   boot.loader.generic-extlinux-compatible.enable = true;
