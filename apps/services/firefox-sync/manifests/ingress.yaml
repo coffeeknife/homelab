@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: firefox-sync
+  namespace: firefox-sync
+  labels:
+    app: firefox-sync
+    app.kubernetes.io/name: firefox-sync
+    app.kubernetes.io/part-of: services
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: firefox-sync.wrenspace.dev
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: firefox-sync
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - firefox-sync.wrenspace.dev
+    secretName: firefox-sync-tls

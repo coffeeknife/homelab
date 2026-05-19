@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: firefox-sync
+  labels:
+    name: firefox-sync
+    app.kubernetes.io/part-of: services

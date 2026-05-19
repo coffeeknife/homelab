@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: firefox-sync
+  namespace: firefox-sync
+  labels:
+    app: firefox-sync
+    app.kubernetes.io/name: firefox-sync
+    app.kubernetes.io/part-of: services
+  annotations:
+    secret.reloader.stakater.com/reload: "mariadb-secret,firefox-sync-secret"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: firefox-sync
+  template:
+    metadata:
+      labels:
+        app: firefox-sync
+        app.kubernetes.io/name: firefox-sync
+    spec:
+      containers:
+      - name: sync
+        image: crazymax/firefox-syncserver:edge
+        ports:
+        - name: http
+          containerPort: 5000
+          protocol: TCP
+        env:
+        - name: TZ
+          value: "America/Chicago"
+        - name: SYNCSERVER_PUBLIC_URL
+          value: "https://firefox-sync.wrenspace.dev"
+        - name: SYNCSERVER_ALLOW_NEW_SYNCS
+          value: "true"
+        - name: SYNCSERVER_FORCE_WSGI_ENVIRON
+          value: "true"
+        - name: SYNCSERVER_LOGLEVEL
+          value: "INFO"
+        - name: SYNCSERVER_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: firefox-sync-secret
+              key: secret
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: password
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            export SYNCSERVER_SQLURI="pymysql://firefox-sync:${DB_PASSWORD}@mariadb-port.mariadb-sys.svc.cluster.local:3306/firefox-sync-db"
+            exec /entrypoint.sh
+        resources:
+          requests:
+            cpu: 50m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        livenessProbe:
+          httpGet:
+            path: /__heartbeat__
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /__heartbeat__
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 10
