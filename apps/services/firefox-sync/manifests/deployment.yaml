@@ -32,7 +32,7 @@ spec:
           value: "America/Chicago"
         - name: FF_SYNCSERVER_PUBLIC_URL
           value: "https://firefox-sync.wrenspace.dev"
-        - name: FF_SYNCSERVER_ALLOW_NEW_SYNCS
+        - name: FF_SYNCSERVER_ALLOW_NEW_USERS
           value: "true"
         - name: FF_SYNCSERVER_FORCE_WSGI_ENVIRON
           value: "true"
@@ -52,7 +52,7 @@ spec:
         args:
           - |
             export FF_SYNCSERVER_SQLURI="pymysql://firefox-sync:${DB_PASSWORD}@mariadb-port.mariadb-sys.svc.cluster.local:3306/firefox-sync-db"
-            exec /entrypoint.sh
+            exec /entrypoint.sh /usr/local/bin/gunicorn --paste /opt/syncserver/syncserver.ini
         resources:
           requests:
             cpu: 50m
