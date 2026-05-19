@@ -30,15 +30,15 @@ spec:
         env:
         - name: TZ
           value: "America/Chicago"
-        - name: SYNCSERVER_PUBLIC_URL
+        - name: FF_SYNCSERVER_PUBLIC_URL
           value: "https://firefox-sync.wrenspace.dev"
-        - name: SYNCSERVER_ALLOW_NEW_SYNCS
+        - name: FF_SYNCSERVER_ALLOW_NEW_SYNCS
           value: "true"
-        - name: SYNCSERVER_FORCE_WSGI_ENVIRON
+        - name: FF_SYNCSERVER_FORCE_WSGI_ENVIRON
           value: "true"
-        - name: SYNCSERVER_LOGLEVEL
+        - name: FF_SYNCSERVER_LOGLEVEL
           value: "INFO"
-        - name: SYNCSERVER_SECRET
+        - name: FF_SYNCSERVER_SECRET
           valueFrom:
             secretKeyRef:
               name: firefox-sync-secret
@@ -51,7 +51,7 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
           - |
-            export SYNCSERVER_SQLURI="pymysql://firefox-sync:${DB_PASSWORD}@mariadb-port.mariadb-sys.svc.cluster.local:3306/firefox-sync-db"
+            export FF_SYNCSERVER_SQLURI="pymysql://firefox-sync:${DB_PASSWORD}@mariadb-port.mariadb-sys.svc.cluster.local:3306/firefox-sync-db"
             exec /entrypoint.sh
         resources:
           requests:
