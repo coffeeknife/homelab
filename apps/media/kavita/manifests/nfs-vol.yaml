@@ -1,0 +1,35 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: kavita-pv
+  labels:
+    app.kubernetes.io/name: kavita
+    app.kubernetes.io/part-of: media
+spec:
+  storageClassName: kavita-nfs
+  capacity:
+    storage: 300Gi
+  accessModes:
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    path: /mnt/birdpool/kavita/data
+    server: 192.168.1.69
+    readOnly: true
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kavita-nfs
+  namespace: kavita
+  labels:
+    app.kubernetes.io/name: kavita
+    app.kubernetes.io/part-of: media
+spec:
+  storageClassName: kavita-nfs
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 300Gi

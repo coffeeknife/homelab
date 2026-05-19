@@ -1,0 +1,66 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kavita
+  namespace: kavita
+  labels:
+    app.kubernetes.io/name: kavita
+    app.kubernetes.io/part-of: media
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Kavita"
+    gethomepage.dev/group: "Media"
+    gethomepage.dev/icon: "kavita"
+    gethomepage.dev/description: "Manga and comic library"
+    gethomepage.dev/href: "https://manga.wrenspace.dev"
+    gethomepage.dev/weight: "10"
+spec:
+  rules:
+    - host: manga.wrenspace.dev
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: kavita
+                port:
+                  name: http
+  tls:
+    - secretName: kavita-tls
+      hosts:
+        - manga.wrenspace.dev
+---
+# OPDS path bypasses Authelia forward-auth — auth is the per-user API key
+# baked into the OPDS URL (KOReader can't carry a browser session).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kavita-opds
+  namespace: kavita
+  labels:
+    app.kubernetes.io/name: kavita
+    app.kubernetes.io/part-of: media
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  rules:
+    - host: manga.wrenspace.dev
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/api/opds"
+            backend:
+              service:
+                name: kavita
+                port:
+                  name: http
+  tls:
+    - secretName: kavita-tls
+      hosts:
+        - manga.wrenspace.dev

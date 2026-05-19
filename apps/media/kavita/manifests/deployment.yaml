@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kavita
+  namespace: kavita
+  labels:
+    app.kubernetes.io/name: kavita
+    app.kubernetes.io/part-of: media
+spec:
+  selector:
+    matchLabels:
+      app: kavita
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: kavita
+        app.kubernetes.io/name: kavita
+    spec:
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: kavita-config
+        - name: data
+          persistentVolumeClaim:
+            claimName: kavita-nfs
+      containers:
+        - name: kavita
+          image: jvmilazz0/kavita:0.9.0.2
+          env:
+            - name: TZ
+              value: America/Chicago
+          ports:
+            - containerPort: 5000
+              name: http
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"
+          volumeMounts:
+            - mountPath: /kavita/config
+              name: config
+            - mountPath: /manga
+              name: data
+              readOnly: true
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: kavita-config
+  namespace: kavita
+  labels:
+    app.kubernetes.io/name: kavita
+    app.kubernetes.io/part-of: media
+spec:
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: local-path
+  accessModes:
+    - ReadWriteOnce

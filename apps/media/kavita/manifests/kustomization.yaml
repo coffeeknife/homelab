@@ -6,3 +6,4 @@ resources:
   - nfs-vol.yaml
   - deployment.yaml
   - service.yaml
+  - ingress.yaml
