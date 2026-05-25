@@ -27,3 +27,19 @@ spec:
     - kind: ConfigMap
       name: qbittorrent-values
       valuesKey: values.qbit.yaml
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: qbittorrent-vpn
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/0/lifecycle
+                value:
+                  postStart:
+                    exec:
+                      command:
+                        - /bin/sh
+                        - -c
+                        - (ip rule del table 51820; ip -6 rule del table 51820) || true
