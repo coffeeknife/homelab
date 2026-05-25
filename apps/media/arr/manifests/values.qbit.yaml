@@ -38,6 +38,7 @@ gluetun:
     VPN_PORT_FORWARDING: on
     VPN_PORT_FORWARDING_PROVIDER: protonvpn
     FIREWALL_OUTBOUND_SUBNETS: 172.16.0.0/12,192.168.0.0/16,10.1.0.0/16,10.152.183.0/24
+    VPN_IPV6_RULE: 'off'
   credentials:
     create: false
   vpn:
