@@ -38,7 +38,6 @@ gluetun:
     VPN_PORT_FORWARDING: on
     VPN_PORT_FORWARDING_PROVIDER: protonvpn
     FIREWALL_OUTBOUND_SUBNETS: 172.16.0.0/12,192.168.0.0/16,10.1.0.0/16,10.152.183.0/24
-    VPN_IPV6_RULE: 'off'
   credentials:
     create: false
   vpn:
@@ -53,6 +52,30 @@ gluetun:
       mountPath: /tmp/gluetun
 
 sidecars:
+  - name: vpn-rule-cleanup
+    image: busybox:1.37.0
+    command: ["/bin/sh", "-c"]
+    args:
+      - |
+        echo "[vpn-rule-cleanup] Starting"
+        while true; do
+          if ! wget -qO- --timeout=2 http://127.0.0.1:9999/ > /dev/null 2>&1; then
+            ip rule del table 51820 2>/dev/null && echo "[vpn-rule-cleanup] Deleted IPv4 rule" || true
+            ip -6 rule del table 51820 2>/dev/null && echo "[vpn-rule-cleanup] Deleted IPv6 rule" || true
+          fi
+          sleep 3
+        done
+    securityContext:
+      capabilities:
+        add: ["NET_ADMIN"]
+    resources:
+      requests:
+        cpu: 5m
+        memory: 16Mi
+      limits:
+        cpu: 20m
+        memory: 32Mi
+
   - name: port-sync
     image: curlimages/curl:8.18.0
     command: ["/bin/sh", "-c"]
