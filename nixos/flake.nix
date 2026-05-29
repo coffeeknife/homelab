@@ -42,6 +42,41 @@
             ./hosts/gallifrey/default.nix
           ];
         };
+
+        vulcan = nixos-raspberrypi.lib.nixosSystem {
+          specialArgs = { inherit sops-nix; };
+          modules = [
+            sops-nix.nixosModules.sops
+            nixos-raspberrypi.nixosModules.raspberry-pi-4.base
+            ./hosts/vulcan/hardware-configuration.nix
+            ./hosts/vulcan/default.nix
+          ];
+        };
+
+        # One-shot SD/USB installer images. Same host config as the runtime
+        # system, but the sd-image module replaces hardware-configuration.nix
+        # and produces system.build.sdImage (the .img.zst file to dd onto
+        # the target media). Build with:
+        #   nix build .#nixosConfigurations.<host>-installer.config.system.build.sdImage
+        vulcan-installer = nixos-raspberrypi.lib.nixosSystem {
+          specialArgs = { inherit sops-nix; };
+          modules = [
+            sops-nix.nixosModules.sops
+            nixos-raspberrypi.nixosModules.raspberry-pi-4.base
+            nixos-raspberrypi.nixosModules.sd-image
+            ./hosts/vulcan/default.nix
+          ];
+        };
+
+        gallifrey-installer = nixos-raspberrypi.lib.nixosSystem {
+          specialArgs = { inherit sops-nix; };
+          modules = [
+            sops-nix.nixosModules.sops
+            nixos-raspberrypi.nixosModules.raspberry-pi-4.base
+            nixos-raspberrypi.nixosModules.sd-image
+            ./hosts/gallifrey/default.nix
+          ];
+        };
       };
 
       # colmena deployment configuration
@@ -57,6 +92,7 @@
           # hash-match the prebuilt artifacts on nixos-raspberrypi.cachix.org.
           nodeNixpkgs = {
             gallifrey = rpiPkgs;
+            vulcan    = rpiPkgs;
           };
           specialArgs = { inherit sops-nix nixos-raspberrypi; };
         };
@@ -91,6 +127,21 @@
             nixos-raspberrypi.lib.inject-overlays
             ./hosts/gallifrey/hardware-configuration.nix
             ./hosts/gallifrey/default.nix
+          ];
+        };
+
+        vulcan = { ... }: {
+          deployment = {
+            targetHost = "192.168.1.69";
+            targetUser = "root";
+          };
+          imports = [
+            sops-nix.nixosModules.sops
+            nixos-raspberrypi.nixosModules.raspberry-pi-4.base
+            nixos-raspberrypi.nixosModules.trusted-nix-caches
+            nixos-raspberrypi.lib.inject-overlays
+            ./hosts/vulcan/hardware-configuration.nix
+            ./hosts/vulcan/default.nix
           ];
         };
       };
