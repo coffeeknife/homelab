@@ -18,6 +18,15 @@
       fsType = "ext4";
     };
 
+  # FAT firmware partition managed by the nixos-raspberrypi `kernel`
+  # bootloader. Lazy-mounted via systemd so it only spins up on writes
+  # (generation switch) instead of staying mounted full-time.
+  fileSystems."/boot/firmware" =
+    { device = "/dev/disk/by-label/FIRMWARE";
+      fsType = "vfat";
+      options = [ "noatime" "noauto" "x-systemd.automount" "x-systemd.idle-timeout=1min" ];
+    };
+
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";

@@ -9,12 +9,18 @@
     colmena.inputs.nixpkgs.follows = "nixpkgs";
     disko.url       = "github:nix-community/disko";
     disko.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    # gallifrey (Raspberry Pi 4) uses nixos-raspberrypi for vendor kernel,
+    # firmware, and bootloader. Its prebuilt aarch64 closure is published to
+    # https://nixos-raspberrypi.cachix.org so the Pi never has to compile
+    # the kernel locally. Pinned to its own nixpkgs (nixos-25.11) to keep
+    # cache hits — see nodeNixpkgs.gallifrey below.
+    nixos-raspberrypi.url = "github:nvmd/nixos-raspberrypi/main";
   };
 
-  outputs = { self, nixpkgs, sops-nix, colmena, disko, nixos-hardware, ... }:
+  outputs = { self, nixpkgs, sops-nix, colmena, disko, nixos-raspberrypi, ... }:
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
+      rpiPkgs = import nixos-raspberrypi.inputs.nixpkgs { system = "aarch64-linux"; };
     in
     {
       nixosConfigurations = {
@@ -27,11 +33,12 @@
           ];
         };
 
-        gallifrey = nixpkgs.lib.nixosSystem {
-          system  = "aarch64-linux";
+        gallifrey = nixos-raspberrypi.lib.nixosSystem {
+          specialArgs = { inherit sops-nix; };
           modules = [
             sops-nix.nixosModules.sops
-            nixos-hardware.nixosModules.raspberry-pi-4
+            nixos-raspberrypi.nixosModules.raspberry-pi-4.base
+            ./hosts/gallifrey/hardware-configuration.nix
             ./hosts/gallifrey/default.nix
           ];
         };
@@ -46,10 +53,12 @@
       colmenaHive = colmena.lib.makeHive {
         meta = {
           nixpkgs = import nixpkgs { system = "x86_64-linux"; };
+          # Use nixos-raspberrypi's pinned nixpkgs for gallifrey so derivations
+          # hash-match the prebuilt artifacts on nixos-raspberrypi.cachix.org.
           nodeNixpkgs = {
-            gallifrey = import nixpkgs { system = "aarch64-linux"; };
+            gallifrey = rpiPkgs;
           };
-          specialArgs = { inherit sops-nix; };
+          specialArgs = { inherit sops-nix nixos-raspberrypi; };
         };
 
         kube-vm = { ... }: {
@@ -67,18 +76,20 @@
         gallifrey = { ... }: {
           deployment = {
             targetHost = "192.168.1.54";
-            targetUser = "robin";
-            # robin is in the wheel group; sudo asks for a password.
-            # Drive `colmena apply --on gallifrey` from a terminal so the
-            # prompt lands locally (or set NOPASSWD in a future deploy
-            # by toggling security.sudo.wheelNeedsPassword in common.nix).
-            privilegeEscalationCommand = [ "sudo" "-H" "--" ];
-            # Build the aarch64 closure on the dev machine via binfmt/qemu-user-static,
-            # then push the pre-built result to gallifrey for activation only.
+            targetUser = "root";
+            # Deploy as root (matches kube-vm) — avoids the sudo round-trip
+            # for nix store ops and activation. root's SSH key comes from
+            # common.nix users.users.root.openssh.authorizedKeys.keys.
           };
           imports = [
             sops-nix.nixosModules.sops
-            nixos-hardware.nixosModules.raspberry-pi-4
+            # nixos-raspberrypi modules: vendor kernel + firmware + bootloader
+            # plus the inject-overlays glue (required when not using their
+            # nixosSystem helper) and trusted-nix-caches (adds the cachix).
+            nixos-raspberrypi.nixosModules.raspberry-pi-4.base
+            nixos-raspberrypi.nixosModules.trusted-nix-caches
+            nixos-raspberrypi.lib.inject-overlays
+            ./hosts/gallifrey/hardware-configuration.nix
             ./hosts/gallifrey/default.nix
           ];
         };

@@ -1,23 +1,30 @@
 { config, lib, pkgs, ... }:
 
 {
+  # hardware-configuration.nix is NOT imported here — the parent flake adds
+  # either ./hardware-configuration.nix (runtime) or
+  # nixos-raspberrypi.nixosModules.sd-image (one-shot installer build).
   imports = [
-    ./hardware-configuration.nix
     ../../modules/common.nix
     ../../modules/k3s-agent.nix
   ];
 
-  hardware = {
-    raspberry-pi."4".apply-overlays-dtmerge.enable = true;
-    deviceTree = {
-      enable = true;
-      filter = "*rpi-4-*.dtb";
-    };
+  # Bootloader: nixos-raspberrypi's `kernel` mode — Pi GPU firmware loads
+  # the kernel directly from /boot/firmware. Supports multiple NixOS
+  # generations (analogous to extlinux) and is the project's recommended
+  # mode for new installs. Replaces the old generic-extlinux-compatible
+  # setup. nixos-raspberrypi owns hardware overlays and device-tree
+  # selection, so no `hardware.raspberry-pi` / `hardware.deviceTree`
+  # config is needed here.
+  boot.loader.raspberry-pi = {
+    bootloader = "kernel";
+    configurationLimit = 3;
   };
 
-  # extlinux instead of GRUB for Pi boot
-  boot.loader.grub.enable = false;
-  boot.loader.generic-extlinux-compatible.enable = true;
+  # Pi is on ethernet — strip ~400 MB of x86 GPU / Intel WiFi blobs that
+  # nothing on a Pi can use. mkForce because nixos-raspberrypi's base
+  # module turns this on.
+  hardware.enableRedistributableFirmware = lib.mkForce false;
 
   networking.hostName = "gallifrey";
   networking.networkmanager.enable = true;
