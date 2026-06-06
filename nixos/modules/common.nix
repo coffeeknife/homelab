@@ -5,6 +5,11 @@
   boot.kernelParams = [
     "cgroup_no_v1=all"
     "systemd.unified_cgroup_hierarchy=1"
+    # Headless boxes: let initrd fsck auto-repair ext4 errors that "-a" mode
+    # would otherwise punt on (orphan inodes, checksum mismatches after a
+    # power cut). Without this, a dirty filesystem can drop boot into an
+    # emergency shell that needs physical access to clear.
+    "fsck.repair=yes"
   ];
 
   boot.kernel.sysctl = {
@@ -64,13 +69,15 @@
 
   # Aggressive Nix store maintenance — homelab boxes don't have huge
   # disks and unattended Nix accumulation has bitten us before.
-  # Keep the 3 most recent system generations: enough to roll back if a
-  # deploy is bad, without letting the SD card / boot partition fill up.
+  # nix-collect-garbage in nix 2.31 dropped the older --delete-generations
+  # +N syntax, so we bound by age instead. 30d still preserves rollback for
+  # weeks while keeping the SD card from filling. boot.loader.*.configurationLimit
+  # below caps the boot menu separately, so the visible safety net is unchanged.
   nix.settings.auto-optimise-store = true;
   nix.gc = {
     automatic = true;
     dates     = "daily";
-    options   = "--delete-generations +3";
+    options   = "--delete-older-than 30d";
   };
   # Cap the boot-menu entries to match the GC retention. Setting limits
   # for all three loader types is harmless — only the active one consumes
