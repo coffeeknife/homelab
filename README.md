@@ -9,8 +9,10 @@ a 3-node kubernetes cluster running on an old imac via proxmox. flux cd watches 
 ## hardware
 
 - **etheirys** — imac running proxmox, hosts the k8s vms and a few lxcs
-- **vulcan** — raspberry pi 4 with a zfs pool, serves files over nfs/samba
-- **gunsmoke** — raspberry pi 3b running zigbee2mqtt and matter/thread for home automation
+- **amphoreus** — dell optiplex running proxmox, hosts an openmediavault vm serving the `birdpool` zfs pool over nfs (the cluster's storage backend)
+- **vulcan** — raspberry pi 4, former nas — idle/standby since `birdpool` moved to amphoreus
+- **gunsmoke** — raspberry pi 3b, decommissioned (zigbee2mqtt + matter/thread moved to gallifrey)
+- **gallifrey** — raspberry pi 4 running nixos, arm64 k3s worker + home-automation compose stacks
 
 ## the stack
 

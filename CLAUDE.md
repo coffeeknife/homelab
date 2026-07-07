@@ -11,7 +11,8 @@ GitOps-first homelab infrastructure for the **wrenspace.dev** domain. Flux CD re
 | Host | Hardware | OS | Role | IP |
 |------|----------|-----|------|-----|
 | etheirys | iMac | Proxmox VE | Hypervisor — runs LXCs and Kubernetes VMs | 192.168.1.53 |
-| vulcan | Raspberry Pi 4 | Armbian | NAS — ZFS pool shared over NFS and Samba | 192.168.1.69 |
+| amphoreus | Dell OptiPlex | Proxmox VE | Hypervisor — runs OpenMediaVault (NAS); hosts the migrated `birdpool` ZFS pool | 192.168.1.31 |
+| vulcan | Raspberry Pi 4 | Armbian | **Idle / standby** — former NAS; `birdpool` ZFS pool migrated to amphoreus/OMV, awaiting repurpose | 192.168.1.69 |
 | gunsmoke | Raspberry Pi 3B | DietPi | **Decommissioned** — was IoT hub; stacks moved to gallifrey | 192.168.100.2 |
 | gallifrey | Raspberry Pi 4 | NixOS | k3s arm64 worker + Docker compose stacks (zigbee/thread/diun/act-runner, formerly on gunsmoke) | 192.168.1.54 |
 
@@ -26,6 +27,31 @@ If gunsmoke comes back online for any reason:
 - `docker ps -a` — check container status
 - `usbreset '10c4:ea60'` — reset SONOFF Thread dongle if unresponsive
 - Watchtower requires `DOCKER_API_VERSION=1.44` env var due to ARM64 build bug
+
+### NAS — OpenMediaVault on amphoreus
+
+The `birdpool` ZFS pool was migrated off vulcan onto **amphoreus** (Dell OptiPlex,
+Proxmox VE, `192.168.1.31`) to give it more CPU/RAM. It is served by an
+**OpenMediaVault** VM at `192.168.1.117`, which is now the NFS backend for the
+cluster (nfs-provisioner dynamic PVCs + the static NFS PVs in `media`,
+`services`, etc.).
+
+- **NFS server IP:** `192.168.1.117` (was vulcan `192.168.1.69`).
+- **Pool / paths:** still named `birdpool`; on-disk paths remain `/mnt/birdpool/...`.
+- **OMV shares are configured manually.** Unlike vulcan's kernel-exports, each
+  NFS share must be created in the OMV web UI before the corresponding volume
+  will mount. When migrating/adding a volume, create its OMV NFS share first,
+  then update the manifest's `server:` (and `path:` if OMV's export path
+  differs). See `docs/nfs-migration-omv.md` for the per-volume checklist.
+- **Storage-class names unchanged:** the `vulcan-nfs` / `vulcan-nfs-strict`
+  StorageClasses keep their names for compatibility (baked into ~15 PVCs); only
+  the backing `server:` IP changes. Don't rename them.
+
+### Vulcan — idle / standby
+
+Powered on but has no active role since `birdpool` moved to amphoreus. Its NixOS
+config (`nixos/hosts/vulcan/`, colmena target `192.168.1.69`) and NAS module are
+left in place pending a decision on repurposing. Not serving NFS/Samba.
 
 ### Proxmox VMs/LXCs on etheirys
 
@@ -211,12 +237,12 @@ Labels are partially implemented. When modifying existing resources, add missing
 
 **Ingress:** Traefik as ingress controller with cert-manager for automated TLS. Apps use Traefik middleware for forward auth (Authelia) and security headers.
 
-**Storage:** NFS provisioner backed by vulcan (ZFS over NFS) is the default storage class (`vulcan-nfs`). Three storage classes are available:
+**Storage:** NFS provisioner backed by **OpenMediaVault on amphoreus** (`192.168.1.117`, `birdpool` ZFS pool over NFS) is the default storage class (`vulcan-nfs`). The `vulcan-nfs*` names are retained for compatibility — the backend moved off vulcan to OMV but the class names stayed (see the NAS section above). Three storage classes are available:
 - `vulcan-nfs` (default) — general-purpose, retain-on-delete, noatime mount; use for app config/data
 - `vulcan-nfs-strict` — same as above but with cache disabled (`noac`, `sync`, `actimeo=0`); use for databases and anything requiring strong consistency (Redis, MariaDB backups)
 - `local-path` — node-local ephemeral storage via k3s provisioner; use for databases that need low-latency I/O (Prometheus, Loki, MariaDB data, Immich postgres)
 
-NFS PVC paths on vulcan follow `{namespace}/{pvc-name}` under the ZFS pool. Large read-only datasets (media, documents, photos) use static NFS PVs defined in `nfs-volume.yaml` per app.
+NFS PVC paths follow `{namespace}/{pvc-name}` under the `birdpool` pool on OMV. Large read-only datasets (media, documents, photos) use static NFS PVs defined in `nfs-volume.yaml` per app. Adding/migrating a static NFS volume requires creating the matching NFS share in the OMV web UI first — see `docs/nfs-migration-omv.md`.
 
 **Database:** Shared MariaDB instance with per-app databases. Database resources (PVC, Secret, ConfigMap) are defined per-app.
 
