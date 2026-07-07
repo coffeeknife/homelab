@@ -1,5 +1,9 @@
+# DISABLED 2026-07-06: Loki's chunk store was Garage S3 on vulcan (192.168.1.69:3900),
+# which was retired when the birdpool pool migrated to amphoreus/OMV. Loki + promtail
+# are disabled until a new object store (or filesystem backend) is chosen. To re-enable:
+# flip both `enabled` flags back to true AND replace the dead S3 endpoint below.
 loki:
-  enabled: true
+  enabled: false
   persistence:
     enabled: true
     storageClassName: local-path
@@ -26,7 +30,8 @@ loki:
         cache_ttl: 24h
         shared_store: s3
       aws:
-        endpoint: http://192.168.1.69:3900
+        # DEAD ENDPOINT — Garage S3 on vulcan is retired. Replace before re-enabling Loki.
+        endpoint: http://REPLACE-ME:3900
         bucketnames: loki-chunks
         region: garage
         s3forcepathstyle: true
@@ -43,7 +48,7 @@ loki:
       retention_period: 720h
 
 promtail:
-  enabled: true
+  enabled: false
   config:
     clients:
       - url: http://loki:3100/loki/api/v1/push
