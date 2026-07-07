@@ -27,6 +27,14 @@ esac
 command -v kubeconform >/dev/null 2>&1 || exit 0
 [ -f "$f" ] || exit 0
 
+# Skip non-manifest YAML: Helm values, kustomize configMapGenerator inputs, and
+# other config fragments are consumed by another tool (loaded via valuesFrom /
+# configMapGenerator) and legitimately have no top-level `kind:`. kubeconform
+# treats those as invalid ("missing 'kind' key"), producing false positives.
+# A real Kubernetes manifest always declares `kind:` at column 0 in at least one
+# document, so gate on that.
+grep -qE '^kind:[[:space:]]*[A-Za-z]' "$f" || exit 0
+
 # -ignore-missing-schemas: skip CRDs we have no schema for (HelmRelease,
 # SealedSecret, etc.) while still strictly checking core kinds (Deployment,
 # Service, ConfigMap, Namespace...) where a typo actually breaks things.
