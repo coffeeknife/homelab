@@ -83,5 +83,7 @@ http-client.private.env.json
 .idea/ApifoxUploaderProjectSetting.xml
 
 scratch/
-nixos/secrets/age-key.txt.claude/
-.claude/
+nixos/secrets/age-key.txt
+
+# Version shared Claude Code automations; keep only personal local overrides out.
+.claude/settings.local.json
