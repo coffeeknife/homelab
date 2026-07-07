@@ -9,6 +9,10 @@
 # isn't installed yet (fresh machine), it silently exits 0.
 set -euo pipefail
 
+# Hooks run in a non-interactive shell, so ~/.bashrc (which adds ~/go/bin) is
+# skipped. Make user-local tool dirs discoverable so kubeconform is found.
+export PATH="$HOME/go/bin:$HOME/.nix-profile/bin:$PATH"
+
 input=$(cat)
 f=$(printf '%s' "$input" | jq -r '.tool_input.file_path // empty')
 [ -n "$f" ] || exit 0

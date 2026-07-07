@@ -9,6 +9,11 @@
             "type": "command",
             "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard-plaintext-secret.sh\"",
             "statusMessage": "Checking for plaintext secrets..."
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/sops-plaintext-guard.sh\"",
+            "statusMessage": "Checking for sops-encrypted files..."
           }
         ]
       }
@@ -21,6 +26,11 @@
             "type": "command",
             "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/validate-manifest.sh\"",
             "statusMessage": "Validating manifest..."
+          },
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/kustomize-build-check.sh\"",
+            "statusMessage": "Building kustomize overlay..."
           }
         ]
       }
