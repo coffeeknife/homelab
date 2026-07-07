@@ -77,12 +77,6 @@ config:
 
   services:
     - Infrastructure:
-        - Cockpit:
-            href: https://nix.wrenspace.dev
-            icon: cockpit
-            description: Server management
-            siteMonitor: https://nix.wrenspace.dev
-            weight: 10
         - Gitea:
             href: https://git.wrenspace.dev
             icon: gitea
