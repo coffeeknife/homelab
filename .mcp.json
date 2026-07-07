@@ -6,7 +6,10 @@
     },
     "kubernetes": {
       "command": "npx",
-      "args": ["-y", "mcp-server-kubernetes"]
+      "args": ["-y", "mcp-server-kubernetes"],
+      "env": {
+        "ALLOW_ONLY_READONLY_TOOLS": "true"
+      }
     }
   }
 }
