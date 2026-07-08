@@ -6,18 +6,18 @@
   # nixos-raspberrypi.nixosModules.sd-image (one-shot installer build).
   imports = [
     ../../modules/common.nix
-    ../../modules/k3s-agent.nix
   ];
 
-  # Bootloader: nixos-raspberrypi's `kernel` mode — Pi GPU firmware loads
-  # the kernel directly from /boot/firmware. Supports multiple NixOS
-  # generations (analogous to extlinux) and is the project's recommended
-  # mode for new installs. Replaces the old generic-extlinux-compatible
-  # setup. nixos-raspberrypi owns hardware overlays and device-tree
-  # selection, so no `hardware.raspberry-pi` / `hardware.deviceTree`
-  # config is needed here.
+  # Bootloader: nixos-raspberrypi's `uboot` mode — the GPU firmware loads
+  # U-Boot, which boots via generic-extlinux-compatible from ext4 /boot.
+  # Kernel + initrd live on the ext4 root, NOT the small (30MB) FAT FIRMWARE
+  # partition (which only holds firmware + u-boot + config.txt). The previous
+  # `kernel` mode wrote a ~32MB kernel into the undersized FAT and corrupted
+  # config.txt on every generation switch — see git history (2026-07-08).
+  # nixos-raspberrypi owns hardware overlays and device-tree selection, so
+  # no `hardware.raspberry-pi` / `hardware.deviceTree` config is needed here.
   boot.loader.raspberry-pi = {
-    bootloader = "kernel";
+    bootloader = "uboot";
     configurationLimit = 3;
   };
 
@@ -36,9 +36,8 @@
     packages    = with pkgs; [ tree ];
   };
 
-  # Keep Docker for the existing compose stacks (zigbee, thread, diun,
-  # act-runner) while k3s also runs containerd. Both share kernel resources
-  # but use separate runtimes and sockets.
+  # Docker runs the host's compose stacks (zigbee, thread, diun, act-runner).
+  # (This node no longer runs k3s — removed 2026-07-08.)
   virtualisation.docker = {
     enable = true;
     # Weekly Docker prune so the SD card doesn't fill up with stopped
