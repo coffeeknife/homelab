@@ -70,7 +70,7 @@ spec:
           claimName: lidatube-config-pvc-nfs
       - name: downloads-storage
         nfs:
-          server: 192.168.1.69
+          server: nas.internal
           path: /mnt/birdpool/jellyfin/media/itunes
 ---
 apiVersion: v1

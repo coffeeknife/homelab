@@ -54,7 +54,7 @@ sonarr:
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
-          server: 192.168.1.69
+          server: nas.internal
           path: "/mnt/birdpool/jellyfin/media"
     additionalMounts:
       - mountPath: /data
@@ -109,7 +109,7 @@ prowlarr:
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
-          server: 192.168.1.69
+          server: nas.internal
           path: "/mnt/birdpool/jellyfin/media"
     additionalMounts:
       - mountPath: /data
@@ -203,7 +203,7 @@ bazarr:
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
-          server: 192.168.1.69
+          server: nas.internal
           path: "/mnt/birdpool/jellyfin/media"
     additionalMounts:
       - mountPath: /data
@@ -259,7 +259,7 @@ radarr:
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
-          server: 192.168.1.69
+          server: nas.internal
           path: "/mnt/birdpool/jellyfin/media"
     additionalMounts:
       - mountPath: /data
@@ -311,7 +311,7 @@ lidarr:
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
-          server: 192.168.1.69
+          server: nas.internal
           path: "/mnt/birdpool/jellyfin/media"
     additionalMounts:
       - mountPath: /data
@@ -358,7 +358,7 @@ cleanuparr:
     additionalVolumes:
       - name: jellyfin-nfs-pvc
         nfs:
-          server: 192.168.1.69
+          server: nas.internal
           path: "/mnt/birdpool/jellyfin/media"
     additionalMounts:
       - mountPath: /data

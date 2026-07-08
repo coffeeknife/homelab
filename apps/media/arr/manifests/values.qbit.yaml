@@ -16,7 +16,7 @@ qbittorrent:
 extraVolumes:
   - name: jellyfin-nfs
     nfs:
-      server: 192.168.1.69
+      server: nas.internal
       path: "/mnt/birdpool/jellyfin/media"
   - name: gluetun-shared-data
     emptyDir: {}

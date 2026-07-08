@@ -15,7 +15,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     path: /mnt/birdpool/kavita/data
-    server: 192.168.1.69
+    server: nas.internal
     readOnly: true
 ---
 apiVersion: v1

@@ -51,6 +51,6 @@ spec:
       volumes:
       - name: nfs-media-volume
         nfs:
-          server: 192.168.1.69
+          server: nas.internal
           path: "/mnt/birdpool/jellyfin/media"
           readOnly: false

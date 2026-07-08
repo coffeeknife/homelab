@@ -13,7 +13,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     path: /mnt/birdpool/filing
-    server: 192.168.1.69
+    server: nas.internal
     readOnly: false
 ---
 apiVersion: v1
