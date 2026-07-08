@@ -83,13 +83,25 @@ arr suite, qbittorrent, unpackerr. Set `server: nas.internal`:
 For #4–#7: edit `server:` → `nas.internal` in the manifest AND recreate the existing
 static PV (immich-pv/kavita-pv/nextcloud-pv/paperless-pv) per the immutable-PV catch.
 
-## Progress
+## Progress — COMPLETE (2026-07-08)
 
-- [x] 1. Provisioner `/mnt/birdpool/k8s-nfs` (server + provisioner root PV)
-- [ ] 1b. Recreate the ~23 existing dynamic `k8s-nfs` PVs at `nas.internal`
-- [ ] 2. Media `/mnt/birdpool/jellyfin/media`
-- [ ] 3. Lidatube `/mnt/birdpool/jellyfin/media/itunes`
-- [ ] 4. Kavita  [ ] 5. Immich  [ ] 6. Nextcloud  [ ] 7. Paperless
+- [x] 1. Provisioner `/mnt/birdpool/k8s-nfs` (values + provisioner root PV, pinned to kube-vm)
+- [x] 1b. Recreated all 22 existing dynamic `k8s-nfs` PVs at `nas.internal`
+- [x] 2. Media `/mnt/birdpool/jellyfin/media` (jellyfin + arr inline volumes)
+- [x] 3. Lidatube `/mnt/birdpool/jellyfin/media/itunes`
+- [x] 4. Kavita  [x] 5. Immich  [x] 6. Nextcloud  [x] 7. Paperless (static PVs recreated)
+
+Verified: all 27 NFS PVs report `server: nas.internal` and `Bound`; 0 FailedMount
+events referencing `192.168.1.69`; no not-Ready pods cluster-wide. All previously
+broken apps (arr suite, jellyfin, nextcloud, authelia, home-assistant, paperless,
+kavita, grafana, notify, protonmail) recovered. (immich is intentionally scaled to 0.)
+
+### Follow-ups
+- **gallifrey is cordoned** (`kubectl uncordon gallifrey` after it gets `nas.internal`).
+  Its bootloader still needs the declarative revert (see below); until then NFS pods
+  must stay on kube-vm.
+- Once gallifrey resolves `nas.internal`, the `nodeSelector` pin on the provisioner
+  (`apps/infrastructure/nfs-provisioner/manifests/values.yaml`) can be removed.
 
 ## gallifrey (blocker)
 
