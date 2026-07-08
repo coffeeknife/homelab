@@ -26,6 +26,16 @@
   services.resolved.enable = false;
   networking.nameservers = [ "192.168.1.1" "8.8.8.8" ];
 
+  # Stable name for the NAS / NFS backend so PVs and inline NFS volumes never
+  # hardcode its IP. NFS is mounted by the kubelet at the *host* level (outside
+  # cluster DNS/CoreDNS), so the name must resolve via the host resolver — an
+  # /etc/hosts entry does that on every node. Moving the backend later is a
+  # one-line change here + `colmena apply`: every PV keeps `server: nas.internal`
+  # (the spec string is immutable, but the resolved IP is free to change).
+  networking.hosts = {
+    "192.168.1.117" = [ "nas.internal" ];
+  };
+
   # SSH
   services.openssh = {
     enable = true;
