@@ -1,5 +1,9 @@
 nfs:
-  server: 192.168.1.69
+  # Stable host alias resolved via /etc/hosts on the k3s nodes (see
+  # nixos/modules/common.nix networking.hosts). Moving the NFS backend later is
+  # a one-line change there — no PV/manifest churn, since the kubelet re-resolves
+  # this name at mount time.
+  server: nas.internal
   path: /mnt/birdpool/k8s-nfs
   mountOptions:
     - noatime
