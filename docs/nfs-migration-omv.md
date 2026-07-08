@@ -1,93 +1,105 @@
 # NFS backend migration: vulcan → amphoreus/OMV
 
 The `birdpool` ZFS pool moved from **vulcan** (`192.168.1.69`, kernel NFS exports)
-to an **OpenMediaVault** VM on **amphoreus** (`192.168.1.117`). OMV does **not**
-export shares automatically — each NFS share must be created in the OMV web UI
-before the cluster can mount it. This is a **staged, per-volume** migration: bring
-up one OMV share, flip that volume's manifest, reconcile, verify, then move on.
+to an **OpenMediaVault** VM on **amphoreus** (`192.168.1.117`). vulcan's NFS is
+retired (host down). This migration also **decouples the cluster from the NFS
+IP**: instead of hardcoding `192.168.1.117`, all NFS volumes now use the stable
+host alias **`nas.internal`**.
 
-## Per-volume procedure
+## How the decoupling works (read first)
 
-For each share below:
+`nas.internal` is mapped to the backend IP in **`nixos/modules/common.nix`**:
 
-1. **OMV UI** → *Storage ▸ Shared Folders* → ensure a shared folder maps to the
-   birdpool path. → *Services ▸ NFS ▸ Shares* → add the export (client
-   `192.168.200.0/24`, read/write, `subtree_check` off, `insecure` if needed for
-   the k3s nodes). Apply the pending config.
-2. **Confirm the export path OMV presents.** From a cluster node:
-   `showmount -e 192.168.1.117`. If OMV exports at the real path
-   (`/mnt/birdpool/...`), only `server:` changes in the manifest. If OMV exports
-   under a different root (e.g. `/export/<share>`), rewrite **both** `server:` and
-   `path:`.
-3. **Edit the manifest(s)**: set `server: 192.168.1.117` (and `path:` if it moved).
-4. **Reconcile**: `git commit` + push, then `flux reconcile kustomization <app> -n flux-system`.
-5. **Verify**: pod mounts and reads data — `kubectl -n <ns> exec <pod> -- ls <mountpath>`.
+```nix
+networking.hosts = { "192.168.1.117" = [ "nas.internal" ]; };
+```
 
-> Line numbers below are a snapshot; re-grep before editing:
-> `grep -rn "192.168.1.69" apps/`
+NFS is mounted by the **kubelet at the host level** (outside cluster DNS), so the
+name must resolve via the node's host resolver — `/etc/hosts` does that on every
+node. **Moving the backend again later = change that one line + `colmena apply`;**
+no PV or manifest churn.
 
----
+Deploy the hosts entry to every schedulable node before cutting volumes over:
 
-### 1. Dynamic provisioner — `/mnt/birdpool/k8s-nfs`
+```bash
+cd nixos && ~/.nix-profile/bin/colmena apply --on kube-vm switch
+# gallifrey: BLOCKED — see "gallifrey" note at the bottom.
+```
 
-Backs the `vulcan-nfs` (default) and `vulcan-nfs-strict` StorageClasses. **Do this
-one first** — the most PVCs depend on it.
+## The immutable-PV catch (why this is per-volume surgery)
 
-- `apps/infrastructure/nfs-provisioner/manifests/values.yaml` — `server:` (line ~2), `path:` (line ~3, `/mnt/birdpool/k8s-nfs`)
-- Reconcile: `flux reconcile kustomization nfs-provisioner -n flux-system`
-- Note: the two StorageClasses (`storageclasses.yaml`) carry `pathPattern` only, no
-  server IP — nothing to change there. Names stay `vulcan-nfs*` (do **not** rename).
+A bound PV's `spec.nfs.server` is **immutable**. Editing the provisioner value or a
+static PV manifest only affects *newly* created PVs — the existing bound PVs keep
+their old `192.168.1.69`. Every existing PV is `Retain`, so the backing dir is safe
+to recreate. To re-point one:
+
+1. `kubectl get pv <pv> -o yaml > /tmp/pv.yaml`
+2. Edit `spec.nfs.server` → `nas.internal`; strip `status`, `metadata.uid`,
+   `resourceVersion`, `creationTimestamp`, `finalizers`; **keep `spec.claimRef`**
+   (name+namespace+uid) so the PVC re-binds.
+3. Scale the workload down (or delete the stuck pod `--force`), delete the PV
+   (`Retain` keeps the data), `kubectl apply -f /tmp/pv.yaml`, scale back up.
+
+For **Helm-managed** PV/PVC (the provisioner) or **Flux-kustomize-managed** static
+PVs, the tool can't update the immutable field either — delete the old PV/PVC so
+the owner recreates it fresh from the (now `nas.internal`) manifest.
+
+## OMV export facts (confirmed 2026-07-08)
+
+- OMV exports at the **real paths** (`/mnt/birdpool/...`) — no `/export` rewrite, so
+  only `server:` changes in manifests, never `path:`.
+- `nfsvers=4.1`, so subpaths of an export mount fine without a separate share.
+- Only `/mnt/birdpool/k8s-nfs` and `/mnt/birdpool/immich` are scoped to
+  `192.168.200.0/24`; the rest are exported `*` (still mountable from the cluster).
+- Probe from a node: `ssh root@192.168.200.2 'showmount -e 192.168.1.117'`.
+
+## Volumes
+
+### 1. Dynamic provisioner — `/mnt/birdpool/k8s-nfs`  ✅ DONE (2026-07-08)
+
+- `apps/infrastructure/nfs-provisioner/manifests/values.yaml` — `server: nas.internal`
+  + `nodeSelector: kubernetes.io/hostname: kube-vm` (pinned because gallifrey can't
+  get the hosts entry yet — see bottom).
+- Old Helm-managed PV/PVC deleted; Helm recreated them at `nas.internal`. Provisioner
+  Running on kube-vm, HelmRelease Ready (v3).
+- Note: the ~23 **existing dynamic `k8s-nfs` PVs** (`pvc-…`) still hardcode
+  `192.168.1.69` and must each be recreated (see immutable-PV catch). Not yet done.
 
 ### 2. Media library — `/mnt/birdpool/jellyfin/media`
 
-Shared by jellyfin, the arr suite, qbittorrent, and unpackerr. One OMV share
-covers all of these.
-
-- `apps/media/jellyfin/manifests/values.yaml` — `server:` (line ~9)
-- `apps/media/arr/manifests/values.arr.yaml` — `server:` at ~57, 112, 206, 262, 314, 361 (6 mounts)
-- `apps/media/arr/manifests/values.qbit.yaml` — `server:` (line ~19)
-- `apps/media/arr/manifests/unpackerr.yaml` — `server:` (line ~54)
-- Reconcile: `flux reconcile kustomization jellyfin -n flux-system` and `... arr ...`
+Inline NFS volumes (kubelet resolves the hostname the same way). Shared by jellyfin,
+arr suite, qbittorrent, unpackerr. Set `server: nas.internal`:
+- `apps/media/jellyfin/manifests/values.yaml`, `apps/media/arr/manifests/values.arr.yaml`
+  (6 mounts), `values.qbit.yaml`, `unpackerr.yaml`.
 
 ### 3. Lidatube iTunes subpath — `/mnt/birdpool/jellyfin/media/itunes`
+- `apps/media/arr/manifests/lidatube.yaml` — `server: nas.internal`. Subpath of #2.
 
-- `apps/media/arr/manifests/lidatube.yaml` — `server:` (line ~73), `path:` (line ~74)
-- This is a **subdirectory of share #2**. With NFSv4 you can usually mount a subpath
-  of an existing export without a separate OMV share — verify with
-  `mount -t nfs4 192.168.1.117:/mnt/birdpool/jellyfin/media/itunes /mnt/test`. If OMV
-  refuses it, add a dedicated NFS share for the itunes path.
+### 4. Kavita — `/mnt/birdpool/kavita/data` — `apps/media/kavita/manifests/nfs-vol.yaml`
+### 5. Immich — `/mnt/birdpool/photo` — `apps/services/immich/manifests/nfs-vol.yaml`
+### 6. Nextcloud — `/mnt/birdpool/drive` — `apps/services/nextcloud/manifests/nfs-volume.yaml`
+### 7. Paperless — `/mnt/birdpool/filing` — `apps/services/paperless-ngx/manifests/nfs-volume.yaml`
 
-### 4. Kavita — `/mnt/birdpool/kavita/data`
-
-- `apps/media/kavita/manifests/nfs-vol.yaml` — `path:` (line ~17), `server:` (line ~18)
-
-### 5. Immich — `/mnt/birdpool/photo`
-
-- `apps/services/immich/manifests/nfs-vol.yaml` — `path:` (line ~15), `server:` (line ~16)
-
-### 6. Nextcloud — `/mnt/birdpool/drive`
-
-- `apps/services/nextcloud/manifests/nfs-volume.yaml` — `path:` (line ~30), `server:` (line ~31)
-
-### 7. Paperless — `/mnt/birdpool/filing`
-
-- `apps/services/paperless-ngx/manifests/nfs-volume.yaml` — `path:` (line ~15), `server:` (line ~16)
-
----
+For #4–#7: edit `server:` → `nas.internal` in the manifest AND recreate the existing
+static PV (immich-pv/kavita-pv/nextcloud-pv/paperless-pv) per the immutable-PV catch.
 
 ## Progress
 
-- [ ] 1. Provisioner `/mnt/birdpool/k8s-nfs`
+- [x] 1. Provisioner `/mnt/birdpool/k8s-nfs` (server + provisioner root PV)
+- [ ] 1b. Recreate the ~23 existing dynamic `k8s-nfs` PVs at `nas.internal`
 - [ ] 2. Media `/mnt/birdpool/jellyfin/media`
 - [ ] 3. Lidatube `/mnt/birdpool/jellyfin/media/itunes`
-- [ ] 4. Kavita `/mnt/birdpool/kavita/data`
-- [ ] 5. Immich `/mnt/birdpool/photo`
-- [ ] 6. Nextcloud `/mnt/birdpool/drive`
-- [ ] 7. Paperless `/mnt/birdpool/filing`
+- [ ] 4. Kavita  [ ] 5. Immich  [ ] 6. Nextcloud  [ ] 7. Paperless
+
+## gallifrey (blocker)
+
+gallifrey is a schedulable k3s worker but its `nas.internal` hosts entry can't be
+deployed: its 30MB FAT boot partition can't hold the Pi kernel under the current
+`boot.loader.raspberry-pi.bootloader = "kernel"` mode, so `colmena apply` fails and
+the last attempt left its boot config broken. **Do not reboot gallifrey** until its
+bootloader is reverted to `generic-extlinux-compatible` (kernel on ext4). Until then,
+NFS-mounting workloads are pinned to kube-vm.
 
 ## Not part of this migration (already handled)
 
-- **Cockpit** (`apps/external-ingress/manifests/cockpit.yaml`) — pointed at vulcan's
-  host UI; **removed**.
-- **Loki / Garage S3** (`apps/monitoring/loki/manifests/values.yaml`) — chunk store
-  was Garage on vulcan; Loki + promtail **disabled** pending a new object store.
+- **Cockpit** — removed. **Loki/Garage S3** — disabled pending a new object store.
