@@ -17,6 +17,15 @@ nfs:
 storageClass:
   create: false
 
+# Pin to kube-vm. The provisioner mounts NFS at the host level via the
+# `nas.internal` alias (see nixos/modules/common.nix), which currently only
+# resolves on kube-vm — gallifrey's node config can't be redeployed until its
+# boot partition is fixed. Keeping this infra singleton on the stable amd64
+# node also avoids it floating onto the Pi. Revisit once gallifrey resolves
+# nas.internal.
+nodeSelector:
+  kubernetes.io/hostname: kube-vm
+
 resources:
   requests:
     cpu: 10m
