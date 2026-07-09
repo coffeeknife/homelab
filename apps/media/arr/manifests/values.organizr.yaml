@@ -7,6 +7,12 @@ resources:
 
 env:
   TZ: America/Chicago
+  # Disable Organizr's on-boot self-updater (git pull into the NFS config
+  # volume). The updater wedges on a stale .git/index.lock + NFS latency and
+  # blocks the s6 cont-init chain, so nginx never binds :80 before the startup
+  # probe kills the container (chronic crashloop). "manual" makes 40-install
+  # skip the git update entirely and serve the already-cloned source.
+  branch: manual
 
 ingress:
   main:
