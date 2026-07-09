@@ -14,7 +14,7 @@ GitOps-first homelab infrastructure for the **wrenspace.dev** domain. Flux CD re
 | amphoreus | Dell OptiPlex | Proxmox VE | Hypervisor — runs OpenMediaVault (NAS); hosts the migrated `birdpool` ZFS pool | 192.168.1.31 |
 | vulcan | Raspberry Pi 4 | Armbian | **Idle / standby** — former NAS; `birdpool` ZFS pool migrated to amphoreus/OMV, awaiting repurpose | 192.168.1.69 |
 | gunsmoke | Raspberry Pi 3B | DietPi | **Decommissioned** — was IoT hub; stacks moved to gallifrey | 192.168.100.2 |
-| gallifrey | Raspberry Pi 4 | NixOS | k3s arm64 worker + Docker compose stacks (zigbee/thread/diun/act-runner, formerly on gunsmoke) | 192.168.1.54 |
+| gallifrey | Raspberry Pi 4 | NixOS | Docker compose stacks only (zigbee/thread/diun/act-runner, formerly on gunsmoke) — **removed from k3s 2026-07-08** | 192.168.1.54 |
 
 ### Gunsmoke (IoT Hub) — decommissioned
 
@@ -27,6 +27,28 @@ If gunsmoke comes back online for any reason:
 - `docker ps -a` — check container status
 - `usbreset '10c4:ea60'` — reset SONOFF Thread dongle if unresponsive
 - Watchtower requires `DOCKER_API_VERSION=1.44` env var due to ARM64 build bug
+
+### Gallifrey (RPi4) — compose host, not a cluster node
+
+Colmena-managed NixOS host (`ssh root@192.168.1.54`) running the Docker
+compose stacks (zigbee/thread/diun/act-runner). **Removed from the k3s
+cluster 2026-07-08** — it is no longer a node; `kube-vm` is the sole cluster
+node. Its config (`nixos/hosts/gallifrey/default.nix`) no longer imports
+`modules/k3s-agent.nix`.
+
+- **Bootloader: stock `generic-extlinux-compatible`, NOT nixos-raspberrypi's
+  `kernel`/`uboot` builder.** Those builders re-copy the ~22MB RPi vendor
+  firmware into the tiny 30MB FAT `FIRMWARE` partition on every activation,
+  which overflows it and corrupts boot. gallifrey disables nixos-raspberrypi's
+  bootloader (`boot.loader.raspberry-pi.enable = mkForce false`) + GRUB and
+  uses stock extlinux, which writes only to ext4 `/boot`. The FAT firmware +
+  `u-boot-rpi4.bin` + `config.txt` are a static one-time setup; U-Boot on the
+  FAT chain-loads the ext4 extlinux config. Reboot-safe (verified 2026-07-08).
+- **Colmena deploys must build on the target:** `colmena apply --on gallifrey
+  --build-on-target` (this x86 machine can't build aarch64 without emulation;
+  the Pi builds natively, kernel comes from `nixos-raspberrypi.cachix.org`).
+- **vulcan carries the same latent `bootloader = "kernel"` setting** but is
+  idle — if it's ever redeployed/rebooted, apply the same extlinux fix first.
 
 ### NAS — OpenMediaVault on amphoreus
 
