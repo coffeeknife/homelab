@@ -14,6 +14,16 @@ env:
   # skip the git update entirely and serve the already-cloned source.
   branch: manual
 
+# The image's one-time s6 cont-init (30-setup) does a recursive
+# `chmod -R g+w /config/www` over ~5900 files on the NFS config volume, which
+# can exceed the chart's default 150s startup budget (30 x 5s) on a cold cache
+# and get the container killed mid-setup. Give it a wider startup window so the
+# one-time setup can finish and nginx can bind :80.
+probes:
+  startup:
+    spec:
+      failureThreshold: 90
+
 ingress:
   main:
     enabled: true
