@@ -1,49 +1,70 @@
 # homelab
 
-my self-hosted infrastructure for **wrenspace.dev**
+Self-hosted, GitOps-managed infrastructure for **wrenspace.dev** — a Kubernetes
+cluster and supporting services that I design, deploy, and operate end to end.
+Everything here is declarative: this repo is the source of truth, and
+[Flux CD](https://fluxcd.io) continuously reconciles the cluster to match it.
 
-## what's here
+> **Status:** mid-migration — retiring an aging host and currently down a node,
+> so the cluster is temporarily consolidated onto a single k3s node. An arm64
+> Raspberry Pi worker is being brought back to restore multi-node, multi-arch
+> scheduling.
 
-a 3-node kubernetes cluster running on an old imac via proxmox. flux cd watches this repo and keeps everything in sync. most services run as helm releases.
+## Overview
 
-## hardware
+- **~40 self-hosted services** across 29 namespaces (~65 pods), from media and
+  productivity apps to the networking, identity, and storage layers that back them.
+- **GitOps end to end** — every change lands as a commit; Flux applies it. No
+  manual `kubectl apply`. Secrets live safely in git via Sealed Secrets.
+- **Automated operations** — Renovate opens dependency-update PRs; host
+  configuration is declarative (NixOS); app rollout is Helm + Flux.
 
-- **etheirys** — imac running proxmox, hosts the k8s vms and a few lxcs
-- **amphoreus** — dell optiplex running proxmox, hosts an openmediavault vm serving the `birdpool` zfs pool over nfs (the cluster's storage backend)
-- **vulcan** — raspberry pi 4, former nas — idle/standby since `birdpool` moved to amphoreus
-- **gunsmoke** — raspberry pi 3b, decommissioned (zigbee2mqtt + matter/thread moved to gallifrey)
-- **gallifrey** — raspberry pi 4 running nixos, arm64 k3s worker + home-automation compose stacks
+## Stack
 
-## the stack
+| Layer | Tooling |
+|-------|---------|
+| Orchestration | k3s (Kubernetes v1.35) on NixOS, running as a VM under Proxmox |
+| GitOps / CD | Flux CD (source, kustomize, helm, notification controllers) |
+| Networking | Traefik (ingress), MetalLB (load balancing), flannel (CNI), Cloudflare (public DNS/tunnel) |
+| Certificates | cert-manager — automated TLS across all ingresses |
+| Identity | lldap + Authelia — SSO / OIDC with role-based access for all users |
+| Storage | Longhorn (block), NFS over a ZFS pool (bulk), local-path (PV data) |
+| Data | MariaDB, PostgreSQL |
+| Secrets | Sealed Secrets (encrypted, committed to git) |
+| Observability | Uptime Kuma health checks; Prometheus / Grafana / Loki (being restored post-migration) |
 
-- microk8s (v1.33) with calico
-- traefik for ingress, metallb for load balancing
-- longhorn for block storage, nfs for bulk data
-- lldap + authelia for sso/oidc
-- sealed secrets for keeping secrets in git
+## Architecture
 
-## services
+The cluster normally runs as a **multi-node, mixed-architecture** setup — an
+x86 control-plane node plus arm64 Raspberry Pi workers — so workloads schedule
+across both `amd64` and `arm64`.
 
-**media:** jellyfin, the arr suite (radarr, sonarr, lidarr, prowlarr, bazarr), qbittorrent, komga
+It is currently **consolidated onto a single k3s node** (OptiPlex, i7-7700 /
+32GB) while I migrate hardware and retire an aging host; an arm64 Pi worker is
+being brought back to restore multi-arch scheduling. Storage lives on a separate
+Proxmox box serving a ZFS pool over NFS, keeping cluster and data on independent
+hardware.
 
-**productivity:** nextcloud, paperless-ngx, grocy
+Gitea (the Flux source) and a couple of stateful services run in Proxmox LXCs
+outside the cluster, so the GitOps loop has no circular dependency on the
+workloads it manages.
 
-**home:** home assistant, immich
+## Services
 
-**monitoring:** prometheus, grafana, loki
+- **Media:** Jellyfin, the *arr suite (Radarr / Sonarr / Lidarr / Prowlarr / Bazarr), qBittorrent, Komga, Kavita
+- **Productivity:** Nextcloud, Paperless-ngx, Grocy, Immich, Vaultwarden
+- **Home:** Home Assistant, MQTT (Zigbee / Matter)
+- **Platform:** Traefik, cert-manager, MetalLB, Authelia + lldap, MariaDB, PostgreSQL, Ollama
 
-**infra:** traefik, cert-manager, mariadb, postgres, vaultwarden
-
-## outside the cluster
-
-gitea runs on a proxmox lxc — it has to stay external so flux can pull from it without circular dependencies
-
-## repo layout
+## Repo layout
 
 ```
-apps/           # all the kubernetes manifests
-flux-system/    # flux bootstrap stuff
-proxmox/        # lxc provisioning configs
+apps/           # all Kubernetes manifests (Flux Kustomizations + HelmReleases)
+flux-system/    # Flux bootstrap and notification config
+ansible/        # host/LXC provisioning playbooks
+nixos/          # declarative config for the NixOS cluster host(s)
+proxmox/        # Proxmox / LXC provisioning notes
+docs/           # migration and operations runbooks
 ```
 
-see [CLAUDE.md](CLAUDE.md) for the nitty-gritty details
+See [CLAUDE.md](CLAUDE.md) for repository conventions and operational details.
