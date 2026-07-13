@@ -1,0 +1,68 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: home-assistant
+  namespace: external-ingress
+  labels:
+    app.kubernetes.io/name: home-assistant
+    app.kubernetes.io/part-of: services
+spec:
+  ports:
+    - name: app
+      port: 80
+      protocol: TCP
+      targetPort: 8123
+  clusterIP: None
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: home-assistant
+  namespace: external-ingress
+  labels:
+    app.kubernetes.io/name: home-assistant
+    app.kubernetes.io/part-of: services
+subsets:
+  - addresses:
+      - ip: 192.168.1.123        # Debian LXC on etheirys, host-networked on the LAN
+    ports:
+      - name: app
+        port: 8123
+        protocol: TCP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: home-assistant
+  namespace: external-ingress
+  labels:
+    app.kubernetes.io/name: home-assistant
+    app.kubernetes.io/part-of: services
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Home Assistant"
+    gethomepage.dev/group: "Core"
+    gethomepage.dev/icon: "home-assistant"
+    gethomepage.dev/description: "Home automation"
+    gethomepage.dev/href: "https://home.wrenspace.dev/auth/oidc/welcome"
+    gethomepage.dev/weight: "50"
+spec:
+  tls:
+    - hosts:
+        - home.wrenspace.dev
+      secretName: home-assistant
+  rules:
+    - host: home.wrenspace.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: home-assistant
+                port:
+                  number: 80
