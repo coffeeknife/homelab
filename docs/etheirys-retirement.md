@@ -43,6 +43,13 @@ etheirys also hosts three LXCs that must relocate before it can be powered off:
 
 ## Cutover checklist (rough order)
 
+> **Superseded by the executable runbook:
+> [`etheirys-7050-cutover.md`](etheirys-7050-cutover.md).** The rough order below
+> predates the *no-overlap* constraint (RAM harvested into the 7050 before it can
+> boot). The runbook replaces the "migrate live to amphoreus" sketch with a
+> **vzdump→OMV→restore** flow, restores **gitea first** (not last), and defers the
+> disk shrink and GPU passthrough out of the downtime window. Follow the runbook.
+
 1. Buy + set up the 7050 Micro; install Proxmox; add the iMac's 2×16GB.
 2. Move kube-vm's ~300GB virtual disk to the 7050 (it holds all `local-path`
    PVs: Prometheus, Loki, MariaDB data, Immich postgres — verify free space).
