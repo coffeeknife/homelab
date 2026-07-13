@@ -10,6 +10,13 @@
 
 **Tech Stack:** Proxmox VE (`vzdump`/`qmrestore`/`pct restore`), LVM-thin, NFS (OMV/birdpool), k3s on NixOS, Flux CD.
 
+> **STATUS — Phase 0 done 2026-07-13** (7050 delivery slipped to 2026-07-14, so backups front-loaded a day early). Tasks 1–3 complete, zero downtime, all guests still running:
+> - `nfs-backup` repointed `.69`→`.117`, `active`, 3.0T free. (etheirys config backed up to `/root/storage.cfg.bak.20260713`.)
+> - kube-vm `fstrim` reclaimed 9.1 GiB to the thin pool.
+> - All 5 snapshot archives verified on OMV (`vzdump-*-2026_07_13-*`): kube-vm 41G, gitea 667M, hass 1.4G, vaultwarden 78M, mqtt 8.2M.
+> - Benign: PVE's Discord notification webhook 404s (stale) — backups themselves all `finished successfully`.
+> - **Resume tomorrow at Task 4** (final stop-mode refresh + downtime). Backup loop script lives at `/root/vzdump-cutover.sh` on etheirys for the Task 4 rerun.
+
 ## Global Constraints
 
 - **No overlap:** etheirys and the 7050 are NEVER powered on at the same time.
