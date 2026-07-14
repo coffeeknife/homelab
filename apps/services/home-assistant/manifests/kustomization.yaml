@@ -1,18 +1,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
+# Home Assistant runs on a Debian/Docker LXC (etheirys, 192.168.1.123), not in
+# k3s. This kustomization now only provisions the MariaDB database/user/grant
+# (+ password secret) that the LXC's recorder connects to via NodePort, plus the
+# namespace. HelmRelease/values/mdns-bridge were removed on the k8s->LXC migration.
 resources:
   - ns.yaml
-  - helmrelease.yaml
-  - mdns-bridge.yaml
   - creds.yaml
   - database.yaml
   - recorder-creds.yaml
-
-configMapGenerator:
-  - name: hass-values
-    namespace: hass
-    files:
-      - values.yaml
-    options:
-      disableNameSuffixHash: true
