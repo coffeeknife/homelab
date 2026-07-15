@@ -53,9 +53,9 @@
       # two above were tuned; it then became the weakest link and took k3s
       # down with `leaderelection lost` during a 16-app rollout storm on
       # 2026-07-15 (6 consecutive exits). Keep all three in lockstep.
-      "--cloud-controller-manager-arg=leader-elect-lease-duration=45s"
-      "--cloud-controller-manager-arg=leader-elect-renew-deadline=30s"
-      "--cloud-controller-manager-arg=leader-elect-retry-period=10s"
+      "--kube-cloud-controller-manager-arg=leader-elect-lease-duration=45s"
+      "--kube-cloud-controller-manager-arg=leader-elect-renew-deadline=30s"
+      "--kube-cloud-controller-manager-arg=leader-elect-retry-period=10s"
       # Throttle concurrent image pulls so cold-boot doesn't spike
       # CPU and saturate the apiserver with status updates.
       "--kubelet-arg=registry-qps=2"
