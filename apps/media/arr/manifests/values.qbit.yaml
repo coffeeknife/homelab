@@ -53,7 +53,7 @@ gluetun:
 
 sidecars:
   - name: port-sync
-    image: curlimages/curl:8.18.0
+    image: curlimages/curl:8.21.0
     command: ["/bin/sh", "-c"]
     args:
       - |
