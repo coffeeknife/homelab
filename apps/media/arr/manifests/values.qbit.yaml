@@ -119,10 +119,6 @@ ingress:
     gethomepage.dev/name: "qBittorrent"
     gethomepage.dev/icon: qbittorrent
     gethomepage.dev/description: Getting the goods.
-    gethomepage.dev/widget.type: qbittorrent
-    gethomepage.dev/widget.url: https://qbit.wrenspace.dev/
-    gethomepage.dev/widget.username: admin
-    gethomepage.dev/widget.password: REDACTED
   hosts:
     - host: qbit.wrenspace.dev
       paths:
