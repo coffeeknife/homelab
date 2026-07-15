@@ -16,7 +16,14 @@ misses most of this. Run this sweep top to bottom — each layer catches a class
 of failure the one above it hides.
 
 For a full pass, consider dispatching it to a subagent so the raw command
-output doesn't fill your main context — report back only the anomalies.
+output doesn't fill your main context — have it report back the anomalies
+**and** the raw numbers needed for the stats overview (disk %, load average,
+pod counts, resource-limit outliers). Only the top-level agent should do the
+final reporting (see **Report Format** below) — a dispatched subagent can't
+call `AskUserQuestion`, so it must hand findings back rather than ask the
+user anything itself.
+
+Also available as `/healthcheck`.
 
 ## 1. Flux — is GitOps actually converging?
 
@@ -142,11 +149,65 @@ done
 Expect `200`, or `302`/`303` to `auth.wrenspace.dev` for Authelia-protected
 apps — that redirect **is** healthy. Flag `000` (unreachable) or `5xx`.
 
+## 9. Resource overview — disk, load, capacity headroom
+
+Capture this even on a clean run — slow degradation (disk filling, memory
+creeping toward limits) doesn't throw errors until it suddenly does.
+
+```bash
+ssh kube-vm "df -h /; free -h; uptime"
+kubectl describe node kube-vm | grep -A8 "Allocated resources"
+kubectl top pods -A --no-headers | sort -k3 -rh | head -10   # top CPU consumers
+kubectl top pods -A --no-headers | sort -k4 -rh | head -10   # top memory consumers
+```
+
+To flag pods close to their *own* configured limit (not just top absolute
+consumers), cross-reference usage against `resources.limits`:
+
+```bash
+kubectl get pods -A -o json | jq -r '
+  .items[] | select(.spec.containers[].resources.limits.memory != null) |
+  "\(.metadata.namespace)/\(.metadata.name)"' | sort > /tmp/limited-pods.txt
+kubectl top pods -A --no-headers | awk '{print $1"/"$2, $3, $4}' | sort | \
+  join - /tmp/limited-pods.txt
+```
+
+For anything in that joined list, `kubectl describe pod <name> -n <ns> | grep
+-A4 Limits` to get the actual ceiling and compute %. Flag anything over
+~80% of its memory limit — OOMKilled often shows up as a restart count that
+already moved, not a live warning.
+
 ## Anything else worth a glance
 
 - SealedSecrets sync: `kubectl get sealedsecret -A -o custom-columns=NAME:.metadata.name,SYNCED:.status.conditions[0].status | grep -v True` — should all be `True`
 - MetalLB pool exhaustion: `kubectl get svc -A | grep LoadBalancer` — any `<pending>` external IP means the pool's out of addresses
 - etcd snapshot cadence (single-node cluster, no HA — backups matter more): `ssh kube-vm "sudo k3s etcd-snapshot list"`
+
+## Report Format
+
+Every run ends with two parts, in this order:
+
+**1. Stats overview** — always shown, even when nothing is broken:
+
+| Metric | Value |
+|---|---|
+| Node disk usage | e.g. `34% /` |
+| Load average (1m/5m/15m) | e.g. `0.42, 0.51, 0.60` |
+| Memory: allocated (requests) vs. actual usage | e.g. `90% requests / 62% actual` |
+| Pods over ~80% of their memory limit | list, or `none` |
+| Flux Kustomizations/HelmReleases | `N ready / N total` |
+| Pods not Running/Completed | `N` (list namespaces/names if any) |
+| Web UIs failing (000/5xx) | `N / total` (list hostnames if any) |
+
+**2. Anomalies + remediation choices** — for each anomaly with a plausible
+fix, don't act unilaterally: present it via the `AskUserQuestion` tool as a
+multiple-choice decision (e.g. "reconcile now" / "investigate further" /
+"leave for later", plus app-specific options where relevant — like "delete
+and recreate the PVC" for an orphaned volume). Batch unrelated anomalies into
+separate questions so the user can decide each independently rather than
+picking one blanket action. Purely informational findings (e.g. a stale
+decaying load-average metric that's already recovering) belong in the stats
+overview or a one-line note, not a question.
 
 ## Common mistakes
 
@@ -161,6 +222,10 @@ apps — that redirect **is** healthy. Flag `000` (unreachable) or `5xx`.
   first** — `qmpstatus: io-error` means a passthrough disk failed; fix that
   (or confirm the pool tolerates the loss) before touching the VM, or you'll
   hit the same error again.
+- **Applying a fix instead of asking** — this skill is diagnostic. Surface
+  anomalies as `AskUserQuestion` choices (see Report Format) instead of
+  reconciling a HelmRelease, deleting a PVC, or restarting a service on your
+  own initiative.
 
 See also: `nixos-deploy` for the flannel `subnet.env` boot quirk in more
 depth; `docs/nfs-migration-omv.md` for the NFS backend's current topology.
