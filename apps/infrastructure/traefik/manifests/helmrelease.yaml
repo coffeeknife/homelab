@@ -18,10 +18,17 @@ metadata:
     app.kubernetes.io/part-of: infrastructure
 spec:
   interval: 30m
+  # Traefik ships CRDs in the chart's install-only crds/ dir, which Helm/Flux
+  # never upgrade by default. CreateReplace makes helm-controller replace the
+  # traefik.io CRDs so their schema tracks the app version on every chart bump.
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
   chart:
     spec:
       chart: traefik
-      version: 39.0.0
+      version: 41.0.2
       sourceRef:
         kind: HelmRepository
         name: traefik

@@ -42,3 +42,10 @@ api:
 providers:
   kubernetesCRD:
     allowCrossNamespace: true
+
+service:
+  annotations:
+    # Pin the MetalLB LoadBalancer IP so the front door can never move on a
+    # Service recreate. .100 is the address traefik already holds from
+    # default-pool (192.168.200.100-254); .102 is the API VIP.
+    metallb.io/loadBalancerIPs: "192.168.200.100"
