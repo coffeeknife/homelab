@@ -8,6 +8,14 @@ metadata:
     app.kubernetes.io/part-of: monitoring
 spec:
   interval: 30m
+  # kube-prometheus-stack ships CRDs in the chart's install-only crds/ dir,
+  # which Helm (and Flux's default policy) never upgrades. CreateReplace makes
+  # helm-controller replace them on install and every upgrade so the CRD schema
+  # tracks the operator appVersion (uses Helm replace, no annotation-size issue).
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
   chart:
     spec:
       chart: kube-prometheus-stack
