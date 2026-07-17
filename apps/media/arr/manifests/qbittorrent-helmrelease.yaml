@@ -43,3 +43,10 @@ spec:
                         - /bin/sh
                         - -c
                         - (ip rule del table 51820; ip -6 rule del table 51820) || true
+              # port-sync reads the qbit WebUI password from qbit-auth via env,
+              # so a rotation must roll the pod. The chart has no Reloader hook,
+              # so annotate the Deployment here.
+              - op: add
+                path: /metadata/annotations
+                value:
+                  secret.reloader.stakater.com/reload: qbit-auth
