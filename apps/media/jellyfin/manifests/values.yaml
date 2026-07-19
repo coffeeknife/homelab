@@ -18,9 +18,9 @@ resources:
     memory: 512Mi
 
 nodeSelector:
-  gpu: amd
+  gpu: intel  # HD630 QuickSync via VFIO passthrough into kube-vm (was AMD RX560, retired with etheirys 2026-07-18)
 
-# GPU passthrough for VAAPI hardware transcoding
+# GPU passthrough for VAAPI/QSV hardware transcoding (Intel iHD driver on /dev/dri/renderD128)
 # Note: Volume mounts are handled via postRenderers in helmrelease.yaml
 # because the wrenix chart doesn't support extraVolumes
 podSecurityContext:
