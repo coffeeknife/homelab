@@ -1,5 +1,11 @@
 # Etheirys retirement plan
 
+> **✅ DONE 2026-07-18.** The 7050 host is named **tau-ceti** (`192.168.1.119`),
+> got the iMac's 2×16GB → 32GB, and now runs all guests. etheirys is powered
+> off/retired. See `docs/etheirys-7050-cutover.md` for the executed cutover.
+> **Still open:** bump amphoreus to 16GB with a freed 8GB stick (below); harvest
+> + sell etheirys's PSU/i5-7400.
+
 Plan to retire **etheirys** (iMac18,2 / Proxmox VE, `192.168.1.53`) by splitting
 its roles across two DDR4 OptiPlex boxes, rather than cramming everything onto
 amphoreus. Decided 2026-07-09.

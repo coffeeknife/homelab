@@ -10,7 +10,8 @@ GitOps-first homelab infrastructure for the **wrenspace.dev** domain. Flux CD re
 
 | Host | Hardware | OS | Role | IP |
 |------|----------|-----|------|-----|
-| etheirys | iMac | Proxmox VE | Hypervisor — runs LXCs and Kubernetes VMs | 192.168.1.53 |
+| tau-ceti | Dell OptiPlex 7050 Micro | Proxmox VE 9.2.4 | Hypervisor — runs all LXCs + the kube-vm k3s VM (**replaced etheirys 2026-07-18**) | 192.168.1.119 |
+| etheirys | iMac (iMac18,2) | — | **RETIRED 2026-07-18** — powered off; all guests migrated to tau-ceti; SSD kept as fallback | 192.168.1.53 (freed) |
 | amphoreus | Dell OptiPlex | Proxmox VE | Hypervisor — runs OpenMediaVault (NAS); hosts the migrated `birdpool` ZFS pool | 192.168.1.31 |
 | vulcan | Raspberry Pi 4 | Armbian | **Idle / standby** — former NAS; `birdpool` ZFS pool migrated to amphoreus/OMV, awaiting repurpose | 192.168.1.69 |
 | gunsmoke | Raspberry Pi 3B | DietPi | **Decommissioned** — was IoT hub; stacks moved to gallifrey | 192.168.100.2 |
@@ -75,14 +76,49 @@ Powered on but has no active role since `birdpool` moved to amphoreus. Its NixOS
 config (`nixos/hosts/vulcan/`, colmena target `192.168.1.69`) and NAS module are
 left in place pending a decision on repurposing. Not serving NFS/Samba.
 
-### Proxmox VMs/LXCs on etheirys
+### tau-ceti (7050) — cluster/guest hypervisor
+
+Dell OptiPlex 7050 Micro (i7-7700, 32GB DDR4), Proxmox VE 9.2.4, `ssh
+root@192.168.1.119`. **Replaced etheirys on 2026-07-18** via a no-overlap
+vzdump→OMV→restore of all five guests (runbook `docs/etheirys-7050-cutover.md`).
+Kept the management IP at **192.168.1.119** (not etheirys's `.53` — nothing
+depends on the hypervisor's mgmt IP; only docs/ssh aliases referenced `.53`).
+
+- **Networking:** onboard NIC is renamed **`nic0`** (Proxmox 9 stable naming).
+  Bridges mirror etheirys's structure over the one trunk port:
+  **vmbr2** (untagged/home, holds host `.119`), **vmbr3** (`nic0.3`, VLAN 3/IoT),
+  **vmbr4** (`nic0.4`, VLAN 4/cluster). The switch port must trunk VLANs 3 & 4
+  tagged + untagged home.
+- **AC power recovery must be set in BIOS by hand** (F2 → Power Management →
+  AC Recovery → "Power On"). No OS path: `libsmbios` is `/dev/mem`-blocked and
+  deprecated, and `dell-wmi-sysman` isn't exposed by the 7050 firmware.
+- **kube-vm GPU passthrough is gone** (the AMD RX560 stayed with etheirys); the
+  `hostpci0` line was stripped, Jellyfin runs software transcode until the host's
+  Intel HD630 QuickSync is passed through later (VM is already `q35`).
+- **Guests all restored with `onboot=1` + startup order** (gitea → mqtt →
+  vaultwarden → hass → kube-vm) so a reboot brings the homelab back on its own.
+
+### etheirys (iMac) — retired
+
+Powered off 2026-07-18. Its SSD is left intact as a rollback fallback until
+tau-ceti is long-proven; don't wipe it prematurely. PSU + i5-7400 harvested for
+resale; RAM (2×16GB) moved into tau-ceti. See `docs/etheirys-retirement.md`.
+
+### Proxmox VMs/LXCs on tau-ceti
 
 | ID | Type | Name | Resources | IP | Role |
 |----|------|------|-----------|-----|------|
-| 202 | VM | kube-vm | TBD | 192.168.200.2 | k3s single-node (AMD GPU passthrough) |
+| 202 | VM | kube-vm | 26.6GB, 4 vCPU | 192.168.200.2 | k3s single-node (**no GPU passthrough since 2026-07-18**); 300G thin disk (~117G real) |
+| 100 | LXC | hass | — | 192.168.1.123 | Home Assistant (Debian, host-net; recorder→MariaDB) |
 | 101 | LXC | mqtt | 1 CPU, 512MB | 192.168.100.3 | MQTT broker (IoT network) |
 | 113 | LXC | vaultwarden | 1 CPU, 256MB | 192.168.100.6 | Password manager |
 | 124 | LXC | gitea | 1 CPU, 1GB | 192.168.200.52 | Git server (Flux source) |
+
+> **Restore caveat — kube-vm's `efidisk0`:** the restored config has a dangling
+> `efidisk0` pointing at the *same* LV as `scsi0` (`vm-202-disk-0`). It's inert
+> because the VM is `bios: seabios`. **Never `qm set 202 --delete efidisk0`** — it
+> would remove the shared LV and destroy the root disk. Clean it (if ever) only by
+> editing `/etc/pve/qemu-server/202.conf` directly.
 
 ### Vaultwarden LXC (113)
 
@@ -96,11 +132,11 @@ Alpine Linux, OpenRC (no systemd). Fronted by Traefik via `apps/external-ingress
 
 ## Kubernetes Cluster
 
-Single-node k3s cluster (embedded etcd) running on a NixOS VM hosted on etheirys (Proxmox). Embedded etcd is enabled so additional nodes can join from other machines in future.
+Single-node k3s cluster (embedded etcd) running on a NixOS VM hosted on **tau-ceti** (Proxmox; was etheirys until 2026-07-18). Embedded etcd is enabled so additional nodes can join from other machines in future.
 
 | Node | IP | Resources | Notes |
 |------|-----|-----------|-------|
-| kube-vm | 192.168.200.2 | TBD | AMD GPU passthrough (`gpu=amd` label) — Jellyfin schedules here |
+| kube-vm | 192.168.200.2 | 26.6GB, 4 vCPU | **No GPU passthrough since 2026-07-18** (AMD RX560 retired with etheirys); Jellyfin on software transcode until Intel HD630 QuickSync is passed through |
 
 - **Kubernetes version:** v1.35.4+k3s1
 - **OS:** NixOS 26.05 (Yarara) — managed via colmena from `nixos/`

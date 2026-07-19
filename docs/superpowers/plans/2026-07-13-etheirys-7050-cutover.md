@@ -10,12 +10,22 @@
 
 **Tech Stack:** Proxmox VE (`vzdump`/`qmrestore`/`pct restore`), LVM-thin, NFS (OMV/birdpool), k3s on NixOS, Flux CD.
 
-> **STATUS — Phase 0 done 2026-07-13** (7050 delivery slipped to 2026-07-14, so backups front-loaded a day early). Tasks 1–3 complete, zero downtime, all guests still running:
-> - `nfs-backup` repointed `.69`→`.117`, `active`, 3.0T free. (etheirys config backed up to `/root/storage.cfg.bak.20260713`.)
-> - kube-vm `fstrim` reclaimed 9.1 GiB to the thin pool.
-> - All 5 snapshot archives verified on OMV (`vzdump-*-2026_07_13-*`): kube-vm 41G, gitea 667M, hass 1.4G, vaultwarden 78M, mqtt 8.2M.
-> - Benign: PVE's Discord notification webhook 404s (stale) — backups themselves all `finished successfully`.
-> - **Resume tomorrow at Task 4** (final stop-mode refresh + downtime). Backup loop script lives at `/root/vzdump-cutover.sh` on etheirys for the Task 4 rerun.
+> **STATUS — ✅ COMPLETE 2026-07-18. Cutover done, cluster verified healthy.**
+> The 7050 = **tau-ceti** at **192.168.1.119** (kept `.119`, not `.53`). All five
+> guests restored, auto-started (`onboot`+order), node Ready, Flux reconciling
+> from restored gitea, LXC services confirmed. etheirys off/retired (SSD fallback
+> intact). Real-world deltas + the kube-vm disk/`efidisk0` gotchas are documented
+> in the runbook banner (`docs/etheirys-7050-cutover.md`) and CLAUDE.md.
+>
+> _History:_
+> - **Phase 0 (2026-07-13):** Tasks 1–3 done, zero downtime — `nfs-backup`
+>   repointed `.69`→`.117`; kube-vm `fstrim` reclaimed 9.1 GiB; 5 snapshot
+>   archives verified on OMV.
+> - **Cutover day (2026-07-18):** resumed at Task 4. tau-ceti was pre-installed on
+>   temp 16GB, so guests were restored *while it ran* and left stopped+`onboot`;
+>   dark window = RAM swap + auto-boot only. kube-vm restore hit 99.89% thin pool
+>   (disk is ~117G real) → fixed via `lvextend +100%FREE` + `virt-sparsify
+>   --in-place` → 81%.
 
 ## Global Constraints
 

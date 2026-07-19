@@ -1,5 +1,26 @@
 # Etheirys → 7050 cutover runbook
 
+> ## ✅ COMPLETED 2026-07-18 — cutover done, cluster verified healthy
+>
+> The 7050 is named **tau-ceti** and runs at **192.168.1.119** (kept `.119`, did
+> **not** take etheirys's `.53`). All five guests restored and auto-started;
+> node Ready, Flux reconciling from restored gitea, LXC services confirmed.
+> etheirys is powered off/retired (SSD kept as fallback).
+>
+> **Real-world deltas from the plan below:**
+> - **tau-ceti was pre-installed on temp 16GB before the swap**, so guests were
+>   restored *while it ran* and left `onboot=1`+stopped; the dark window shrank to
+>   just the RAM swap + auto-boot. Host IP stayed `.119`, so bridges were built
+>   with vmbr2 holding `.119` (not `.53`).
+> - **kube-vm's disk is ~117G real, not the ~50G estimated** (no fresh `fstrim`
+>   today; local-path PVs grew). The restore filled the thin pool to 99.89%; fixed
+>   with `lvextend -l +100%FREE pve/data` (→157G) + `virt-sparsify --in-place`
+>   (→81%). The deferred "shrink to 128G" is now **infeasible**; thin-pool
+>   headroom is a **monitoring item** (trim Prometheus/Loki retention later).
+> - **`efidisk0` dangling ref:** restored config's `efidisk0` shares scsi0's LV —
+>   never `qm set --delete efidisk0` (destroys the root disk); inert under
+>   `bios: seabios`.
+
 Executable runbook for migrating **all of etheirys's guests** onto the new
 **OptiPlex 7050 Micro** and retiring the iMac. This supersedes the rough
 "Cutover checklist" in [`etheirys-retirement.md`](etheirys-retirement.md)
