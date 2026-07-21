@@ -20,7 +20,7 @@ metadata:
   namespace: external-ingress
 subsets:
 - addresses:
-  - ip: 192.168.1.53
+  - ip: 192.168.1.119
   ports:
   - name: https-pve
     port: 8006
