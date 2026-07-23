@@ -1,0 +1,58 @@
+# Values for the gitea-charts/actions chart.
+# Deploys a StatefulSet: act_runner + a privileged Docker-in-Docker sidecar.
+# Externalized here and loaded via the HelmRelease valuesFrom ConfigMap.
+enabled: true
+
+# Registers/connects to the internal Gitea instance on the 200 network
+# (Gitea LXC 192.168.200.52:3000; k3s node is 192.168.200.2). No external
+# round-trip, no dependency on Traefik/Cloudflare for CI to work.
+giteaRootURL: http://192.168.200.52:3000
+
+# Runner registration token — sealed into secrets.yaml (SealedSecret).
+existingSecret: runner-token
+existingSecretKey: runner-token
+
+global:
+  # The chart exposes no per-PVC storageClassName, only this global override.
+  # Node-local, low-latency storage is correct for the runner/DinD scratch
+  # volume; NFS would be wrong here.
+  storageClass: local-path
+
+statefulset:
+  replicas: 1
+  persistence:
+    size: 2Gi
+  runner:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 128Mi
+      limits:
+        memory: 512Mi
+    # act_runner config.yaml. Labels are carried over from the retired
+    # gallifrey docker-compose runner so existing workflows keep matching.
+    config: |
+      log:
+        level: info
+      runner:
+        labels:
+          - "ubuntu-latest:docker://docker.gitea.com/runner-images:ubuntu-latest-slim"
+          - "ubuntu-22.04:docker://docker.gitea.com/runner-images:ubuntu-22.04-slim"
+          - "ubuntu-20.04:docker://docker.gitea.com/runner-images:ubuntu-20.04-slim"
+      cache:
+        enabled: false
+      container:
+        require_docker: true
+        docker_timeout: 300s
+  dind:
+    resources:
+      requests:
+        cpu: 200m
+        memory: 256Mi
+      limits:
+        memory: 2Gi
+    # DinD-over-Flannel-VXLAN fix: cap the docker bridge MTU below the pod
+    # network MTU so job-container network I/O doesn't hang. Suggested by the
+    # chart's own docs.
+    extraArgs:
+      - --mtu=1400
