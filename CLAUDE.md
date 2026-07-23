@@ -164,6 +164,16 @@ If missing, restart k3s: `sudo systemctl restart k3s`
 - **SSH (Flux source):** `ssh://gitea@192.168.200.52/coffeeknife/homelab`
 - **HTTPS API:** `https://git.wrenspace.dev/api/v1` (use for tools like Renovate)
 - **Renovate token scopes:** `read:user`, `read:repository`, `write:repository`, `write:issue`
+- **Actions runner (CI):** runs in-cluster via `apps/infrastructure/gitea-actions`
+  (`gitea-charts/actions` chart — StatefulSet with a privileged DinD sidecar,
+  namespace `gitea-actions`). Registers to Gitea at the internal
+  `http://192.168.200.52:3000` with a **site-wide** registration token sealed
+  into `manifests/secrets.yaml`. Labels: `ubuntu-latest`/`ubuntu-22.04`/`ubuntu-20.04`
+  → `docker://docker.gitea.com/runner-images:*-slim`. **Replaced the manual
+  docker-compose runner on gallifrey 2026-07-23.** To re-register (new token):
+  reseal `secrets.yaml` via `kubeseal --controller-name sealed-secrets-controller
+  --controller-namespace kube-system` and delete the StatefulSet's PVC so the
+  `.runner` file is regenerated.
 
 ## Key Commands
 
@@ -197,7 +207,7 @@ ssh kube-vm  # 192.168.200.2
 ```
 apps/                    # Flux-managed Kubernetes apps (HelmReleases + manifests)
   auth/                  # Authelia (SSO/OIDC) + LLDAP (LDAP directory)
-  infrastructure/        # cert-manager, traefik, metallb, nfs-provisioner, cloudflare-operator, smtp-relay, kube-system (system patches + node-maintenance CronJobs)
+  infrastructure/        # cert-manager, traefik, metallb, nfs-provisioner, cloudflare-operator, smtp-relay, gitea-actions (CI runner), kube-system (system patches + node-maintenance CronJobs)
   database/              # Shared MariaDB
   services/              # User-facing apps (nextcloud, paperless-ngx, home-assistant, immich, grocy, homepage)
   media/                 # jellyfin, arr suite (radarr, sonarr, etc.)
