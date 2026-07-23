@@ -15,7 +15,7 @@ GitOps-first homelab infrastructure for the **wrenspace.dev** domain. Flux CD re
 | amphoreus | Dell OptiPlex | Proxmox VE | Hypervisor — runs OpenMediaVault (NAS); hosts the migrated `birdpool` ZFS pool | 192.168.1.31 |
 | vulcan | Raspberry Pi 4 | Armbian | **Idle / standby** — former NAS; `birdpool` ZFS pool migrated to amphoreus/OMV, awaiting repurpose | 192.168.1.69 |
 | gunsmoke | Raspberry Pi 3B | DietPi | **Decommissioned** — was IoT hub; stacks moved to gallifrey | 192.168.100.2 |
-| gallifrey | Raspberry Pi 4 | NixOS | Docker compose stacks only (zigbee/thread/diun/act-runner, formerly on gunsmoke) — **removed from k3s 2026-07-08** | 192.168.1.54 |
+| gallifrey | Raspberry Pi 4 | NixOS | Docker compose stacks only (zigbee/thread/diun, formerly on gunsmoke) — **removed from k3s 2026-07-08**; act-runner moved into the cluster 2026-07-23 | 192.168.1.54 |
 
 ### Gunsmoke (IoT Hub) — decommissioned
 
@@ -32,9 +32,10 @@ If gunsmoke comes back online for any reason:
 ### Gallifrey (RPi4) — compose host, not a cluster node
 
 Colmena-managed NixOS host (`ssh root@192.168.1.54`) running the Docker
-compose stacks (zigbee/thread/diun/act-runner). **Removed from the k3s
+compose stacks (zigbee/thread/diun). **Removed from the k3s
 cluster 2026-07-08** — it is no longer a node; `kube-vm` is the sole cluster
-node. Its config (`nixos/hosts/gallifrey/default.nix`) no longer imports
+node. The Gitea act-runner compose stack was retired here 2026-07-23 and now
+runs in-cluster as `apps/infrastructure/gitea-actions`. Its config (`nixos/hosts/gallifrey/default.nix`) no longer imports
 `modules/k3s-agent.nix`.
 
 - **Bootloader: stock `generic-extlinux-compatible`, NOT nixos-raspberrypi's

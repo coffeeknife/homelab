@@ -39,8 +39,9 @@
     packages    = with pkgs; [ tree ];
   };
 
-  # Docker runs the host's compose stacks (zigbee, thread, diun, act-runner).
-  # (This node no longer runs k3s — removed 2026-07-08.)
+  # Docker runs the host's compose stacks (zigbee, thread, diun).
+  # (This node no longer runs k3s — removed 2026-07-08. The act-runner stack
+  # moved into the k3s cluster as apps/infrastructure/gitea-actions — 2026-07-23.)
   virtualisation.docker = {
     enable = true;
     # Weekly Docker prune so the SD card doesn't fill up with stopped
