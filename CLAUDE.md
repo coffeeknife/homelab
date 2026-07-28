@@ -70,6 +70,17 @@ cluster (nfs-provisioner dynamic PVCs + the static NFS PVs in `media`,
 - **Storage-class names unchanged:** the `vulcan-nfs` / `vulcan-nfs-strict`
   StorageClasses keep their names for compatibility (baked into ~15 PVCs); only
   the backing `server:` IP changes. Don't rename them.
+- **Networking (added 2026-07-28):** onboard NIC is `nic0` (Proxmox 9 stable
+  naming; the `nic1` stanza in `/etc/network/interfaces` is a leftover for a
+  device that doesn't exist). Bridges mirror tau-ceti's structure over the one
+  trunk port: **vmbr0** (untagged/home, holds host `.31`), **vmbr3** (`nic0.3`,
+  VLAN 3/IoT), **vmbr4** (`nic0.4`, VLAN 4/cluster). The switch port trunks
+  VLANs 3 & 4 tagged + untagged home (verified by pinging `192.168.100.3` and
+  `192.168.200.2` off each bridge). **The home bridge is `vmbr0` here, not
+  `vmbr2` as on tau-ceti** — guest configs are therefore *not* copy-paste
+  portable between the two hypervisors without rewriting `bridge=`. Renaming it
+  would require rewriting the OMV VM's NIC and bouncing the link the cluster's
+  NFS rides on, so it was left alone.
 
 ### Vulcan — idle / standby
 
