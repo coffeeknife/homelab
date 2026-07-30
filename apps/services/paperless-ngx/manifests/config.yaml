@@ -12,6 +12,10 @@ data:
   # file processing
   PAPERLESS_CONSUMER_ENABLE_BARCODES: "true"
   PAPERLESS_CONSUMER_ENABLE_ASN_BARCODE: "true"
+  # v3 stops rejecting duplicates by default; keep the v2 behaviour
+  PAPERLESS_CONSUMER_DELETE_DUPLICATES: "true"
+  # v3 default is "auto" (no archive for born-digital PDFs); v2 always archived
+  PAPERLESS_ARCHIVE_FILE_GENERATION: "always"
   # db
   PAPERLESS_DBHOST: mariadb-port.mariadb-sys.svc.cluster.local
   PAPERLESS_DBENGINE: mariadb
@@ -20,7 +24,7 @@ data:
   PAPERLESS_DBUSER: paperless
   PAPERLESS_DB_READ_CACHE_ENABLED: "true"
   # branding
-  PAPERLESS_APP_TITLE: Yuri Documents
+  PAPERLESS_APP_TITLE: Yaoi Records
   # SSO
   PAPERLESS_APPS: allauth.socialaccount.providers.openid_connect
   PAPERLESS_SOCIAL_AUTO_SIGNUP: "true"
@@ -33,4 +37,6 @@ data:
   PAPERLESS_EMAIL_FROM: Paperless <admin@wrenspace.dev>
   # consume
   PAPERLESS_CONSUMPTION_DIR: ../consume/
-  PAPERLESS_CONSUMER_POLLING: "30"
+  # inotify mode (no PAPERLESS_CONSUMER_POLLING*): consume dir is a local-path
+  # PVC on the node, so kernel watches see vsftpd's writes. v3 replaces the
+  # watcher with watchfiles; CONSUMER_STABILITY_DELAY (5s) covers partial writes.
