@@ -61,7 +61,8 @@ spec:
               memory: 64Mi
             limits:
               cpu: 200m
-              memory: 128Mi
+              # 128Mi OOMKilled the pod 28 times (steady-state ~111Mi).
+              memory: 256Mi
           volumeMounts:
             - name: config
               mountPath: /etc/ntfy
