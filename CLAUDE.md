@@ -70,6 +70,24 @@ cluster (nfs-provisioner dynamic PVCs + the static NFS PVs in `media`,
 - **Storage-class names unchanged:** the `vulcan-nfs` / `vulcan-nfs-strict`
   StorageClasses keep their names for compatibility (baked into ~15 PVCs); only
   the backing `server:` IP changes. Don't rename them.
+- **`birdpool` is a 3-way stripe with NO redundancy** — three single-disk
+  top-level vdevs (7.3T Seagate + 2.7T/3.6T ASMedia, all USB). Losing any one
+  drive loses all 10.8T, including `birdpool/backup`. ZFS will *detect*
+  corruption here but cannot self-heal it: that needs mirror/raidz or
+  `copies=2`. Accepted deliberately (no spare disks).
+- **The 7.3T Seagate (`sdb` in the VM, `sdd` on the host) is SMR and is the
+  pool's write bottleneck** — measured 2026-07-30 at ~356KB written per 8.8s of
+  100% disk-busy time, ~80× slower per byte than its two peers, with ZFS
+  disk-waits in the 1–8s buckets. It's 86.6% full, past the point where SMR
+  band-rewrite thrashes. Symptom in the cluster: `fsync` over NFS taking
+  ~1.5–1.9s, load ~7 at 11% CPU, and probe-kill restart storms that look like
+  a dozen unrelated app bugs (sonarr 818 restarts, redis 45/22, lidarr 84).
+  **Mitigated 2026-07-30 with `zfs set sync=disabled copies=2
+  birdpool/k8s-nfs`** — fsync went 9.7s → 0.028s for five 4K writes. The
+  tradeoff is up to ~5s of PVC writes lost on an unclean OMV crash. Media and
+  photo datasets are untouched at `sync=standard`. To diagnose a recurrence,
+  sample `/proc/diskstats` on amphoreus for 10s and compare `io_ms` across
+  `sd[b-d]` before blaming any individual app.
 - **Networking (added 2026-07-28):** onboard NIC is `nic0` (Proxmox 9 stable
   naming; the `nic1` stanza in `/etc/network/interfaces` is a leftover for a
   device that doesn't exist). Bridges mirror tau-ceti's structure over the one
@@ -104,9 +122,12 @@ depends on the hypervisor's mgmt IP; only docs/ssh aliases referenced `.53`).
 - **AC power recovery must be set in BIOS by hand** (F2 → Power Management →
   AC Recovery → "Power On"). No OS path: `libsmbios` is `/dev/mem`-blocked and
   deprecated, and `dell-wmi-sysman` isn't exposed by the 7050 firmware.
-- **kube-vm GPU passthrough is gone** (the AMD RX560 stayed with etheirys); the
-  `hostpci0` line was stripped, Jellyfin runs software transcode until the host's
-  Intel HD630 QuickSync is passed through later (VM is already `q35`).
+- **kube-vm now has Intel HD630 QuickSync passthrough** — the AMD RX560 stayed
+  with etheirys, but the host's integrated HD630 was subsequently passed through
+  (verified 2026-07-30: `card1`, driver `i915`, PCI `8086:5912`, with
+  `renderD128` visible inside the Jellyfin container). The node label is
+  `gpu=intel`; it lagged at `gpu=amd` for a while, which left Jellyfin
+  unschedulable for 7 days.
 - **Guests all restored with `onboot=1` + startup order** (gitea → mqtt →
   vaultwarden → hass → kube-vm) so a reboot brings the homelab back on its own.
 
@@ -120,7 +141,7 @@ resale; RAM (2×16GB) moved into tau-ceti. See `docs/etheirys-retirement.md`.
 
 | ID | Type | Name | Resources | IP | Role |
 |----|------|------|-----------|-----|------|
-| 202 | VM | kube-vm | 26.6GB, 4 vCPU | 192.168.200.2 | k3s single-node (**no GPU passthrough since 2026-07-18**); 300G thin disk (~117G real) |
+| 202 | VM | kube-vm | 26.6GB, 4 vCPU | 192.168.200.2 | k3s single-node (**Intel HD630 QuickSync passthrough**); 300G thin disk (~117G real) |
 | 100 | LXC | hass | — | 192.168.1.123 | Home Assistant (Debian, host-net; recorder→MariaDB) |
 | 101 | LXC | mqtt | 1 CPU, 512MB | 192.168.100.3 | MQTT broker (IoT network) |
 | 113 | LXC | vaultwarden | 1 CPU, 256MB | 192.168.100.6 | Password manager |
@@ -148,7 +169,7 @@ Single-node k3s cluster (embedded etcd) running on a NixOS VM hosted on **tau-ce
 
 | Node | IP | Resources | Notes |
 |------|-----|-----------|-------|
-| kube-vm | 192.168.200.2 | 26.6GB, 4 vCPU | **No GPU passthrough since 2026-07-18** (AMD RX560 retired with etheirys); Jellyfin on software transcode until Intel HD630 QuickSync is passed through |
+| kube-vm | 192.168.200.2 | 26.6GB, 4 vCPU | **Intel HD630 QuickSync passed through** (AMD RX560 retired with etheirys); node label `gpu=intel` |
 
 - **Kubernetes version:** v1.35.4+k3s1
 - **OS:** NixOS 26.05 (Yarara) — managed via colmena from `nixos/`
