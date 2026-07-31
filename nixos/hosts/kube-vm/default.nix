@@ -20,11 +20,14 @@
   # nodes can join later if needed.
   services.k3s.clusterInit = true;
 
-  # AMD GPU passthrough — label this node so GPU-dependent workloads
-  # (e.g. Jellyfin) can schedule here via nodeAffinity/nodeSelector.
-  services.k3s.extraFlags = [ "--node-label gpu=amd" ];
+  # Intel HD630 QuickSync passthrough — label this node so GPU-dependent
+  # workloads (e.g. Jellyfin) can schedule here via nodeAffinity/nodeSelector.
+  # Was gpu=amd for the RX560 that retired with etheirys 2026-07-18; k3s only
+  # applies --node-label at first registration, so an existing node also needs
+  # `kubectl label node kube-vm gpu=intel --overwrite`.
+  services.k3s.extraFlags = [ "--node-label gpu=intel" ];
 
-  # Polaris 11 (RX 460) requires linux-firmware for polaris11_sdma.bin etc.
+  # linux-firmware for the i915 GuC/HuC blobs (also covered the old Polaris 11).
   hardware.enableRedistributableFirmware = true;
   hardware.graphics.enable = true;
 
