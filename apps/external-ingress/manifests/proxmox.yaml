@@ -4,8 +4,16 @@ kind: Service
 metadata:
   name: pve
   namespace: external-ingress
+  annotations:
+    # Traefik `service.*` annotations belong on the Service, not the Ingress,
+    # and the KubernetesCRD provider registers ServersTransports namespaced as
+    # <namespace>-<name>@kubernetescrd. Get either wrong and the reference is
+    # silently ignored: Traefik falls back to the default transport, which
+    # rejects Proxmox's self-signed cert with a 500 (x509: unknown authority).
+    traefik.ingress.kubernetes.io/service.serverstransport: external-ingress-pve-transport@kubernetescrd
 spec:
   ports:
+  # The `https-` port-name prefix is what makes Traefik speak TLS to the backend.
   - name: https-pve
     port: 8006
     protocol: TCP
@@ -42,10 +50,6 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    # Traefik's KubernetesCRD provider registers ServersTransports namespaced as
-    # <namespace>-<name>@kubernetescrd — without the prefix the reference is
-    # silently ignored and the backend fails TLS verification with a 500.
-    traefik.ingress.kubernetes.io/service.serverstransport: external-ingress-pve-transport@kubernetescrd
 spec:
   tls:
     - hosts:
