@@ -42,7 +42,10 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/service.serverstransport: pve-transport@kubernetescrd
+    # Traefik's KubernetesCRD provider registers ServersTransports namespaced as
+    # <namespace>-<name>@kubernetescrd — without the prefix the reference is
+    # silently ignored and the backend fails TLS verification with a 500.
+    traefik.ingress.kubernetes.io/service.serverstransport: external-ingress-pve-transport@kubernetescrd
 spec:
   tls:
     - hosts:
