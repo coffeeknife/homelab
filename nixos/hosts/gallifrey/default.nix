@@ -44,13 +44,18 @@
   # moved into the k3s cluster as apps/infrastructure/gitea-actions — 2026-07-23.)
   virtualisation.docker = {
     enable = true;
-    # Weekly Docker prune so the SD card doesn't fill up with stopped
-    # containers, dangling images, and orphan volumes from the compose
-    # stacks. Only keeps content used in the last 168h.
+    # Weekly Docker prune so the disk doesn't fill up with stopped
+    # containers and unused images from the compose stacks. Only keeps
+    # content used in the last 168h.
+    #
+    # Do NOT add "--volumes" here: docker rejects `--volumes` combined with
+    # a `--filter until=`, so the unit exits 1 and prunes *nothing*. That
+    # bug silently disabled pruning entirely until 2026-08-04. Orphan
+    # volumes need a separate unfiltered `docker volume prune`.
     autoPrune = {
       enable = true;
       dates  = "Sun *-*-* 03:00:00";
-      flags  = [ "--all" "--volumes" "--filter" "until=168h" ];
+      flags  = [ "--all" "--filter" "until=168h" ];
     };
   };
 
