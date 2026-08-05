@@ -64,10 +64,17 @@ kind: Service
 metadata:
   name: vsftpd
   namespace: paperless
+  annotations:
+    # Pinned so the FTP endpoint can't drift on reallocation. Previously this
+    # Service also carried `externalIPs: [192.168.200.102]`, which is the
+    # Kubernetes API VIP — removed 2026-08-04. FTP now lives on .101 only.
+    metallb.io/loadBalancerIPs: 192.168.200.101
+  labels:
+    app.kubernetes.io/name: paperless
+    app.kubernetes.io/part-of: services
+    app.kubernetes.io/component: ftp
 spec:
   type: LoadBalancer
-  externalIPs:
-    - 192.168.200.102
   selector:
     app: vsftpd
   ports:
