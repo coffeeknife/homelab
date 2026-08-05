@@ -139,19 +139,46 @@ resale; RAM (2×16GB) moved into tau-ceti. See `docs/etheirys-retirement.md`.
 
 ### Proxmox VMs/LXCs on tau-ceti
 
+IDs verified against `pct list` / `qm list` on 2026-08-05. Boot order is
+`startup:` gitea(1) → mqtt(2) → vaultwarden(3) → hass(4) → kube-vm(5), all `onboot=1`.
+
 | ID | Type | Name | Resources | IP | Role |
 |----|------|------|-----------|-----|------|
-| 202 | VM | kube-vm | 26.6GB, 4 vCPU | 192.168.200.2 | k3s single-node (**Intel HD630 QuickSync passthrough**); 300G thin disk (~117G real) |
-| 100 | LXC | hass | — | 192.168.1.123 | Home Assistant (Debian, host-net; recorder→MariaDB) |
-| 101 | LXC | mqtt | 1 CPU, 512MB | 192.168.100.3 | MQTT broker (IoT network) |
+| 200 | VM | kube-vm | 26.6GB, 4 vCPU | 192.168.200.2 | k3s single-node (**Intel HD630 QuickSync passthrough**, `hostpci0: 0000:00:02.0`); 300G thin disk (~117G real) |
+| 110 | LXC | hass | 1 CPU, 4GB | 192.168.1.123 | Home Assistant (Debian Docker LXC, `vmbr2`; recorder→MariaDB). **ConBee II passed through — see below** |
+| 111 | LXC | mqtt | 1 CPU, 512MB | 192.168.100.3 | MQTT broker (IoT network) |
+| 112 | LXC | gitea | 1 CPU, 1GB | 192.168.200.52 | Git server (Flux source) |
 | 113 | LXC | vaultwarden | 1 CPU, 256MB | 192.168.100.6 | Password manager |
-| 124 | LXC | gitea | 1 CPU, 1GB | 192.168.200.52 | Git server (Flux source) |
 
-> **Restore caveat — kube-vm's `efidisk0`:** the restored config has a dangling
-> `efidisk0` pointing at the *same* LV as `scsi0` (`vm-202-disk-0`). It's inert
-> because the VM is `bios: seabios`. **Never `qm set 202 --delete efidisk0`** — it
-> would remove the shared LV and destroy the root disk. Clean it (if ever) only by
-> editing `/etc/pve/qemu-server/202.conf` directly.
+> **kube-vm's cloud-init IP is misleading:** `200.conf` carries
+> `ipconfig0: ip=192.168.200.4/24`, but NixOS sets its own static address and the
+> node is really **192.168.200.2** (confirm with `kubectl get nodes -o wide`).
+> The cloud-init value is vestigial — don't "fix" the docs to match it.
+
+> **The dangling `efidisk0` caveat no longer applies** (verified 2026-08-05):
+> VM 200's config has no `efidisk0` line, and `lvs` shows only `vm-200-disk-0`
+> plus `vm-200-cloudinit`. The earlier warning described the restore-era config
+> under the old VMID and is kept here only so the absence isn't re-investigated.
+
+#### ConBee II passthrough (LXC 110)
+
+The Zigbee coordinator is passed to HA via **PVE 9 native device passthrough**,
+not the older manual cgroup+mount lines:
+
+```
+dev0: /dev/ttyACM0,mode=0666
+```
+
+**Never restore the `lxc.mount.entry: /dev/ttyACM0 ... bind,optional,create=file`
+form.** When the stick re-enumerates, that bind goes stale and `optional,create=file`
+makes LXC silently create an empty 000-perm placeholder — HA then fails to start
+with `error creating device nodes ... no such file or directory`, which looks like
+dead hardware but isn't. Tell: host shows `crw-rw-rw- root dialout`, container
+shows `c--------- nobody nogroup`. Fix is `pct reboot 110`.
+
+Host `/etc/udev/rules.d/99-conbee.rules` also disables USB autosuspend for
+`1cf1:0030` and hot re-attaches the device with `lxc-device -n 110 add` on
+re-enumeration, so the stack self-heals.
 
 ### Vaultwarden LXC (113)
 
@@ -174,7 +201,7 @@ Single-node k3s cluster (embedded etcd) running on a NixOS VM hosted on **tau-ce
 - **Kubernetes version:** v1.35.4+k3s1
 - **OS:** NixOS 26.05 (Yarara) — managed via colmena from `nixos/`
 - **CNI:** Flannel (k3s embedded, VXLAN backend, VNI 1)
-- **Container runtime:** containerd 2.1.5-k3s1
+- **Container runtime:** containerd 2.2.3-k3s1
 - **MetalLB IP range:** 192.168.200.100–192.168.200.254
 - **Kubernetes API VIP:** 192.168.200.102 (MetalLB)
 - **Storage classes:** `vulcan-nfs` (default), `vulcan-nfs-strict`, `local-path`
