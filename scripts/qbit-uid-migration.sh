@@ -65,8 +65,14 @@ ssh -t "$OMV_HOST" "sudo chown -R 1000:1000 '$DOWNLOADS' && sudo chmod -R u+rwX,
 echo "==> 3b. Ownership AFTER"
 ssh "$OMV_HOST" "find '$DOWNLOADS' -maxdepth 2 -printf '%u:%g\n' | sort | uniq -c | sort -rn"
 
-echo "==> 4. Scaling $DEPLOY back to 1"
-kubectl scale deploy -n "$NS" "$DEPLOY" --replicas=1
+echo "==> 4. Reconciling the HelmRelease to bring qbit back as uid 1000"
+# NOT `kubectl scale --replicas=1`. The ConfigMap carrying the new PUID lands as
+# soon as the arr-stack Kustomization applies, but the Deployment spec only
+# picks it up when the HelmRelease re-renders -- so a plain scale-up would
+# restart the pod with the OLD PUID 0 and immediately re-create root-owned
+# directories, undoing the chown above. Reconciling the HelmRelease re-renders
+# the Deployment (new env) and restores replicas to 1 in one step.
+flux reconcile helmrelease qbittorrent -n "$NS" --force
 kubectl rollout status deploy -n "$NS" "$DEPLOY" --timeout=300s
 
 echo "==> 5. Verifying qbittorrent now runs as uid 1000"
