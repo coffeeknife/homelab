@@ -4,6 +4,29 @@ qbittorrent:
     requests:
       cpu: 50m
       memory: 256Mi
+  # Must match the arr apps' PUID/PGID (1000/1000, set by the LinuxServer
+  # images in values.arr.yaml). qbittorrent and the arr apps share the same NFS
+  # export (/mnt/birdpool/jellyfin/media at /data). The chart defaults to
+  # PUID/PGID 0 with an unset UMASK, so qbit created release dirs as
+  # root:root 0755 — the arr apps (uid 1000) could copy the file into the
+  # library but could not unlink the source, since deleting needs write
+  # permission on the *containing* directory. Every import then failed and
+  # retried forever, re-copying multi-GB files onto the SMR-backed media
+  # dataset. UMASK 002 keeps new dirs group-writable.
+  # NOTE: this list REPLACES the chart's env wholesale — TZ and WEBUI_PORT are
+  # restated deliberately; dropping them breaks the port-sync sidecar, which
+  # curls localhost:8080.
+  env:
+    - name: PUID
+      value: "1000"
+    - name: PGID
+      value: "1000"
+    - name: UMASK
+      value: "002"
+    - name: TZ
+      value: "UTC"
+    - name: WEBUI_PORT
+      value: "8080"
   persistence:
     config:
       existingClaim: arr-stack-qbittorrent-config-nfs
