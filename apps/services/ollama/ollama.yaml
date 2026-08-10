@@ -4,6 +4,11 @@ metadata:
   name: ollama
   namespace: flux-system
 spec:
+  # Suspended 2026-08-10: the deployment is pinned to the AMD RX560 that was
+  # retired with etheirys 2026-07-18 (see deployment.yaml). Left suspended so
+  # the health check stops timing out every ~20m. Re-enable once ollama is
+  # repointed at real GPU hardware.
+  suspend: true
   interval: 10m
   sourceRef:
     kind: GitRepository

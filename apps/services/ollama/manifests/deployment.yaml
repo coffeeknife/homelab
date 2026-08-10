@@ -7,7 +7,13 @@ metadata:
     app.kubernetes.io/name: ollama
     app.kubernetes.io/part-of: services
 spec:
-  replicas: 1
+  # Scaled to 0 on 2026-08-10. This pod cannot run on the current node: the
+  # image, OLLAMA_VULKAN and the /dev/kfd mount below all target the AMD
+  # RX560 (Polaris/gfx803) that was retired with etheirys 2026-07-18. kube-vm
+  # now has an Intel HD630, which has no /dev/kfd. Before scaling back up,
+  # replace the image and drop the AMD-specific bits — flipping the
+  # `gpu` nodeSelector alone is not enough.
+  replicas: 0
   strategy:
     type: Recreate
   selector:
