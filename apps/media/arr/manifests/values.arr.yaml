@@ -309,7 +309,7 @@ cleanuparr:
       cpu: 100m
   image:
     repository: ghcr.io/cleanuparr/cleanuparr
-    tag: 2.10.3
+    tag: 2.10.4
   env:
     TZ: America/Chicago
   ingress:
