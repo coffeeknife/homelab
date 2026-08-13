@@ -59,10 +59,10 @@ spec:
               value: "30"
             - name: GRACE_CYCLES
               value: "2"
-            # Start in observe-only mode: logs every decision, calls nothing.
-            # Flip to "false" once the logs confirm start/stop detection.
+            # Observe-only mode: logs every decision, calls nothing. Set to
+            # "true" to debug detection without touching torrents.
             - name: DRY_RUN
-              value: "true"
+              value: "false"
           envFrom:
             # supplies QBITTORRENT_USER / QBITTORRENT_PASS
             - secretRef:
