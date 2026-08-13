@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stream-guard
+  namespace: arr-stack
+  labels:
+    app: stream-guard
+    app.kubernetes.io/name: stream-guard
+    app.kubernetes.io/part-of: media
+  annotations:
+    # The script ships in a ConfigMap with disableNameSuffixHash, so edits do
+    # not change the resource name and would otherwise never roll the pod.
+    configmap.reloader.stakater.com/reload: stream-guard-script
+    secret.reloader.stakater.com/reload: stream-guard-jellyfin,qbit-auth
+spec:
+  replicas: 1
+  # Recreate, never RollingUpdate: two guards running at once would fight,
+  # one resuming tagged torrents while the other stops them.
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: stream-guard
+  template:
+    metadata:
+      labels:
+        app: stream-guard
+        app.kubernetes.io/name: stream-guard
+        app.kubernetes.io/part-of: media
+    spec:
+      # The SIGTERM handler resumes tagged torrents before exiting; give it
+      # room to finish both qbittorrent calls.
+      terminationGracePeriodSeconds: 30
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+      containers:
+        - name: stream-guard
+          image: python:3.14.7-alpine
+          imagePullPolicy: IfNotPresent
+          command: ["python3", "-u", "/app/stream-guard.py"]
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          env:
+            - name: JELLYFIN_URL
+              value: "http://jellyfin.jellyfin.svc.cluster.local:8096"
+            - name: QBIT_URL
+              value: "http://qbittorrent-vpn.arr-stack.svc.cluster.local:8080"
+            - name: JELLYFIN_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: stream-guard-jellyfin
+                  key: JELLYFIN_TOKEN
+            - name: INTERVAL_SECONDS
+              value: "30"
+            - name: GRACE_CYCLES
+              value: "2"
+            # Start in observe-only mode: logs every decision, calls nothing.
+            # Flip to "false" once the logs confirm start/stop detection.
+            - name: DRY_RUN
+              value: "true"
+          envFrom:
+            # supplies QBITTORRENT_USER / QBITTORRENT_PASS
+            - secretRef:
+                name: qbit-auth
+          volumeMounts:
+            - name: script
+              mountPath: /app
+              readOnly: true
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+      volumes:
+        - name: script
+          configMap:
+            name: stream-guard-script

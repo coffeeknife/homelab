@@ -8,6 +8,7 @@ resources:
   - pvcs.yaml
   - unpackerr.yaml
   - lidatube.yaml
+  - stream-guard.yaml
   - qbittorrent-helmrelease.yaml
   - organizr-helmrelease.yaml
   - arr-helmrelease.yaml
@@ -29,5 +30,11 @@ configMapGenerator:
     namespace: arr-stack
     files:
       - values.organizr.yaml
+    options:
+      disableNameSuffixHash: true
+  - name: stream-guard-script
+    namespace: arr-stack
+    files:
+      - stream-guard.py
     options:
       disableNameSuffixHash: true
