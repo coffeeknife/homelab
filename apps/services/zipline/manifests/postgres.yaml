@@ -1,0 +1,107 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zipline-postgres-data
+  namespace: zipline
+  labels:
+    app.kubernetes.io/name: zipline
+    app.kubernetes.io/part-of: services
+    app.kubernetes.io/component: database
+spec:
+  accessModes:
+    - ReadWriteOnce
+  # local-path per CLAUDE.md: databases stay off the NFS/SMR path
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipline-postgres
+  namespace: zipline
+  labels:
+    app: zipline-postgres
+    app.kubernetes.io/name: zipline
+    app.kubernetes.io/part-of: services
+    app.kubernetes.io/component: database
+spec:
+  type: ClusterIP
+  selector:
+    app: zipline-postgres
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+      name: postgres
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zipline-postgres
+  namespace: zipline
+  labels:
+    app: zipline-postgres
+    app.kubernetes.io/name: zipline
+    app.kubernetes.io/part-of: services
+    app.kubernetes.io/component: database
+  annotations:
+    secret.reloader.stakater.com/reload: "zipline-creds"
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: zipline-postgres
+  template:
+    metadata:
+      labels:
+        app: zipline-postgres
+        app.kubernetes.io/name: zipline
+        app.kubernetes.io/part-of: services
+        app.kubernetes.io/component: database
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17.11-alpine
+          ports:
+            - containerPort: 5432
+              name: postgres
+          env:
+            - name: POSTGRES_USER
+              value: "zipline"
+            - name: POSTGRES_DB
+              value: "zipline"
+            - name: PGDATA
+              value: "/var/lib/postgresql/data/pgdata"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: zipline-creds
+                  key: postgres
+          readinessProbe:
+            exec:
+              command: ["pg_isready", "-U", "zipline", "-d", "zipline"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command: ["pg_isready", "-U", "zipline", "-d", "zipline"]
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1Gi"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: zipline-postgres-data

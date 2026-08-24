@@ -1,0 +1,22 @@
+# Public exposure for i.wrenspace.dev via the shared cloudflared ClusterTunnel.
+# Deliberately NOT listed in kustomization.yaml until the first-run setup wizard
+# has been completed over the LAN — Zipline ships with no default account and
+# hands the super-admin slot to whoever reaches /setup first, and the
+# cert-manager certificate publishes the hostname to CT logs within minutes.
+# Add `- tunnelbinding.yaml` to kustomization.yaml once the admin user exists.
+apiVersion: networking.cfargotunnel.com/v1alpha1
+kind: TunnelBinding
+metadata:
+  name: zipline-binding
+  namespace: zipline
+subjects:
+  - kind: Service # Default
+    name: zipline
+    spec:
+      fqdn: i.wrenspace.dev
+      protocol: https
+      target: http://zipline.zipline.svc.cluster.local:3000
+tunnelRef:
+  kind: ClusterTunnel # Or ClusterTunnel
+  name: cluster-tunnel
+  disableDNSUpdates: false

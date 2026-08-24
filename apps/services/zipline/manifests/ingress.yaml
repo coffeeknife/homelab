@@ -1,0 +1,38 @@
+# LAN path: *.wrenspace.dev resolves to Traefik on 192.168.200.100 internally.
+# The public path is the Cloudflare tunnel (tunnelbinding.yaml), which hits the
+# Service directly and does not pass through this Ingress.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zipline
+  namespace: zipline
+  labels:
+    app.kubernetes.io/name: zipline
+    app.kubernetes.io/part-of: services
+  annotations:
+    cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: "Zipline"
+    gethomepage.dev/group: "Services"
+    gethomepage.dev/icon: "zipline"
+    gethomepage.dev/description: "Image pastebin"
+    gethomepage.dev/href: "https://i.wrenspace.dev"
+    gethomepage.dev/weight: "40"
+spec:
+  rules:
+    - host: i.wrenspace.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: zipline
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - i.wrenspace.dev
+      secretName: zipline-tls-cert

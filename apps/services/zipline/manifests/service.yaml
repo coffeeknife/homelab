@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zipline
+  namespace: zipline
+  labels:
+    app: zipline
+    app.kubernetes.io/name: zipline
+    app.kubernetes.io/part-of: services
+spec:
+  type: ClusterIP
+  selector:
+    app: zipline
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      name: http

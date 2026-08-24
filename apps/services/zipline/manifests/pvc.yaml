@@ -1,0 +1,18 @@
+# Uploaded files. NFS-backed (birdpool on OMV) so uploads survive the node and
+# are visible to the usual backup path; onDelete=retain guards against an
+# accidental PVC removal taking the images with it.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zipline-uploads
+  namespace: zipline
+  labels:
+    app.kubernetes.io/name: zipline
+    app.kubernetes.io/part-of: services
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: vulcan-nfs
+  resources:
+    requests:
+      storage: 50Gi

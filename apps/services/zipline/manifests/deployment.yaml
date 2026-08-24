@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zipline
+  namespace: zipline
+  labels:
+    app: zipline
+    app.kubernetes.io/name: zipline
+    app.kubernetes.io/part-of: services
+    app.kubernetes.io/component: server
+  annotations:
+    secret.reloader.stakater.com/reload: "zipline-creds"
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: zipline
+  template:
+    metadata:
+      labels:
+        app: zipline
+        app.kubernetes.io/name: zipline
+        app.kubernetes.io/part-of: services
+        app.kubernetes.io/component: server
+    spec:
+      containers:
+        - name: zipline
+          image: ghcr.io/diced/zipline:4.7.0
+          ports:
+            - containerPort: 3000
+              name: http
+          env:
+            - name: CORE_PORT
+              value: "3000"
+            - name: CORE_HOSTNAME
+              value: "0.0.0.0"
+            - name: CORE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: zipline-creds
+                  key: core-secret
+            # Individual DATABASE_* components rather than DATABASE_URL, so the
+            # generated password never has to be string-concatenated in here.
+            - name: DATABASE_HOST
+              value: "zipline-postgres.zipline.svc.cluster.local"
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_NAME
+              value: "zipline"
+            - name: DATABASE_USERNAME
+              value: "zipline"
+            - name: DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: zipline-creds
+                  key: postgres
+            - name: DATASOURCE_TYPE
+              value: "local"
+            - name: DATASOURCE_LOCAL_DIRECTORY
+              value: "/zipline/uploads"
+          startupProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            failureThreshold: 30
+          readinessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: http
+            periodSeconds: 15
+          livenessProbe:
+            httpGet:
+              path: /api/healthcheck
+              port: http
+            periodSeconds: 30
+            failureThreshold: 5
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+            limits:
+              cpu: "2000m"
+              memory: "2Gi"
+          volumeMounts:
+            - mountPath: /zipline/uploads
+              name: uploads
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: zipline-uploads

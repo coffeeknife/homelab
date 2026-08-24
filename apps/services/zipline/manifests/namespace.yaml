@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: zipline
+  labels:
+    name: zipline
+    app.kubernetes.io/name: zipline
+    app.kubernetes.io/part-of: services

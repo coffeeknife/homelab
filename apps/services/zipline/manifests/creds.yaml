@@ -1,0 +1,16 @@
+# Both values are generated in-cluster by the mittwald secret-generator so no
+# plaintext credential ever lands in git.
+#   postgres    - password for the zipline postgres role
+#   core-secret - signs Zipline session cookies; rotating it logs everyone out
+apiVersion: v1
+kind: Secret
+metadata:
+  name: zipline-creds
+  namespace: zipline
+  labels:
+    app.kubernetes.io/name: zipline
+    app.kubernetes.io/part-of: services
+  annotations:
+    secret-generator.v1.mittwald.de/autogenerate: postgres,core-secret
+    secret-generator.v1.mittwald.de/length: "64"
+    secret-generator.v1.mittwald.de/encoding: base64url
