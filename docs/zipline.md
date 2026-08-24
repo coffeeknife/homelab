@@ -12,15 +12,17 @@ the super administrator. cert-manager publishes `i.wrenspace.dev` to Certificate
 Transparency logs within minutes of issuance, so a fresh instance that is public
 before setup is a real (if brief) exposure.
 
-So `manifests/tunnelbinding.yaml` is committed but deliberately **not** listed in
-`manifests/kustomization.yaml`:
+So `manifests/tunnelbinding.yaml` was committed but deliberately left out of
+`manifests/kustomization.yaml` until the account existed (done 2026-08-23 — the
+binding is active now). Repeat this order for any rebuild from scratch:
 
 1. Deploy the app. It is reachable on the LAN only, at `https://i.wrenspace.dev`
    (internal wildcard DNS → Traefik at `192.168.200.100`).
 2. Complete the setup wizard, creating the admin user.
 3. Add `- tunnelbinding.yaml` to `manifests/kustomization.yaml`, commit, push.
    The cloudflared ClusterTunnel then serves the hostname publicly and manages
-   the Cloudflare DNS record.
+   the Cloudflare DNS record. LAN clients keep resolving to Traefik via the
+   internal wildcard, so both paths stay live.
 
 Check which mode you're in: `curl -s https://i.wrenspace.dev/api/setup` returns
 `{"firstSetup":true}` while the admin account still does not exist.

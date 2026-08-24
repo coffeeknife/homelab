@@ -1,9 +1,8 @@
 # Public exposure for i.wrenspace.dev via the shared cloudflared ClusterTunnel.
-# Deliberately NOT listed in kustomization.yaml until the first-run setup wizard
-# has been completed over the LAN — Zipline ships with no default account and
-# hands the super-admin slot to whoever reaches /setup first, and the
-# cert-manager certificate publishes the hostname to CT logs within minutes.
-# Add `- tunnelbinding.yaml` to kustomization.yaml once the admin user exists.
+# Activated 2026-08-23, after the first-run setup wizard was completed over the
+# LAN — Zipline ships with no default account and hands the super-admin slot to
+# whoever reaches /auth/setup first, so it must not be public before then.
+# cloudflared hits the Service directly; this path does not traverse Traefik.
 apiVersion: networking.cfargotunnel.com/v1alpha1
 kind: TunnelBinding
 metadata:
