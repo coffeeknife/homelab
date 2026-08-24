@@ -96,13 +96,6 @@ config:
             description: Password manager
             siteMonitor: https://vault.wrenspace.dev
             weight: 70
-    - Services:
-        - Zigbee2MQTT:
-            href: https://iot.wrenspace.dev
-            icon: zigbee2mqtt
-            description: Zigbee bridge
-            siteMonitor: https://iot.wrenspace.dev
-            weight: 70
   
   widgets:
     - kubernetes:
