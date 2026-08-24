@@ -6,6 +6,7 @@ namespace: monitoring
 resources:
   - helmrelease.yaml
   - oauth-secret.yaml
+  - admin-secret.yaml
 
 commonLabels:
   app: grafana

@@ -45,7 +45,12 @@ ingress:
         - grafana.wrenspace.dev
       secretName: grafana-tls
 
-adminPassword: changeme
+# Local admin credentials come from the grafana-admin Secret (admin-secret.yaml);
+# the password is generated in-cluster by secret-generator, never stored in git.
+admin:
+  existingSecret: grafana-admin
+  userKey: admin-user
+  passwordKey: admin-password
 
 datasources:
   datasources.yaml:
