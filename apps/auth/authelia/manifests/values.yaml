@@ -191,7 +191,10 @@ configMap:
           userinfo_signed_response_alg: 'none'
           token_endpoint_auth_method: 'client_secret_post'
 
-        # jellyfin - config per official Authelia docs
+        # jellyfin
+        # SSO-Auth plugin >=4.0.0.0 uses Duende OidcClient, which defaults to
+        # ClientCredentialStyle.AuthorizationHeader (basic) for BOTH the PAR and
+        # token endpoints. Do not set this back to client_secret_post.
         - client_id: 'jellyfin'
           client_name: 'jellyfin'
           client_secret: { path: /secrets/client-secrets/jellyfin.secret.txt }
@@ -211,7 +214,7 @@ configMap:
             - 'authorization_code'
           access_token_signed_response_alg: 'none'
           userinfo_signed_response_alg: 'none'
-          token_endpoint_auth_method: 'client_secret_post'
+          token_endpoint_auth_method: 'client_secret_basic'
 
         # grafana
         - client_id: 'grafana'
