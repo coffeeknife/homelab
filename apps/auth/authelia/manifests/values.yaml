@@ -192,9 +192,16 @@ configMap:
           token_endpoint_auth_method: 'client_secret_post'
 
         # jellyfin
-        # SSO-Auth plugin >=4.0.0.0 uses Duende OidcClient, which defaults to
-        # ClientCredentialStyle.AuthorizationHeader (basic) for BOTH the PAR and
-        # token endpoints. Do not set this back to client_secret_post.
+        # The SSO-Auth plugin authenticates with DIFFERENT methods per endpoint:
+        # client_secret_basic at the PAR endpoint (IdentityModel's
+        # AuthorizationHeader default) but client_secret_post at the token
+        # endpoint (OidcClientOptions' PostBody default). Authelia enforces the
+        # single token_endpoint_auth_method at BOTH endpoints -- its
+        # pushed_authorization_request_endpoint_auth_method is not honoured for
+        # this -- so no value here can satisfy both. PAR is therefore disabled
+        # on the plugin side (Jellyfin plugin option DisablePushedAuthorization
+        # = true), leaving only the token endpoint, which needs post.
+        # Flipping this to client_secret_basic breaks login at /api/oidc/token.
         - client_id: 'jellyfin'
           client_name: 'jellyfin'
           client_secret: { path: /secrets/client-secrets/jellyfin.secret.txt }
@@ -214,7 +221,7 @@ configMap:
             - 'authorization_code'
           access_token_signed_response_alg: 'none'
           userinfo_signed_response_alg: 'none'
-          token_endpoint_auth_method: 'client_secret_basic'
+          token_endpoint_auth_method: 'client_secret_post'
 
         # grafana
         - client_id: 'grafana'
