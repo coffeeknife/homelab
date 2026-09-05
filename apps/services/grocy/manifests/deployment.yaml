@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
       - name: grocy
-        image: lscr.io/linuxserver/grocy:4.6.0
+        image: lscr.io/linuxserver/grocy:4.7.1
         resources:
           requests:
             memory: "128Mi"
