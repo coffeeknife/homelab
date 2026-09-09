@@ -5,6 +5,7 @@ resources:
   - namespace.yaml
   - middlewares.yaml
   - helmrelease.yaml
+  - external-rbac.yaml
 
 configMapGenerator:
   - name: traefik-values
