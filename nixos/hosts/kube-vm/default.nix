@@ -27,6 +27,18 @@
   # `kubectl label node kube-vm gpu=intel --overwrite`.
   services.k3s.extraFlags = [ "--node-label gpu=intel" ];
 
+  # Advertises the pod (10.42.0.0/16) and service (10.43.0.0/16) CIDRs as
+  # Tailscale subnet routes so the external traefik LXC can reach in-cluster
+  # backends without a route on the physical network. Route approval and the
+  # ACL restricting which node may actually use the routes both happen in the
+  # Tailscale admin console/policy file, not here.
+  # One-time manual step after this is deployed (needs interactive login):
+  #   sudo tailscale up --advertise-routes=10.42.0.0/16,10.43.0.0/16 --accept-dns=false --hostname=kube-vm
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "server";
+  };
+
   # linux-firmware for the i915 GuC/HuC blobs (also covered the old Polaris 11).
   hardware.enableRedistributableFirmware = true;
   hardware.graphics.enable = true;
