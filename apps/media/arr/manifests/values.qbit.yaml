@@ -134,6 +134,7 @@ ingress:
   className: traefik
   annotations:
     cert-manager.io/cluster-issuer: cert-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd,arr-stack-arr-frames@kubernetescrd
     # homepage
     gethomepage.dev/enabled: "true"

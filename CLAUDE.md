@@ -182,13 +182,13 @@ re-enumeration, so the stack self-heals.
 
 ### Vaultwarden LXC (113)
 
-Alpine Linux, OpenRC (no systemd). Fronted by Traefik via `apps/external-ingress/manifests/vaultwarden.yaml` (Endpoints hard-codes `192.168.100.6:8000`).
+Alpine Linux, OpenRC (no systemd). Fronted by the external Traefik LXC (routes to non-cluster backends are configured there directly, not via in-cluster Ingress manifests — see **Ingress** under Architecture Details below).
 
 - **Config:** `/etc/conf.d/vaultwarden` (env-style `export KEY=value`). `DOMAIN` **must** match the public hostname (`https://vault.wrenspace.dev`); built-in CORS only echoes back `Origin` when it equals `DOMAIN` or `file://`, and email/WebAuthn URLs are derived from it.
 - **Data:** `/var/lib/vaultwarden/db.sqlite3`. Service: `rc-service vaultwarden {start,stop,restart,status}`.
 - **Logs:** the OpenRC service doesn't set `output_log`, so stdout/stderr → `/dev/null`. `/var/log/vaultwarden/*.log` are stale (last write Dec 2024). To get live logs, edit the openrc service or run vaultwarden under a foreground supervisor.
 - **Pinned to Alpine edge:** `vaultwarden` and `vaultwarden-web-vault` are tagged `@edge` in `/etc/apk/world` (repo line `@edge http://dl-cdn.alpinelinux.org/alpine/edge/community` in `/etc/apk/repositories`). Alpine stable lags Bitwarden client releases — pre-1.36 missed `/identity/accounts/prelogin/password` and broke extension login. `apk upgrade` will only pull edge for those two tagged packages.
-- **Extension CORS:** Vaultwarden refuses to echo extension origins (`moz-extension://`, `chrome-extension://`) because they don't match `DOMAIN`. The `vaultwarden-cors` Traefik middleware in the Ingress manifest injects `Access-Control-Allow-Origin` for those — do not remove it.
+- **Extension CORS:** Vaultwarden refuses to echo extension origins (`moz-extension://`, `chrome-extension://`) because they don't match `DOMAIN`. The external Traefik LXC's config for `vault.wrenspace.dev` must inject `Access-Control-Allow-Origin` for those — do not remove it when editing that config.
 
 ## Kubernetes Cluster
 
@@ -271,7 +271,6 @@ apps/                    # Flux-managed Kubernetes apps (HelmReleases + manifest
   services/              # User-facing apps (nextcloud, paperless-ngx, home-assistant, immich, grocy, homepage)
   media/                 # jellyfin, arr suite (radarr, sonarr, etc.)
   monitoring/            # prometheus, grafana, loki, apprise
-  external-ingress/      # External DNS/routing
   helm-repos.yaml        # All HelmRepository definitions
 flux-system/             # Flux CD bootstrap (gotk-sync.yaml, gotk-components.yaml)
 nixos/                   # NixOS configuration for k3s cluster nodes (deployed via colmena)
@@ -363,7 +362,7 @@ Labels are partially implemented. When modifying existing resources, add missing
 
 **Authentication chain:** LLDAP (user directory) → Authelia (SSO/OIDC/2FA/forward-auth) → apps. Multiple services use Authelia as their OIDC provider (Nextcloud, Paperless, Home Assistant, Jellyfin, Grafana, Immich).
 
-**Ingress:** Traefik as ingress controller with cert-manager for automated TLS. Apps use Traefik middleware for forward auth (Authelia) and security headers.
+**Ingress:** Traefik runs **outside the cluster** (an LXC, not an in-cluster HelmRelease/pod) and reaches in-cluster backends over a Tailscale tunnel while consuming Kubernetes `Ingress`/`IngressRoute` objects and their annotations directly via the Kubernetes API — `apps/infrastructure/traefik/manifests/` now only holds the `IngressClass`, shared `Middleware` CRDs, and the RBAC the off-cluster Traefik authenticates with (no `HelmRelease`, no Traefik pod). cert-manager still issues TLS certs for the `Ingress` objects in-repo. Apps use Traefik middleware for forward auth (Authelia) and security headers. Routes to backends that live entirely outside the cluster (gitea, vaultwarden, home-assistant, proxmox — all LXCs/hosts on the LAN) are configured directly on the external Traefik LXC rather than via in-cluster `Ingress` manifests (the old `apps/external-ingress/` category was removed for this reason). Full writeup: `docs/traefik-external-migration.md`.
 
 **Storage:** NFS provisioner backed by **OpenMediaVault on amphoreus** (`192.168.1.117`, `birdpool` ZFS pool over NFS) is the default storage class (`vulcan-nfs`). The `vulcan-nfs*` names are retained for compatibility — the backend moved off vulcan to OMV but the class names stayed (see the NAS section above). Three storage classes are available:
 - `vulcan-nfs` (default) — general-purpose, retain-on-delete, noatime mount; use for app config/data

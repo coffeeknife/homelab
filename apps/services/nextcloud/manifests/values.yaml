@@ -142,6 +142,7 @@ collabora:
     annotations:
       cert-manager.io/cluster-issuer: cert-issuer
       kubernetes.io/ingress.class: "traefik"
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
     hosts:
       - host: docs.wrenspace.dev
         paths:

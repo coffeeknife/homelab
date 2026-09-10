@@ -17,7 +17,7 @@ Every app is **two layers**:
    kustomize `kustomization.yaml`.
 
 `<category>` is one of: `infrastructure`, `auth`, `database`, `services`, `media`,
-`monitoring`, `external-ingress`.
+`monitoring`.
 
 ## Files to create
 
