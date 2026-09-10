@@ -93,16 +93,33 @@ fix is on the Traefik LXC side, not in this repo.
 
 ## What did *not* change
 
-- **cert-manager** still issues/renews TLS certs for the `Ingress` objects
-  that remain in this repo (the cluster-native apps) — external Traefik just
-  reads those `Ingress` objects and their `cert-manager.io/cluster-issuer`
-  annotation the same as before; it doesn't do its own ACME.
 - **Cloudflare Tunnel** (`cloudflare-operator`, `TunnelBinding` CRs) is a
   fully separate public-ingress path for `auth.wrenspace.dev`,
   `drive.wrenspace.dev`, `docs.wrenspace.dev`, and `i.wrenspace.dev` —
   `cloudflared` targets those Kubernetes `Service`s **directly** and does not
   traverse Traefik at all, in or out of cluster. Don't assume every public
   hostname goes through traefik-lxc.
+
+## In-cluster TLS/cert-manager also removed (2026-09-10)
+
+TLS termination for `*.wrenspace.dev` now happens entirely on traefik-lxc, so
+the per-app `cert-manager.io/cluster-issuer` annotation and `tls:` block
+(secretName + hosts) were stripped from **every** web-facing `Ingress` in this
+repo — auth, the arr suite, jellyfin, kavita, apprise, grafana, ntfy,
+firefox-sync, grocy, homepage, immich, nextcloud (+ its Collabora `Ingress`),
+ollama + open-webui, paperless-ngx, and zipline. Traefik forwards plain HTTP
+to backends now; it owns the cert for the public hostname itself instead of
+reading per-app Secrets out of the cluster.
+
+**cert-manager itself is still installed** (`apps/infrastructure/cert-manager/`)
+— it's just no longer used for any web `Ingress`. The one thing still using it
+is `apps/auth/lldap/manifests/certificate.yaml`, which issues
+`lldap-tls-secret` for LLDAP's LDAPS listener that Authelia connects to
+directly pod-to-pod (`ldaps://lldap.lldap.svc.cluster.local:6360`) — that's
+in-cluster east-west traffic, unrelated to the ingress path, so it still needs
+a cert-manager-issued cert. If cert-manager is ever fully removed, that LDAPS
+connection needs a replacement plan first (e.g. switch Authelia↔LLDAP to
+plain `ldap://` internally).
 
 ## Operational notes
 
