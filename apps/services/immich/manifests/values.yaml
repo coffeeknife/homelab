@@ -40,7 +40,6 @@ server:
         app.kubernetes.io/name: immich
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
-        cert-manager.io/cluster-issuer: cert-issuer
         gethomepage.dev/enabled: "true"
         gethomepage.dev/name: "Immich"
         gethomepage.dev/group: "Core"
@@ -56,7 +55,3 @@ server:
             - path: "/"
               service:
                 identifier: main
-      tls:
-        - hosts:
-            - photo.wrenspace.dev
-          secretName: immich-tls

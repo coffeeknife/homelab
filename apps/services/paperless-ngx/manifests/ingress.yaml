@@ -7,7 +7,6 @@ metadata:
     app.kubernetes.io/name: paperless
     app.kubernetes.io/part-of: services
   annotations:
-    cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd
     gethomepage.dev/enabled: "true"
@@ -29,7 +28,3 @@ spec:
                 name: paperless
                 port:
                   name: http
-  tls:
-  - hosts:
-      - file.wrenspace.dev
-    secretName: paperless

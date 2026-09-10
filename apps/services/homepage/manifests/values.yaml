@@ -30,17 +30,12 @@ ingress:
     enabled: true
     ingressClassName: traefik
     annotations:
-      cert-manager.io/cluster-issuer: cert-issuer
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
     hosts:
       - host: wrenspace.dev
         paths:
           - path: /
             pathType: Prefix
-    tls:
-      - hosts:
-          - wrenspace.dev
-        secretName: homepage-tls
 
 config:
   kubernetes:

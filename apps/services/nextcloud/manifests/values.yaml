@@ -140,7 +140,6 @@ collabora:
     className: "traefik"
     enabled: true
     annotations:
-      cert-manager.io/cluster-issuer: cert-issuer
       kubernetes.io/ingress.class: "traefik"
       traefik.ingress.kubernetes.io/router.entrypoints: websecure
     hosts:
@@ -148,10 +147,6 @@ collabora:
         paths:
           - path: /
             pathType: Prefix
-    tls:
-      - hosts:
-          - docs.wrenspace.dev
-        secretName: nextcloud-tls-collabora
 
 cronjob:
   enabled: true
@@ -164,7 +159,6 @@ ingress:
   className: traefik
   enabled: true
   annotations:
-    cert-manager.io/cluster-issuer: cert-issuer
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd
@@ -180,10 +174,6 @@ ingress:
     - host: drive.wrenspace.dev
       paths:
         - /
-  tls:
-    - hosts:
-        - drive.wrenspace.dev
-      secretName: nextcloud-tls
 
 service:
   type: ClusterIP

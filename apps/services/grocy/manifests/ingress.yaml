@@ -7,7 +7,6 @@ metadata:
     app.kubernetes.io/name: grocy
     app.kubernetes.io/part-of: services
   annotations:
-    cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-forwardauth@kubernetescrd
     gethomepage.dev/enabled: "true"
@@ -29,7 +28,3 @@ spec:
             name: grocy
             port:
               name: http
-  tls:
-  - hosts:
-    - grocy.wrenspace.dev
-    secretName: grocy-tls

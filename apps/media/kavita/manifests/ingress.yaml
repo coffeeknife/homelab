@@ -7,7 +7,6 @@ metadata:
     app.kubernetes.io/name: kavita
     app.kubernetes.io/part-of: media
   annotations:
-    cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Kavita"
@@ -28,7 +27,3 @@ spec:
                 name: kavita
                 port:
                   name: http
-  tls:
-    - secretName: kavita-tls
-      hosts:
-        - manga.wrenspace.dev

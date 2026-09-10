@@ -7,7 +7,6 @@ metadata:
     app.kubernetes.io/name: ollama
     app.kubernetes.io/part-of: services
   annotations:
-    cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   rules:
@@ -21,7 +20,3 @@ spec:
                 name: ollama
                 port:
                   name: http
-  tls:
-    - hosts:
-        - ollama.wrenspace.dev
-      secretName: ollama-tls

@@ -110,7 +110,6 @@ metadata:
     app.kubernetes.io/name: apprise
   annotations:
     kubernetes.io/ingress.class: "traefik"
-    cert-manager.io/cluster-issuer: "cert-issuer"
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Apprise"
@@ -121,10 +120,6 @@ metadata:
     gethomepage.dev/href: "https://apprise.wrenspace.dev"
     gethomepage.dev/weight: "30"
 spec:
-  tls:
-    - hosts:
-        - apprise.wrenspace.dev
-      secretName: apprise-tls
   rules:
     - host: apprise.wrenspace.dev
       http:

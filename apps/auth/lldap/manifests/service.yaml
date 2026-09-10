@@ -57,5 +57,3 @@ spec:
             name: lldap
             port:
               name: http
-  tls:
-    - secretName: lldap-tls-secret

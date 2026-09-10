@@ -29,7 +29,6 @@ ingress:
   enabled: true
   ingressClassName: traefik
   annotations:
-    cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Grafana"
@@ -38,12 +37,8 @@ ingress:
     gethomepage.dev/description: "Monitoring & observability"
     gethomepage.dev/weight: "40"
   hosts:
-    - grafana.wrenspace.dev  
-  path: /  
-  tls:
-    - hosts:
-        - grafana.wrenspace.dev
-      secretName: grafana-tls
+    - grafana.wrenspace.dev
+  path: /
 
 # Local admin credentials come from the grafana-admin Secret (admin-secret.yaml);
 # the password is generated in-cluster by secret-generator, never stored in git.

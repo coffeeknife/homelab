@@ -8,8 +8,6 @@ metadata:
     app.kubernetes.io/name: firefox-sync
     app.kubernetes.io/part-of: services
   annotations:
-    cert-manager.io/cluster-issuer: cert-issuer
-    traefik.ingress.kubernetes.io/router.tls: "true"
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   ingressClassName: traefik
@@ -24,7 +22,3 @@ spec:
             name: firefox-sync
             port:
               number: 80
-  tls:
-  - hosts:
-    - firefox-sync.wrenspace.dev
-    secretName: firefox-sync-tls

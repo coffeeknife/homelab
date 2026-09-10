@@ -10,7 +10,6 @@ metadata:
     app.kubernetes.io/name: zipline
     app.kubernetes.io/part-of: services
   annotations:
-    cert-manager.io/cluster-issuer: cert-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd
     gethomepage.dev/enabled: "true"
@@ -32,7 +31,3 @@ spec:
                 name: zipline
                 port:
                   name: http
-  tls:
-    - hosts:
-        - i.wrenspace.dev
-      secretName: zipline-tls-cert
