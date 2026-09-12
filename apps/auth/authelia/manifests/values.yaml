@@ -83,6 +83,10 @@ configMap:
         subject:
           - ['group:admin']
       - domain: 'qbit.wrenspace.dev'
+        resources:
+          - '^/api($|/.*)'
+        policy: bypass
+      - domain: 'qbit.wrenspace.dev'
         policy: two_factor
         subject:
           - ['group:admin']
