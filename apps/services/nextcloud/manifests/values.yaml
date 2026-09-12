@@ -161,7 +161,7 @@ ingress:
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.middlewares: kube-system-hsts@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: nextcloud-redir@kubernetescrd,kube-system-hsts@kubernetescrd
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: "Nextcloud"
     gethomepage.dev/group: "Core"
