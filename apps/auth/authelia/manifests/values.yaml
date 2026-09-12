@@ -71,6 +71,10 @@ configMap:
         subject:
           - ['group:admin']
       - domain: '*.arr.wrenspace.dev'
+        resources:
+          - '^/api($|/.*)'
+        policy: bypass
+      - domain: '*.arr.wrenspace.dev'
         policy: two_factor
         subject:
           - ['group:admin']
