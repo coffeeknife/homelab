@@ -134,3 +134,13 @@ plain `ldap://` internally).
   `@kubernetes` or `@kubernetescrd` confirm the provider is live; backend
   addresses in the `10.42.x.x`/`10.43.x.x` range confirm the Tailscale path to
   pods is working.
+- **Middleware `address`/`url` fields (e.g. `forwardAuth`) are dialed by the
+  traefik-lxc process itself, not proxied through Kubernetes** — a
+  `*.svc.cluster.local` value only resolves inside the cluster via CoreDNS and
+  is unreachable from the LXC. `kube-system/forwardauth` was fixed
+  2026-09-11 to use `https://auth.wrenspace.dev/api/authz/forward-auth`
+  instead of `http://authelia.authelia.svc.cluster.local/...` — traefik-lxc
+  resolves that hostname back to itself (split-horizon DNS), matches its own
+  Authelia router, and reaches the pod over the same Tailscale path as any
+  other in-cluster backend. Any other middleware referencing a backend by
+  in-cluster DNS needs the same fix.
