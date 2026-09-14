@@ -347,11 +347,22 @@ kubectl create secret generic digest-auth-token \
   --namespace homelab-digest \
   --from-literal=token="$TOKEN" \
   --dry-run=client -o yaml \
+  | kubectl label --local -f - -o yaml \
+      app.kubernetes.io/name=homelab-digest \
+      app.kubernetes.io/part-of=monitoring \
   | kubeseal --controller-name sealed-secrets-controller \
       --controller-namespace kube-system \
       --format yaml \
   > apps/monitoring/homelab-digest/manifests/secrets.yaml
 ```
+
+The `kubectl label --local` stage is required — `kubectl create secret` has
+no `--labels` flag, and every resource in this repo carries
+`app.kubernetes.io/name`/`app.kubernetes.io/part-of` labels (Global
+Constraints). This mirrors the labeled `spec.template.metadata.labels`
+pattern already used in
+`apps/infrastructure/gitea-actions/manifests/secrets.yaml` — check that
+file if the resulting YAML shape looks unfamiliar.
 
 Save `$TOKEN` somewhere outside git (password manager) — it's what you'll
 give Hermes to authenticate with. `kubectl create secret --dry-run=client`
