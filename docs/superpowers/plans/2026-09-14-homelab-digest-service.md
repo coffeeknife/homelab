@@ -1071,7 +1071,7 @@ docker run --rm -p 8080:8080 -e DIGEST_AUTH_TOKEN=smoke-test \
   git.wrenspace.dev/wrenspace-lab/homelab-digest:0.1.0 &
 sleep 2
 curl -s http://localhost:8080/healthz
-curl -s -o /dev/null -w "%{http_code}\n" http://localhost:8080/digest
+curl -s -o /dev/null -w "%{http_code}\n" -X POST http://localhost:8080/digest
 docker stop $(docker ps -q --filter ancestor=git.wrenspace.dev/wrenspace-lab/homelab-digest:0.1.0)
 ```
 
