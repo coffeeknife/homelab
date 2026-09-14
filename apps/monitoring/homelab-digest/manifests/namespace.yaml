@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: homelab-digest
+  labels:
+    name: homelab-digest
+    app.kubernetes.io/name: homelab-digest
+    app.kubernetes.io/part-of: monitoring

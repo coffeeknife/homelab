@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: homelab-digest
+  namespace: homelab-digest
+  labels:
+    app.kubernetes.io/name: homelab-digest
+    app.kubernetes.io/part-of: monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: homelab-digest-reader
+  labels:
+    app.kubernetes.io/name: homelab-digest
+    app.kubernetes.io/part-of: monitoring
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "events", "nodes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["kustomize.toolkit.fluxcd.io"]
+    resources: ["kustomizations"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["helm.toolkit.fluxcd.io"]
+    resources: ["helmreleases"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: homelab-digest-reader
+  labels:
+    app.kubernetes.io/name: homelab-digest
+    app.kubernetes.io/part-of: monitoring
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: homelab-digest-reader
+subjects:
+  - kind: ServiceAccount
+    name: homelab-digest
+    namespace: homelab-digest
