@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homelab-digest
+  namespace: homelab-digest
+  labels:
+    app.kubernetes.io/name: homelab-digest
+    app.kubernetes.io/part-of: monitoring
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  rules:
+    - host: digest.wrenspace.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: homelab-digest
+                port:
+                  name: http

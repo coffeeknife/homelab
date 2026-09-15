@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: homelab-digest
+  namespace: homelab-digest
+  labels:
+    app.kubernetes.io/name: homelab-digest
+    app.kubernetes.io/part-of: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: homelab-digest
+  template:
+    metadata:
+      labels:
+        app: homelab-digest
+        app.kubernetes.io/name: homelab-digest
+    spec:
+      serviceAccountName: homelab-digest
+      containers:
+        - name: homelab-digest
+          image: git.wrenspace.dev/wrenspace-lab/homelab-digest:0.1.0
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: OLLAMA_URL
+              value: "http://ollama.ollama.svc.cluster.local:11434"
+            - name: DIGEST_MODEL
+              value: "homelab-digest"
+            - name: DIGEST_AUTH_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: digest-auth-token
+                  key: token
+          resources:
+            requests:
+              cpu: 50m
+              memory: 256Mi
+            limits:
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 30
