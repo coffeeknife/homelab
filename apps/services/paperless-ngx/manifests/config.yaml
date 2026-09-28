@@ -16,6 +16,11 @@ data:
   PAPERLESS_CONSUMER_DELETE_DUPLICATES: "true"
   # v3 default is "auto" (no archive for born-digital PDFs); v2 always archived
   PAPERLESS_ARCHIVE_FILE_GENERATION: "always"
+  # container sees the node's 4 CPUs despite the 1-CPU limit, so the default
+  # OCR fan-out OOM-killed the consume worker at the memory limit (WorkerLostError
+  # SIGKILL); serialize it
+  PAPERLESS_TASK_WORKERS: "1"
+  PAPERLESS_THREADS_PER_WORKER: "1"
   # db
   PAPERLESS_DBHOST: mariadb-port.mariadb-sys.svc.cluster.local
   PAPERLESS_DBENGINE: mariadb
