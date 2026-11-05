@@ -1,0 +1,25 @@
+---
+# Flux's allow-webhooks policy only admits traffic from pods in the cluster.
+# Traefik runs off-cluster on traefik-lxc and reaches pods over Tailscale, so its
+# requests arrive from this tailnet address and were rejected, returning a 502.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-webhooks-from-traefik
+  namespace: flux-system
+  labels:
+    app.kubernetes.io/name: flux-webhook
+    app.kubernetes.io/part-of: flux-system
+spec:
+  podSelector:
+    matchLabels:
+      app: notification-controller
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - ipBlock:
+            cidr: 100.90.50.42/32
+      ports:
+        - protocol: TCP
+          port: 9292
