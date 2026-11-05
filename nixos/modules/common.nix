@@ -24,7 +24,11 @@
   networking.firewall.enable = false;
   # systemd-resolved conflicts with CoreDNS
   services.resolved.enable = false;
-  networking.nameservers = [ "192.168.1.1" "8.8.8.8" ];
+  # unbound LXC: split-horizons *.wrenspace.dev to traefik-lxc (192.168.1.146)
+  # and recurses for everything else. The router only returns public records,
+  # which time out for git.wrenspace.dev and break image pulls from its registry.
+  # 8.8.8.8 is an outage fallback only and returns those same public records.
+  networking.nameservers = [ "192.168.1.156" "8.8.8.8" ];
 
   # Stable name for the NAS / NFS backend so PVs and inline NFS volumes never
   # hardcode its IP. NFS is mounted by the kubelet at the *host* level (outside

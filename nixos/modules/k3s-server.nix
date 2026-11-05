@@ -1,10 +1,13 @@
 { config, ... }:
 
 {
-  # Custom resolv.conf for k3s so CoreDNS uses the home router as upstream.
-  # This lets wrenspace.dev subdomains resolve to internal MetalLB IPs,
+  # Custom resolv.conf for k3s so CoreDNS uses the unbound LXC as upstream.
+  # This resolves wrenspace.dev subdomains to traefik-lxc (192.168.1.146),
   # bypassing Cloudflare for in-cluster OIDC/service discovery.
-  environment.etc."k3s-resolv.conf".text = "nameserver 192.168.1.1\n";
+  # Keep this to one entry: CoreDNS spreads queries across every upstream listed
+  # here, so a public resolver would make split-horizon answers flap.
+  # CoreDNS only reads this when its pod starts, so restart it after changing this.
+  environment.etc."k3s-resolv.conf".text = "nameserver 192.168.1.156\n";
 
   sops.secrets.k3s-token = {
     sopsFile = ../secrets/secrets.yaml;
@@ -33,7 +36,7 @@
       # Relax etcd timeouts for Proxmox VM disks which can have variable fsync latency
       "--etcd-arg=heartbeat-interval=500"
       "--etcd-arg=election-timeout=5000"
-      # Use home router DNS so wrenspace.dev subdomains resolve internally
+      # Use unbound DNS so wrenspace.dev subdomains resolve internally
       "--resolv-conf=/etc/k3s-resolv.conf"
       # Allow kubectl to connect via MetalLB VIP (192.168.200.100)
       "--tls-san=192.168.200.102"
