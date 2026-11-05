@@ -2,8 +2,11 @@
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Provider
 metadata:
-  name: apprise
+  name: alertmanager
   namespace: flux-system
+  labels:
+    app.kubernetes.io/name: flux-notify
+    app.kubernetes.io/part-of: flux-system
 spec:
-  type: generic
-  address: http://apprise-service.notify.svc.cluster.local:8000/notify/flux
+  type: alertmanager
+  address: http://prometheus-kube-prometheus-alertmanager.monitoring.svc.cluster.local:9093/api/v2/alerts/
