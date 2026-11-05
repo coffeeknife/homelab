@@ -32,23 +32,71 @@ alertmanager:
           resources:
             requests:
               storage: 10Gi
+    # Mounted at /etc/alertmanager/secrets/<name>/; sealed in telegram-secret.yaml
+    secrets:
+      - alertmanager-telegram
   config:
+    global:
+      # Flux events have no end time, so this is how long one stays firing
+      # unless it recurs. Prometheus alerts set their own end time.
+      resolve_timeout: 1h
     route:
       group_by: ['alertname', 'namespace']
-      group_wait: 10s
-      group_interval: 10s
-      repeat_interval: 12h
-      receiver: 'ntfy'
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 24h
+      receiver: 'telegram'
       routes:
         - matchers:
-            - alertname = "Watchdog"
+            - alertname =~ "Watchdog|InfoInhibitor"
           receiver: 'null'
+        # Info alerts never push; they stay visible in Grafana.
+        - matchers:
+            - severity = "info"
+          receiver: 'null'
+        # Critical alerts push right away, including overnight.
+        - matchers:
+            - severity = "critical"
+          receiver: 'telegram'
+          group_wait: 10s
+          group_interval: 1m
+          repeat_interval: 4h
+        # Warnings and Flux errors are batched and held overnight.
+        - matchers:
+            - severity =~ "warning|error"
+          receiver: 'telegram'
+          group_wait: 2m
+          group_interval: 15m
+          repeat_interval: 24h
+          mute_time_intervals: ['overnight']
+    time_intervals:
+      - name: overnight
+        time_intervals:
+          - location: America/Chicago
+            times:
+              - start_time: '23:00'
+                end_time: '24:00'
+              - start_time: '00:00'
+                end_time: '08:00'
     receivers:
       - name: 'null'
-      - name: 'ntfy'
-        webhook_configs:
-          - url: 'http://ntfy.notify.svc.cluster.local/alerts?template=alertmanager'
+      - name: 'telegram'
+        telegram_configs:
+          - bot_token_file: /etc/alertmanager/secrets/alertmanager-telegram/bot-token
+            chat_id: 9177542261
+            parse_mode: HTML
             send_resolved: true
+            message: '{{ template "telegram.message" . }}'
+  templateFiles:
+    telegram.tmpl: |-
+      {{ define "telegram.message" -}}
+      {{ range .Alerts -}}
+      {{ if eq .Status "resolved" }}✅{{ else if eq .Labels.severity "critical" }}🔴{{ else }}🟡{{ end }} <b>{{ with .Annotations.summary }}{{ . | html }}{{ else }}{{ .Labels.alertname | html }}{{ end }}</b>
+      {{ with .Annotations.description }}{{ . | html }}{{ else }}{{ with .Annotations.message }}{{ . | html }}{{ end }}{{ end }}
+      {{ with .Labels.namespace }}<code>{{ . | html }}</code>{{ end }}{{ with or .Labels.pod .Labels.name }} <code>{{ . | html }}</code>{{ end }}
+
+      {{ end -}}
+      {{- end }}
 
 defaultRules:
   create: true
