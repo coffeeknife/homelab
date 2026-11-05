@@ -270,7 +270,7 @@ apps/                    # Flux-managed Kubernetes apps (HelmReleases + manifest
   database/              # Shared MariaDB
   services/              # User-facing apps (nextcloud, paperless-ngx, home-assistant, immich, grocy, homepage)
   media/                 # jellyfin, arr suite (radarr, sonarr, etc.)
-  monitoring/            # prometheus, grafana, loki, apprise
+  monitoring/            # prometheus (alerts to Telegram via Alertmanager), grafana, loki
   helm-repos.yaml        # All HelmRepository definitions
 flux-system/             # Flux CD bootstrap (gotk-sync.yaml, gotk-components.yaml)
 nixos/                   # NixOS configuration for k3s cluster nodes (deployed via colmena)
