@@ -55,6 +55,15 @@ defaultRules:
   rules:
     kubernetesApps: true
 
+# k3s embeds these in one binary, so they have no pods or endpoints to scrape.
+# Left enabled, they fire permanent false KubeSchedulerDown-style critical alerts.
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+
 prometheus-node-exporter:
   enabled: true
 
