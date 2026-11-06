@@ -43,6 +43,10 @@
   hardware.enableRedistributableFirmware = true;
   hardware.graphics.enable = true;
 
-  swapDevices = [{ device = "/swapfile"; size = 4096; }];
+  # Proxmox has `agent: 1` set on VM 200; without the agent running here,
+  # `qm shutdown 200` times out (the ACPI fallback took ~11 min on 2026-11-05).
+  services.qemuGuest.enable = true;
+
+  swapDevices =[{ device = "/swapfile"; size = 4096; }];
   system.stateVersion = "25.05";
 }
