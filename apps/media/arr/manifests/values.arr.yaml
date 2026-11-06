@@ -18,7 +18,7 @@ sonarr:
     timeoutSeconds: 5
   image:
     repository: lscr.io/linuxserver/sonarr
-    tag: 4.0.19
+    tag: 4.0.20
   env:
     TZ: America/Chicago
     SONARR__AUTH__METHOD: External
