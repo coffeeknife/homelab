@@ -240,7 +240,7 @@ lidarr:
       cpu: 250m
   image:
     repository: lscr.io/linuxserver/lidarr
-    tag: 3.1.0
+    tag: 3.1.6
   env:
     TZ: America/Chicago
     LIDARR__AUTH__METHOD: External
