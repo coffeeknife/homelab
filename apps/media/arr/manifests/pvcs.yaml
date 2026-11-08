@@ -102,3 +102,27 @@ spec:
   resources:
     requests:
       storage: 100Mi
+---
+# In-progress torrent data, kept on kube-vm's local disk instead of NFS.
+# libtorrent's small unaligned pwrite()s over NFS serialize on the inode lock
+# and each one does a synchronous read-before-write round trip, so downloads
+# stalled at ~0.5 writes/s with dozens of threads in D-state (load ~10 on
+# 4 vCPU, 2026-11-07) while the NAS disks sat idle. qbit moves completed
+# torrents to /data/downloads (NFS) in one sequential copy.
+# NOTE: local-path does NOT enforce the size below — this shares kube-vm's
+# root disk with etcd/containerd. Keep active downloads well under its free
+# space.
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: arr-stack-qbittorrent-incomplete
+  namespace: arr-stack
+  labels:
+    app.kubernetes.io/name: qbittorrent
+    app.kubernetes.io/part-of: media
+spec:
+  storageClassName: local-path
+  accessModes: [ReadWriteOnce]
+  resources:
+    requests:
+      storage: 80Gi

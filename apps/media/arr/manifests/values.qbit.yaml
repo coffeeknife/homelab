@@ -32,15 +32,23 @@ qbittorrent:
       existingClaim: arr-stack-qbittorrent-config-nfs
     downloads:
       enabled: false
+  # /incomplete is local disk (see arr-stack-qbittorrent-incomplete in
+  # pvcs.yaml). qbit's own prefs must point at it: temp_path_enabled=true,
+  # temp_path=/incomplete — set via the WebUI/API, stored in /config.
   extraVolumeMounts:
     - mountPath: /data
       name: jellyfin-nfs
+    - mountPath: /incomplete
+      name: incomplete
 
 extraVolumes:
   - name: jellyfin-nfs
     nfs:
       server: nas.internal
       path: "/mnt/birdpool/jellyfin/media"
+  - name: incomplete
+    persistentVolumeClaim:
+      claimName: arr-stack-qbittorrent-incomplete
   - name: gluetun-shared-data
     emptyDir: {}
 
