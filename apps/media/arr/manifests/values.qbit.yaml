@@ -35,6 +35,10 @@ qbittorrent:
   # /incomplete is local disk (see arr-stack-qbittorrent-incomplete in
   # pvcs.yaml). qbit's own prefs must point at it: temp_path_enabled=true,
   # temp_path=/incomplete — set via the WebUI/API, stored in /config.
+  # local-path doesn't enforce size, so active downloads are capped to keep
+  # /incomplete from filling kube-vm's root disk: queueing_enabled=true,
+  # max_active_downloads=3, dont_count_slow_torrents=false (stalled torrents
+  # still count), max_active_uploads/max_active_torrents=-1 (seeding uncapped).
   extraVolumeMounts:
     - mountPath: /data
       name: jellyfin-nfs
