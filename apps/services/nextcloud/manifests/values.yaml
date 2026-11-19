@@ -2,7 +2,7 @@
 # 32.0.5). Nextcloud can't skip majors: bump one major at a time, let the
 # entrypoint finish `occ upgrade`, then `occ app:update --all` before the next.
 image:
-  tag: 32.0.15-apache
+  tag: 33.0.11-apache
 
 nextcloud:
   priorityClassName: high-priority
