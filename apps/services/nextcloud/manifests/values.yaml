@@ -1,3 +1,9 @@
+# Image pinned independently of the chart's appVersion (chart 8.9.0 ships
+# 32.0.5). Nextcloud can't skip majors: bump one major at a time, let the
+# entrypoint finish `occ upgrade`, then `occ app:update --all` before the next.
+image:
+  tag: 32.0.15-apache
+
 nextcloud:
   priorityClassName: high-priority
   host: drive.wrenspace.dev
